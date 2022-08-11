@@ -16,13 +16,13 @@ LBXFLAGS = -lmlx -framework OpenGL -framework AppKit
 
 LIBFT = libft/libft.a
 
-NAME = CUB3D
+NAME = cub3D
 
 all : $(NAME)
 
 $(NAME) : $(OBJ_DIR) $(LIBFT) $(OFILES)
 	@$(CC) $(LIBFT) $(LBXFLAGS) $(OFILES) -o $(NAME)
-	@echo "done for CUB3D"
+	@echo "done for cub3D"
 
 $(OBJ_DIR) :
 	@mkdir obj
