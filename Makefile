@@ -18,10 +18,16 @@ LIBFT = libft/libft.a
 
 NAME = cub3D
 
+INC=/usr/include
+
+LFLAGS = -L.. -lmlx -L$(INCLIB) -lXext -lX11 -lm -lbsd
+
+INCLIB=$(INC)/../lib
+
 all : $(NAME)
 
 $(NAME) : $(OBJ_DIR) $(LIBFT) $(OFILES)
-	@$(CC) $(LIBFT) $(LBXFLAGS) $(OFILES) -o $(NAME)
+	@$(CC) $(OFILES) $(LIBFT) $(LFLAGS) -o $(NAME)
 	@echo "done for cub3D"
 
 $(OBJ_DIR) :
