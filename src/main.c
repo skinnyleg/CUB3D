@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../includes/CUB3D.h"
+#include <stdint.h>
 
 int	check_extension(char **av)
 {
