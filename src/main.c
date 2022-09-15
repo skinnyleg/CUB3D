@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "../includes/CUB3D.h"
-#include <stdio.h>
 
 int	check_extension(char **av)
 {
@@ -36,15 +35,12 @@ int	parse_upper(char	**av, t_global *all)
 	fd = open(av[1], O_RDONLY);
 	if (fd < 0)
 		return (printf("Can't open map\n"), 1);
-	printf("hello\n");
-	printf("haitam\n");
 	close(fd);
 	return (0);
 }
 
 void	parse_map(char	**av, t_global *all)
 {
-	printf("hi hmoubal hug me\n");
 	if (check_extension(av) == 1)
 		exit(1);
 	if (parse_upper(av, all) == 1)
@@ -58,6 +54,5 @@ int	main(int ac, char **av)
 	if (ac != 2)
 		return (printf("Not Enough Arguments\n"), 0);
 	parse_map(av, &all);
-	printf("lol\n");
 	return (0);
 }
