@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "../includes/CUB3D.h"
 
 static int	get_line(char *str)
 {

@@ -20,7 +20,7 @@
 # include <fcntl.h>
 # include <mlx.h>
 # include "../libft/includes/libft.h"
-# include "../gnl/get_next_line.h"
+# define BUFFER_SIZE 1
 
 typedef struct s_mlx
 {
@@ -28,5 +28,27 @@ typedef struct s_mlx
 	void	*mlx_win;
 	char	**map;
 }	t_mlx;
+
+typedef struct s_paraup
+{
+	char	*dir;
+	char	*value;
+	struct s_paraup	*next;
+}	t_paraup;
+
+typedef struct s_map
+{
+	char	**map;
+	int		height;
+	int		width;
+}	t_map;
+
+typedef struct s_global
+{
+	t_paraup	*up;
+	t_map		*map;
+}	t_global;
+
+char	*ft_strjoin_free(char const *s1,	char const *s2);
 
 #endif

@@ -1,8 +1,8 @@
 CC = cc
 
 CFILES = main.c\
-		 gnl/get_next_line.c\
-		 gnl/get_next_line_utils.c\
+		 get_next_line.c\
+		 get_next_line_utils.c\
 
 OFILES = $(addprefix $(OBJ_DIR)/,$(CFILES:.c=.o))
 

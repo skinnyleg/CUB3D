@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "../includes/CUB3D.h"
 
 char	*ft_strjoin_free(char const *s1,	char const *s2)
 {
