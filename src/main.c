@@ -6,7 +6,7 @@
 /*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:17:40 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/09/15 21:05:13 by med-doba         ###   ########.fr       */
+/*   Updated: 2022/09/15 23:09:53 by med-doba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int	parse_upper(char	**av, t_global *all)
 
 void	parse_map(char	**av, t_global *all)
 {
+	printf("hi hmoubal hug me\n");
 	if (check_extension(av) == 1)
 		exit(1);
 	if (parse_upper(av, all) == 1)
