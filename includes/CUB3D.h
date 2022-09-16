@@ -18,8 +18,8 @@
 # include <unistd.h>
 # include <math.h>
 # include <fcntl.h>
-// # include <mlx.h>
-# include "/usr/X11/include/mlx.h"
+# include <mlx.h>
+/* # include "/usr/X11/include/mlx.h" */
 # include "../libft/includes/libft.h"
 # define BUFFER_SIZE 1
 
@@ -27,7 +27,6 @@ typedef struct s_mlx
 {
 	void	*mlx_ptr;
 	void	*mlx_win;
-	char	**map;
 }	t_mlx;
 
 typedef struct s_paraup
@@ -48,8 +47,10 @@ typedef struct s_global
 {
 	t_paraup	*up;
 	t_map		*map;
+	t_mlx		*mlx;
 }	t_global;
 
 char	*ft_strjoin_free(char const *s1,	char const *s2);
-
+int	parse_map_walls(char **av, t_global *all);
+char	*get_next_line(int fd);
 #endif

@@ -32,6 +32,7 @@ int	parse_upper(char	**av, t_global *all)
 {
 	int	fd;
 
+	(void)all;
 	fd = open(av[1], O_RDONLY);
 	if (fd < 0)
 		return (printf("Can't open map\n"), 1);
@@ -44,6 +45,8 @@ void	parse_map(char	**av, t_global *all)
 	if (check_extension(av) == 1)
 		exit(1);
 	if (parse_upper(av, all) == 1)
+		exit(1);
+	if (parse_map_walls(av, all) == 1)
 		exit(1);
 }
 
