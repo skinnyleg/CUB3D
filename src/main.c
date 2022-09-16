@@ -6,7 +6,7 @@
 /*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:17:40 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/09/15 23:09:53 by med-doba         ###   ########.fr       */
+/*   Updated: 2022/09/16 18:49:19 by med-doba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,18 +25,6 @@ int	check_extension(char **av)
 		length = ft_strlen(&av[1][i]);
 	if (ft_strncmp(&av[1][i], ".cub", length) != 0)
 		return (printf("Wrong extension\n"), 1);
-	return (0);
-}
-
-int	parse_upper(char	**av, t_global *all)
-{
-	int	fd;
-
-	(void)all;
-	fd = open(av[1], O_RDONLY);
-	if (fd < 0)
-		return (printf("Can't open map\n"), 1);
-	close(fd);
 	return (0);
 }
 
