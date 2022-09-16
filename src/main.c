@@ -34,6 +34,8 @@ void	parse_map(char	**av, t_global *all)
 		exit(1);
 	if (parse_upper(av, all) == 1)
 		exit(1);
+	if (parse_map_walls(av, all) == 1)
+		exit(1);
 }
 
 int	main(int ac, char **av)

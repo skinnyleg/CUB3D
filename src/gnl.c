@@ -44,12 +44,11 @@ static char	*fill_line(char **rem,	int a)
 		return (free_all(rem), NULL);
 	else if ((*rem)[index] == '\n')
 	{
-		line = (char *)malloc(sizeof(char) * (index + 2));
+		line = (char *)malloc(sizeof(char) * (index + 1));
 		if (line == NULL)
 			return (free_all(rem), NULL);
 		ft_memcpy(line, *rem, index);
-		line[index] = '\n';
-		line[index + 1] = '\0';
+		line[index] = '\0';
 		tmp = ft_strdup(*rem + index + 1);
 		free_all(rem);
 		*rem = tmp;
