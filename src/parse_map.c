@@ -1,4 +1,3 @@
-
 #include "../includes/CUB3D.h"
 #include <fcntl.h>
 #include <stdio.h>
@@ -47,7 +46,7 @@ int	fill_map(char **av, t_global *all)
 	if (all->map == NULL)
 		return (printf("malloc error\n"), close(fd), 1);
 	init_height(av, all);
-	return (0);	
+	return (0);
 }
 
 int	parse_map_walls(char **av, t_global *all)
