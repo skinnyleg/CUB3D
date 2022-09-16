@@ -6,7 +6,7 @@
 /*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:18:31 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/09/16 18:05:06 by med-doba         ###   ########.fr       */
+/*   Updated: 2022/09/16 18:54:26 by med-doba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,7 @@ typedef struct s_global
 }	t_global;
 
 char	*ft_strjoin_free(char const *s1,	char const *s2);
+//created by med-doba
+int		parse_upper(char	**av, t_global *all);
 
 #endif
