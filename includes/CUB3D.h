@@ -51,7 +51,7 @@ typedef struct s_global
 }	t_global;
 
 char	*ft_strjoin_free(char const *s1,	char const *s2);
-int	parse_map_walls(char **av, t_global *all);
+int		parse_map_walls(char **av, t_global *all);
 char	*get_next_line(int fd);
 int		parse_upper(char	**av, t_global *all);
 #endif
