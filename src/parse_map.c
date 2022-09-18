@@ -51,6 +51,7 @@ int	fill_map(char **av, t_global *all)
 	if (all->map == NULL)
 		return (printf("malloc error\n"), close(all->fd), 1);
 	init_height(all->fd, all);
+	printf("height == %d\n", all->map->height);
 	all->map->map = (char **) malloc(sizeof(char *) * all->map->height);
 	if (all->map->map == NULL)
 		return (printf("malloc error\n"), 1);
