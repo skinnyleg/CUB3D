@@ -6,7 +6,7 @@
 /*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:18:31 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/09/16 18:54:26 by med-doba         ###   ########.fr       */
+/*   Updated: 2022/09/18 17:06:26 by med-doba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef struct s_paraup
 {
 	char	*dir;
 	char	*value;
+	int		repate;
 	struct s_paraup	*next;
 }	t_paraup;
 
@@ -45,13 +46,21 @@ typedef struct s_map
 
 typedef struct s_global
 {
+	int			fd;
 	t_paraup	*up;
 	t_map		*map;
 	t_mlx		*mlx;
 }	t_global;
 
 char	*ft_strjoin_free(char const *s1,	char const *s2);
-int	parse_map_walls(char **av, t_global *all);
+int		parse_map_walls(char **av, t_global *all);
 char	*get_next_line(int fd);
-int		parse_upper(char	**av, t_global *all);
+//created by med-doba
+char		*ft_strtrim_free(char const *s1, char const *set);
+int			parse_upper(char	**av, t_global *all);
+int			ft_handle_line(char	**ptr, t_global *up);
+void		ft_lstadd_back_paraup(t_paraup **lst, t_paraup *new);
+t_paraup	*ft_lstnew_paraup(char *name, char *value, int repate);
+void		ft_free_2d(char **ptr);
+int			ft_handle_c_f(char *ptr);
 #endif

@@ -1,39 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strtrim.c                                       :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/02 16:24:21 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/09/17 14:09:08 by med-doba         ###   ########.fr       */
+/*   Created: 2022/09/17 00:05:05 by med-doba          #+#    #+#             */
+/*   Updated: 2022/09/18 16:33:51 by med-doba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/libft.h"
 
-char	*ft_strtrim(char const *s1,	char const *set)
+int	ft_strcmp(char *s1, char *s2)
 {
-	size_t	j;
-	char	*hub;
+	int i;
 
-	j = 0;
-	hub = NULL;
-	if (!s1 || !set)
-		return (NULL);
-	while (*s1)
-	{
-		if (ft_strchr(set,*s1) == NULL)
-			break ;
-		s1++;
-	}
-	j = ft_strlen(s1);
-	while (j != 0 && ft_strchr(set, s1[j - 1]) != NULL)
-		j--;
-	hub = (char *)malloc(j + 1);
-	if (hub == NULL)
-		return (NULL);
-	ft_memcpy(hub, s1, j);
-	hub[j] = '\0';
-	return (hub);
+	i = 0;
+	while (s2[i] != '\0' && s1[i] == s2[i] && s1[i] != '\0')
+		i++;
+	return (s1[i] - s2[i]);
 }
+

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/02 12:05:53 by hmoubal           #+#    #+#             */
-/*   Updated: 2021/11/08 09:10:47 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/09/17 00:06:56 by med-doba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int		ft_isalpha(int a);
 int		ft_isascii(int a);
 int		ft_isdigit(int a);
 int		ft_isprint(int a);
+int		ft_strcmp(char *s1, char *s2);
 void	*ft_memchr(const void *tab, int a, size_t v);
 int		ft_memcmp(const void *p1,	const void *p2,	size_t size);
 void	*ft_memcpy(void *dest, const void *src,	size_t size);
