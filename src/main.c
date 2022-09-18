@@ -6,7 +6,7 @@
 /*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:17:40 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/09/16 18:49:19 by med-doba         ###   ########.fr       */
+/*   Updated: 2022/09/18 15:58:33 by med-doba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,12 @@ void	parse_map(char	**av, t_global *all)
 		exit(1);
 	if (parse_upper(av, all) == 1)
 		exit(1);
+	printf("fd = %d\n", all->fd);
+	while (all->up)
+	{
+		printf("up == $%s__%s$\n", all->up->dir, all->up->value);
+		all->up = all->up->next;
+	}
 }
 
 int	main(int ac, char **av)

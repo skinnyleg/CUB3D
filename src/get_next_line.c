@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 17:39:36 by hmoubal           #+#    #+#             */
-/*   Updated: 2021/11/19 15:25:00 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/09/17 13:51:37 by med-doba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,12 @@ static char	*fill_line(char **rem,	int a)
 		return (free_all(rem), NULL);
 	else if ((*rem)[index] == '\n')
 	{
-		line = (char *)malloc(sizeof(char) * (index + 2));
+		line = (char *)malloc(sizeof(char) * (index + 1));
 		if (line == NULL)
 			return (free_all(rem), NULL);
 		ft_memcpy(line, *rem, index);
-		line[index] = '\n';
-		line[index + 1] = '\0';
+		// line[index] = '\n';
+		line[index] = '\0';
 		tmp = ft_strdup(*rem + index + 1);
 		free_all(rem);
 		*rem = tmp;
