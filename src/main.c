@@ -30,6 +30,7 @@ int	check_extension(char **av)
 
 void	parse_map(char	**av, t_global *all)
 {
+
 	if (check_extension(av) == 1)
 		exit(1);
 	if (parse_upper(av, all) == 1)
