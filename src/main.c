@@ -6,7 +6,7 @@
 /*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:17:40 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/09/18 17:04:49 by med-doba         ###   ########.fr       */
+/*   Updated: 2022/09/19 18:04:24 by med-doba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ void	parse_map(char	**av, t_global *all)
 		exit(1);
 	if (parse_upper(av, all) == 1)
 		exit(1);
-	if (parse_map_walls(av, all) == 1)
-		exit(1);
+	// if (parse_map_walls(av, all) == 1)
+	// 	exit(1);
 }
 
 int	main(int ac, char **av)
