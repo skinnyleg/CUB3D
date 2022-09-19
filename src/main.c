@@ -6,7 +6,7 @@
 /*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:17:40 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/09/18 15:58:33 by med-doba         ###   ########.fr       */
+/*   Updated: 2022/09/18 17:04:49 by med-doba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,13 @@ int	check_extension(char **av)
 
 void	parse_map(char	**av, t_global *all)
 {
+
 	if (check_extension(av) == 1)
 		exit(1);
 	if (parse_upper(av, all) == 1)
 		exit(1);
-	printf("fd = %d\n", all->fd);
-	while (all->up)
-	{
-		printf("up == $%s__%s$\n", all->up->dir, all->up->value);
-		all->up = all->up->next;
-	}
+	if (parse_map_walls(av, all) == 1)
+		exit(1);
 }
 
 int	main(int ac, char **av)

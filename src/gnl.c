@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   gnl.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 17:39:36 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/09/17 13:51:37 by med-doba         ###   ########.fr       */
+/*   Updated: 2022/09/18 17:05:23 by med-doba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ static char	*fill_line(char **rem,	int a)
 		if (line == NULL)
 			return (free_all(rem), NULL);
 		ft_memcpy(line, *rem, index);
-		// line[index] = '\n';
 		line[index] = '\0';
 		tmp = ft_strdup(*rem + index + 1);
 		free_all(rem);

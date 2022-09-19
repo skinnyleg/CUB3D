@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "../includes/CUB3D.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 int	parse_upper(char **av, t_global *all)
 {
@@ -148,9 +150,8 @@ char	*ft_strtrim_free(char const *s1, char const *set)
 		i++;
 	if (s1[i] == '\0')
 	{
-		hub = malloc(sizeof(char) * (1));
-		hub[0] = '\0';
-		return (hub);
+		hub = ft_strdup("\0");
+		return (free((void *)s1), hub);
 	}
 	j = ft_strlen(s1);
 	while (j != 0 && ft_strchr(set, s1[j - 1]))

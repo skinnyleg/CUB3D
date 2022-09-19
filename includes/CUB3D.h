@@ -6,9 +6,10 @@
 /*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:18:31 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/09/19 17:47:01 by med-doba         ###   ########.fr       */
+/*   Updated: 2022/09/19 17:51:55 by med-doba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef CUB3D_H
 # define CUB3D_H
@@ -27,7 +28,6 @@ typedef struct s_mlx
 {
 	void	*mlx_ptr;
 	void	*mlx_win;
-	char	**map;
 }	t_mlx;
 
 typedef struct s_paraup
@@ -50,10 +50,11 @@ typedef struct s_global
 	int			fd;
 	t_paraup	*up;
 	t_map		*map;
+	t_mlx		*mlx;
 }	t_global;
 
 char	*ft_strjoin_free(char const *s1,	char const *s2);
-//gnl
+int		parse_map_walls(char **av, t_global *all);
 char	*get_next_line(int fd);
 //created by med-doba
 char		*ft_strtrim_free(char const *s1, char const *set);
