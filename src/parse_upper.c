@@ -6,7 +6,7 @@
 /*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 18:47:58 by med-doba          #+#    #+#             */
-/*   Updated: 2022/09/19 17:46:48 by med-doba         ###   ########.fr       */
+/*   Updated: 2022/09/19 19:24:12 by med-doba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,31 @@ int	parse_upper(char **av, t_global *all)
 		if (*rtn_gnl != '\0')
 		{
 			ptr = ft_split(rtn_gnl, ' ');
-			if (ft_handle_line(ptr, all) == -1)
-				return (ft_free_2d(ptr), free(rtn_gnl), 1);
+			if (ft_check_ptr_0(ptr[0]) == 0)
+			{
+				if (ft_handle_line(ptr, all) == -1)
+					return (ft_free_2d(ptr), free(rtn_gnl), 1);
+			}
+			else
+				break ;
 			ft_free_2d(ptr);
 		}
 		free(rtn_gnl);
 		rtn_gnl = get_next_line(all->fd);
 	}
+	if (all->up && ((ft_lstsize_paraup(all->up) < 5
+		|| ft_lstsize_paraup(all->up) > 5) || check_double(all->up)))
+		return (ft_putendl_fd("Error map", 2), 1);
 	return (0);
+}
+
+int ft_check_ptr_0(char *ptr0)
+{
+	if (ft_strcmp(ptr0, "NO") == 0 || ft_strcmp(ptr0, "SO") == 0
+		|| ft_strcmp(ptr0, "WE") == 0 || ft_strcmp(ptr0, "EA") == 0
+		|| ft_strcmp(ptr0, "F") == 0 || ft_strcmp(ptr0, "C") == 0)
+		return (0);
+	return (-1);
 }
 
 int	ft_handle_line(char	**ptr, t_global *all)
@@ -47,7 +64,7 @@ int	ft_handle_line(char	**ptr, t_global *all)
 	i = -1;
 	while (ptr[++i]);
 	if (i > 2 || i == 1)
-		return (ft_putendl_fd("Error map1", 2), -1);
+		return (ft_putendl_fd("Error map", 2), -1);
 	if (ft_strcmp(ptr[0], "NO") == 0 || ft_strcmp(ptr[0], "SO") == 0
 		|| ft_strcmp(ptr[0], "WE") == 0 || ft_strcmp(ptr[0], "EA") == 0)
 	{
@@ -59,16 +76,17 @@ int	ft_handle_line(char	**ptr, t_global *all)
 	else if (ft_strcmp(ptr[0], "F") == 0 || ft_strcmp(ptr[0], "C") == 0)
 	{
 		if (ft_handle_c_f(ptr[1]) == -1)
-			return (ft_putendl_fd("Error map2", 2), -1);
+			return (ft_putendl_fd("Error map", 2), -1);
 		node = ft_lstnew_paraup(ptr[0], ptr[1], 1);
 		return (ft_lstadd_back_paraup(&(all->up), node), 0);
 	}
-	return (ft_putendl_fd("Error map3", 2), -1);
+	return (ft_putendl_fd("Error map000", 2), -1);
 }
 
 int	ft_handle_c_f(char *ptr)
 {
 	int		i;
+	int		j;
 	char	**tab;
 	int		nbr;
 
@@ -80,6 +98,10 @@ int	ft_handle_c_f(char *ptr)
 	i = 0;
 	while (tab[i])
 	{
+		j = 0;
+		while (tab[i][j])
+			if (ft_isdigit(tab[i][j++]) == 0)
+				return (ft_free_2d(tab), -1);
 		nbr = ft_atoi(tab[i]);
 		if (nbr >= 0 && nbr <= 255)
 			i++;
@@ -87,6 +109,19 @@ int	ft_handle_c_f(char *ptr)
 			return (ft_free_2d(tab), -1);
 	}
 	return (ft_free_2d(tab), 0);
+}
+
+int	ft_lstsize_paraup(t_paraup *lst)
+{
+	int	i;
+
+	i = 0;
+	while (lst->next != NULL)
+	{
+		lst = lst->next;
+		i++;
+	}
+	return (i);
 }
 
 void	ft_lstadd_back_paraup(t_paraup **lst, t_paraup *new)
@@ -173,4 +208,31 @@ void	ft_free_2d(char **ptr)
 	while (ptr[i])
 		free(ptr[i++]);
 	free(ptr);
+}
+
+int	check_double(t_paraup *up)
+{
+	t_paraup *top;
+	t_paraup *tmp;
+	int		i;
+
+	top = up;
+	tmp = up;
+	while (top)
+	{
+		i = 0;
+		while (tmp)
+		{
+			if (ft_strcmp(tmp->dir, top->dir) == 0)
+			{
+				i++;
+				if (i > 1)
+					return (1);
+			}
+			tmp = tmp->next;
+		}
+		tmp = up;
+		top = top->next;
+	}
+	return (0);
 }
