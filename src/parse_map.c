@@ -1,8 +1,4 @@
 #include "../includes/CUB3D.h"
-#include <fcntl.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
 
 void	init_height(int fd, t_global *all)
 {
