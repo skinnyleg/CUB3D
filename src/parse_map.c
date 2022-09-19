@@ -21,7 +21,7 @@ void	skip_line(int fd)
 	int		count;
 
 	count = 0;
-	line = get_next_line(fd);	
+	line = get_next_line(fd);
 	while (line != NULL && count != 6)
 	{
 		if (*line != '\0')
