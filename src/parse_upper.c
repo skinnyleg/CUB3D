@@ -11,8 +11,6 @@
 /* ************************************************************************** */
 
 #include "../includes/CUB3D.h"
-#include <stdio.h>
-#include <stdlib.h>
 
 int	parse_upper(char **av, t_global *all)
 {
