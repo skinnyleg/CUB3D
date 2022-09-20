@@ -1,4 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_map.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/20 19:05:01 by hmoubal           #+#    #+#             */
+/*   Updated: 2022/09/20 22:29:18 by hmoubal          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/CUB3D.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 void	init_height(int fd, t_global *all)
 {
@@ -8,6 +22,7 @@ void	init_height(int fd, t_global *all)
 	line = get_next_line(fd);
 	while (line != NULL)
 	{
+        line = ft_strtrim_free(line, " ");
 		if (*line != '\0')
 			all->map->height++;
 		free(line);
@@ -23,14 +38,61 @@ void	skip_line(int fd)
 
 	count = 0;
 	line = get_next_line(fd);
-	while (line != NULL && count != 6)
+	while (line != NULL && count != 5)
 	{
 		if (*line != '\0')
 			count++;
-		printf("line == %s\n", line);
 		free(line);
 		line = get_next_line(fd);
 	}
+    line = get_next_line(fd);
+    free(line);
+}
+
+int line_valid(char  *line)
+{
+    char    *buffer;
+    char    *rep;
+
+    rep = ft_strdup(line);
+    buffer = ft_strtrim(rep, " ");
+    if (*buffer == '\0')
+        return (free(buffer), 1);
+    return (free(buffer), 0);
+}
+
+void    free_2d(char **map, int size)
+{
+    while (size != 0)
+    {
+        size--;
+        free(map[size]);
+    }
+    free(map);
+}
+
+int array_fill(t_global *all)
+{
+    char    *line;
+    int     i;
+
+    line = get_next_line(all->fd);
+    i = 0;
+    while (line != NULL)
+    {
+        printf("lol131241\n");
+        if (line_valid(line) == 0)
+        {
+            all->map->map[i] = ft_strdup(line);
+            if (all->map->map[i] == NULL)
+               return (free_2d(all->map->map, i), 1);
+            i++;
+        }
+        free(line);
+        line = get_next_line(all->fd);
+    }
+    all->map->map[i] = NULL;
+    return (0);
 }
 
 int	fill_map2(t_global *all, char **av)
@@ -39,6 +101,14 @@ int	fill_map2(t_global *all, char **av)
 	if (all->fd < 0)
 		return (printf("can't open file\n"), 1);
 	skip_line(all->fd);
+    if (array_fill(all) == 1)
+        return (1);
+    int i = 0;
+    while (all->map->map[i] != NULL)
+    {
+        printf("map line is == %s\n", all->map->map[i]);
+        i++;
+    }
 	return (0);
 }
 
@@ -48,12 +118,11 @@ int	fill_map(char **av, t_global *all)
 	if (all->map == NULL)
 		return (printf("malloc error\n"), close(all->fd), 1);
 	init_height(all->fd, all);
-	printf("height == %d\n", all->map->height);
-	all->map->map = (char **) malloc(sizeof(char *) * all->map->height);
+	all->map->map = (char **) malloc(sizeof(char *) * (all->map->height + 1));
 	if (all->map->map == NULL)
 		return (printf("malloc error\n"), 1);
 	if (fill_map2(all, av) == 1)
-		return (1);
+		return (free(all->map), 1);
 	return (0);	
 }
 

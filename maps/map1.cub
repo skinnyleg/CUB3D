@@ -1,11 +1,11 @@
 
-NO ./path_to_the_north_texture
+NO ./textures/test.xpm
 
-SO ./path_to_the_south_texture
+SO ./textures/test.xpm
 
-WE ./path_to_the_west_texture
+WE ./textures/test.xpm
 
-EA ./path_to_the_east_texture
+EA ./textures/test.xpm
 
 F 220,100,0
 
@@ -13,7 +13,7 @@ C 225,30,0
 
 
 
-1111111111111111111111111
+                    1111111111111111111111111
 1000000000110000000000001
 1011000001110000000000001
 1001000000000000000000001

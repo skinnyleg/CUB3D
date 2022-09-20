@@ -6,7 +6,7 @@
 /*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 18:47:58 by med-doba          #+#    #+#             */
-/*   Updated: 2022/09/19 19:24:12 by med-doba         ###   ########.fr       */
+/*   Updated: 2022/09/20 22:22:19 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	parse_upper(char **av, t_global *all)
 	rtn_gnl = get_next_line(all->fd);
 	while(rtn_gnl)
 	{
-		rtn_gnl = ft_strtrim_free(rtn_gnl, " ");
+		rtn_gnl = ft_strtrim_free(rtn_gnl, " \t");
 		if (*rtn_gnl != '\0')
 		{
 			ptr = ft_split(rtn_gnl, ' ');
