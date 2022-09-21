@@ -6,11 +6,13 @@
 /*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 18:47:58 by med-doba          #+#    #+#             */
-/*   Updated: 2022/09/20 22:22:19 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/09/21 20:01:46 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/CUB3D.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 int	parse_upper(char **av, t_global *all)
 {
@@ -181,19 +183,26 @@ char	*ft_strtrim_free(char const *s1, char const *set)
 	i = 0;
 	while (ft_strchr(set, s1[i]) && s1[i] != '\0')
 		i++;
+	// printf("i == %d\n", i);
 	if (s1[i] == '\0')
 	{
-		hub = ft_strdup("\0");
+		hub = (char *)malloc(sizeof(char) * 1);
+		hub[0] = '\0';
+		// hub = ft_strdup("");
+		// printf("lol500\n");
 		return (free((void *)s1), hub);
 	}
 	j = ft_strlen(s1);
+	// printf("bj ==%c$\n", s1[j - 1]);
 	while (j != 0 && ft_strchr(set, s1[j - 1]))
 		j--;
+	// printf("j == %d\n", j);
 	hub = malloc(sizeof(char) * (j - i + 1));
 	if (hub == NULL)
 		return (NULL);
-	ft_memcpy (hub, s1 + i, j);
-	hub[j] = '\0';
+	// printf("j - i + 1 == %d\n", j - i + 1);
+	ft_memcpy (hub, s1 + i, j - i + 1);
+	hub[j - i] = '\0';
 	free((void *)s1);
 	return (hub);
 }

@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/20 19:05:01 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/09/20 22:29:18 by hmoubal          ###   ########.fr       */
+/*   Created: 2022/09/21 20:23:27 by hmoubal           #+#    #+#             */
+/*   Updated: 2022/09/21 21:10:39 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@ void	init_height(int fd, t_global *all)
 {
 	char	*line;
 
-    all->map->height = 1;
+	all->map->height = 1;
 	line = get_next_line(fd);
 	while (line != NULL)
 	{
-        line = ft_strtrim_free(line, " ");
+		line = ft_strtrim_free(line, " \t");
 		if (*line != '\0')
 			all->map->height++;
 		free(line);
@@ -40,59 +40,59 @@ void	skip_line(int fd)
 	line = get_next_line(fd);
 	while (line != NULL && count != 5)
 	{
+		line = ft_strtrim_free(line, " \t");
 		if (*line != '\0')
 			count++;
 		free(line);
 		line = get_next_line(fd);
 	}
-    line = get_next_line(fd);
-    free(line);
+	line = get_next_line(fd);
+	free(line);
 }
 
-int line_valid(char  *line)
+int	line_valid(char *line)
 {
-    char    *buffer;
-    char    *rep;
+	char	*buffer;
+	char	*rep;
 
-    rep = ft_strdup(line);
-    buffer = ft_strtrim(rep, " ");
-    if (*buffer == '\0')
-        return (free(buffer), 1);
-    return (free(buffer), 0);
+	rep = ft_strdup(line);
+	buffer = ft_strtrim_free(rep, " \t");
+	if (*buffer == '\0')
+		return (free(buffer), 1);
+	return (free(buffer), 0);
 }
 
-void    free_2d(char **map, int size)
+void	free_2d(char **map, int size)
 {
-    while (size != 0)
-    {
-        size--;
-        free(map[size]);
-    }
-    free(map);
+	while (size != 0)
+	{
+		size--;
+		free(map[size]);
+	}
+	free(map);
 }
 
-int array_fill(t_global *all)
+int	array_fill(t_global *all)
 {
-    char    *line;
-    int     i;
+	char	*line;
+	int		i;
 
-    line = get_next_line(all->fd);
-    i = 0;
-    while (line != NULL)
-    {
-        printf("lol131241\n");
-        if (line_valid(line) == 0)
-        {
-            all->map->map[i] = ft_strdup(line);
-            if (all->map->map[i] == NULL)
-               return (free_2d(all->map->map, i), 1);
-            i++;
-        }
-        free(line);
-        line = get_next_line(all->fd);
-    }
-    all->map->map[i] = NULL;
-    return (0);
+	i = 0;
+	line = get_next_line(all->fd);
+	while (line != NULL)
+	{
+		if (line_valid(line) == 0)
+		{
+			all->map->map[i] = ft_strdup(line);
+			if (all->map->map[i] == NULL)
+				return (free_2d(all->map->map, i), 1);
+			i++;
+		}
+		free(line);
+		line = get_next_line(all->fd);
+	}
+	all->map->map[i] = NULL;
+	return (0);
 }
 
 int	fill_map2(t_global *all, char **av)
@@ -101,14 +101,8 @@ int	fill_map2(t_global *all, char **av)
 	if (all->fd < 0)
 		return (printf("can't open file\n"), 1);
 	skip_line(all->fd);
-    if (array_fill(all) == 1)
-        return (1);
-    int i = 0;
-    while (all->map->map[i] != NULL)
-    {
-        printf("map line is == %s\n", all->map->map[i]);
-        i++;
-    }
+	if (array_fill(all) == 1)
+		return (1);
 	return (0);
 }
 
@@ -123,7 +117,7 @@ int	fill_map(char **av, t_global *all)
 		return (printf("malloc error\n"), 1);
 	if (fill_map2(all, av) == 1)
 		return (free(all->map), 1);
-	return (0);	
+	return (0);
 }
 
 int	parse_map_walls(char **av, t_global *all)

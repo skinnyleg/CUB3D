@@ -6,11 +6,12 @@
 /*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 17:39:36 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/09/18 17:05:23 by med-doba         ###   ########.fr       */
+/*   Updated: 2022/09/21 19:27:26 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/CUB3D.h"
+#include <stdio.h>
 
 static int	get_line(char *str)
 {

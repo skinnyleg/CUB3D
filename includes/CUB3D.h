@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   CUB3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:18:31 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/09/19 19:25:08 by med-doba         ###   ########.fr       */
+/*   Updated: 2022/09/21 21:04:13 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef CUB3D_H
 # define CUB3D_H
@@ -32,9 +31,9 @@ typedef struct s_mlx
 
 typedef struct s_paraup
 {
-	char	*dir;
-	char	*value;
-	int		repate;
+	char			*dir;
+	char			*value;
+	int				repate;
 	struct s_paraup	*next;
 }	t_paraup;
 
@@ -53,12 +52,13 @@ typedef struct s_global
 	t_mlx		*mlx;
 }	t_global;
 
-char	*ft_strjoin_free(char const *s1,	char const *s2);
-int		parse_map_walls(char **av, t_global *all);
-char	*get_next_line(int fd);
+char		*ft_strjoin_free(char *s1,	char *s2);
+int			parse_map_walls(char **av, t_global *all);
+char		*get_next_line(int fd);
+char		*gnl(int fd);
 //created by med-doba
 int			check_double(t_paraup *up);
-int 		ft_check_ptr_0(char *ptr0);
+int			ft_check_ptr_0(char *ptr0);
 char		*ft_strtrim_free(char const *s1, char const *set);
 int			parse_upper(char	**av, t_global *all);
 int			ft_handle_line(char	**ptr, t_global *up);
