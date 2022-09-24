@@ -1,18 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_map.c                                        :+:      :+:    :+:   */
+/*   parse_lower.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 21:29:56 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/09/21 22:12:51 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/09/24 01:04:41 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/CUB3D.h"
-#include <stdio.h>
-#include <stdlib.h>
 
 void	init_height(int fd, t_global *all)
 {
@@ -85,7 +83,7 @@ int	array_fill(t_global *all)
 		{
 			all->map->map[i] = ft_strdup(line);
 			if (all->map->map[i] == NULL)
-				return (free_2d(all->map->map, i), 1);
+				return (free(line), free_2d(all->map->map, i), 1);
 			i++;
 		}
 		free(line);
@@ -95,7 +93,7 @@ int	array_fill(t_global *all)
 	return (0);
 }
 
-int	fill_map2(t_global *all, char **av)
+int	fill_map(t_global *all, char **av)
 {
 	all->fd = open(av[1], O_RDONLY);
 	if (all->fd < 0)
@@ -106,7 +104,7 @@ int	fill_map2(t_global *all, char **av)
 	return (0);
 }
 
-int	fill_map(char **av, t_global *all)
+int	fill(char **av, t_global *all)
 {
 	all->map = (t_map *)malloc(sizeof(t_map) * 1);
 	if (all->map == NULL)
@@ -114,14 +112,25 @@ int	fill_map(char **av, t_global *all)
 	init_height(all->fd, all);
 	all->map->map = (char **) malloc(sizeof(char *) * (all->map->height + 1));
 	if (all->map->map == NULL)
-		return (printf("malloc error\n"), 1);
-	if (fill_map2(all, av) == 1)
+		return (printf("malloc error\n"), free(all->map), 1);
+	if (fill_map(all, av) == 1)
 		return (free(all->map), 1);
 	return (0);
 }
 
-int	parse_map_walls(char **av, t_global *all)
+int	parse_wall(t_global *all)
 {
-	fill_map(av, all);
+	(void)all;
+	printf("line == $%s$\n", all->map->map[0]);
+	return (0);
+}
+
+
+int	parse_lower(char **av, t_global *all)
+{
+	if (fill(av, all) == 1)
+		return (1);
+	if (parse_wall(all) == 1)
+		return (1);
 	return (0);
 }

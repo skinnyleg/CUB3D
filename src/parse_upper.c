@@ -6,13 +6,11 @@
 /*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 18:47:58 by med-doba          #+#    #+#             */
-/*   Updated: 2022/09/21 22:12:24 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/09/23 18:10:44 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/CUB3D.h"
-#include <stdio.h>
-#include <stdlib.h>
 
 int	parse_upper(char **av, t_global *all)
 {

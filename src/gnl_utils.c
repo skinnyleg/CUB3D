@@ -6,12 +6,11 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 18:26:25 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/09/21 19:31:20 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/09/23 18:10:54 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/CUB3D.h"
-#include <stdio.h>
 
 char	*ft_strjoin_free(char *s1,	char *s2)
 {
