@@ -6,11 +6,12 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/01 18:54:22 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/08/09 17:58:45 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/09/21 13:09:57 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/libft.h"
+#include <stdio.h>
 
 char	*ft_strdup(const char *src)
 {
