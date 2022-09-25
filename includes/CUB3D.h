@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   CUB3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:18:31 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/09/24 00:48:08 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/09/25 23:29:58 by med-doba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef CUB3D_H
 # define CUB3D_H
@@ -18,7 +19,7 @@
 # include <unistd.h>
 # include <math.h>
 # include <fcntl.h>
-# include <mlx.h>
+// # include <mlx.h>
 // # include "/usr/X11/include/mlx.h"
 # include "../libft/includes/libft.h"
 # define BUFFER_SIZE 1
@@ -57,6 +58,7 @@ int			parse_lower(char **av, t_global *all);
 char		*get_next_line(int fd);
 char		*gnl(int fd);
 //created by med-doba
+int			ft_rtn_gnl(char *rtn_gnl, t_global *all);
 int			check_double(t_paraup *up);
 int			ft_check_ptr_0(char *ptr0);
 char		*ft_strtrim_free(char const *s1, char const *set);
