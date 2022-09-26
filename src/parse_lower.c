@@ -1,16 +1,11 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   parse_lower.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/21 21:29:56 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/09/24 01:04:41 by hmoubal          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "../includes/CUB3D.h"
+
+void	free_map(t_map *map)
+{
+	free_2d(map->map, map->height);
+	free(map);
+}
 
 void	init_height(int fd, t_global *all)
 {
@@ -44,8 +39,6 @@ void	skip_line(int fd)
 		free(line);
 		line = get_next_line(fd);
 	}
-	line = get_next_line(fd);
-	free(line);
 }
 
 int	line_valid(char *line)
@@ -118,10 +111,31 @@ int	fill(char **av, t_global *all)
 	return (0);
 }
 
+int	wall_check(char **map, int i, int j)
+{
+	(void)map;
+	(void)i;
+	(void)j;
+	return (0);
+}
+
 int	parse_wall(t_global *all)
 {
-	(void)all;
-	printf("line == $%s$\n", all->map->map[0]);
+	int	i;
+	int	j;
+
+	i = 0;
+	while(all->map->map[i] != NULL)
+	{
+		j = 0;
+		while(all->map->map[i][j] != '\0')
+		{
+			if(wall_check(all->map->map, i, j) == 1)
+				return (printf("wall error\n") , free_map(all->map), 1);
+			j++;
+		}
+		i++;
+	}
 	return (0);
 }
 

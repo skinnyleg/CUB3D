@@ -6,7 +6,7 @@
 /*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:18:31 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/09/25 23:29:58 by med-doba         ###   ########.fr       */
+/*   Updated: 2022/09/26 18:19:14 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ char		*ft_strjoin_free(char *s1,	char *s2);
 int			parse_lower(char **av, t_global *all);
 char		*get_next_line(int fd);
 char		*gnl(int fd);
+void	free_2d(char **map, int size);
 //created by med-doba
 int			ft_rtn_gnl(char *rtn_gnl, t_global *all);
 int			check_double(t_paraup *up);
