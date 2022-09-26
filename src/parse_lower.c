@@ -39,6 +39,8 @@ void	skip_line(int fd)
 		free(line);
 		line = get_next_line(fd);
 	}
+	line = get_next_line(fd);
+	free(line);
 }
 
 int	line_valid(char *line)
@@ -111,31 +113,91 @@ int	fill(char **av, t_global *all)
 	return (0);
 }
 
-int	wall_check(char **map, int i, int j)
-{
-	(void)map;
-	(void)i;
-	(void)j;
-	return (0);
-}
-
-int	parse_wall(t_global *all)
+int	upper_wall(t_map *map)
 {
 	int	i;
 	int	j;
 
 	i = 0;
-	while(all->map->map[i] != NULL)
+	j = 0;
+	while(map->map[i][j] != '\0')
+	{
+		i = 0;
+		while(map->map[i][j] == ' ')
+			i++;
+		if(map->map[i][j] != '1')
+			return (printf("map error\n"), 1);
+		j++;
+	}
+	return (0);
+}
+
+int	lower_wall(t_map *map)
+{
+	int	i;
+	int	j;
+
+	i = map->height - 1;
+	j = 0;
+	while(map->map[i][j] != '\0')
+	{
+		i = map->height - 1;
+		while(map->map[i][j] == ' ')
+			i--;
+		if(map->map[i][j] != '1')
+			return (printf("map error\n"), 1);
+		j++;
+	}
+	return (0);
+}
+
+int	left_wall(t_map *map)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while(map->map[i] != NULL)
 	{
 		j = 0;
-		while(all->map->map[i][j] != '\0')
-		{
-			if(wall_check(all->map->map, i, j) == 1)
-				return (printf("wall error\n") , free_map(all->map), 1);
+		while(map->map[i][j] == ' ')
 			j++;
-		}
+		if(map->map[i][j] != '1')
+			return (printf("map error\n"), 1);
 		i++;
 	}
+	return (0);
+}
+
+int	right_wall(t_map *map)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while(map->map[i] != NULL)
+	{
+		j = ft_strlen(map->map[i]) - 1;
+		while(map->map[i][j] == ' ')
+			j--;
+		if(map->map[i][j] != '1')
+			return (printf("map error1\n"), 1);
+		i++;
+	}
+	return (0);
+}
+
+int	parse_wall(t_global *all)
+{
+	if(upper_wall(all->map) == 1)
+		return (free_map(all->map), 1);
+	if(lower_wall(all->map) == 1)
+		return (free_map(all->map), 1);
+	if(left_wall(all->map) == 1)
+		return (free_map(all->map), 1);
+	if(right_wall(all->map) == 1)
+		return (free_map(all->map), 1);
+	printf("outside haha\n");
 	return (0);
 }
 
