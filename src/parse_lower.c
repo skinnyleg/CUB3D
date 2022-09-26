@@ -1,4 +1,3 @@
-
 #include "../includes/CUB3D.h"
 
 void	free_map(t_map *map)
@@ -120,12 +119,12 @@ int	upper_wall(t_map *map)
 
 	i = 0;
 	j = 0;
-	while(map->map[i][j] != '\0')
+	while (map->map[i][j] != '\0')
 	{
 		i = 0;
-		while(map->map[i][j] == ' ')
+		while (map->map[i][j] == ' ')
 			i++;
-		if(map->map[i][j] != '1')
+		if (map->map[i][j] != '1')
 			return (printf("map error\n"), 1);
 		j++;
 	}
@@ -139,12 +138,12 @@ int	lower_wall(t_map *map)
 
 	i = map->height - 1;
 	j = 0;
-	while(map->map[i][j] != '\0')
+	while (map->map[i][j] != '\0')
 	{
 		i = map->height - 1;
-		while(map->map[i][j] == ' ')
+		while (map->map[i][j] == ' ')
 			i--;
-		if(map->map[i][j] != '1')
+		if (map->map[i][j] != '1')
 			return (printf("map error\n"), 1);
 		j++;
 	}
@@ -157,12 +156,12 @@ int	left_wall(t_map *map)
 	int	j;
 
 	i = 0;
-	while(map->map[i] != NULL)
+	while (map->map[i] != NULL)
 	{
 		j = 0;
-		while(map->map[i][j] == ' ')
+		while (map->map[i][j] == ' ')
 			j++;
-		if(map->map[i][j] != '1')
+		if (map->map[i][j] != '1')
 			return (printf("map error\n"), 1);
 		i++;
 	}
@@ -175,12 +174,12 @@ int	right_wall(t_map *map)
 	int	j;
 
 	i = 0;
-	while(map->map[i] != NULL)
+	while (map->map[i] != NULL)
 	{
 		j = ft_strlen(map->map[i]) - 1;
-		while(map->map[i][j] == ' ')
+		while (map->map[i][j] == ' ')
 			j--;
-		if(map->map[i][j] != '1')
+		if (map->map[i][j] != '1')
 			return (printf("map error1\n"), 1);
 		i++;
 	}
@@ -189,18 +188,17 @@ int	right_wall(t_map *map)
 
 int	parse_wall(t_global *all)
 {
-	if(upper_wall(all->map) == 1)
+	if (upper_wall(all->map) == 1)
 		return (free_map(all->map), 1);
-	if(lower_wall(all->map) == 1)
+	if (lower_wall(all->map) == 1)
 		return (free_map(all->map), 1);
-	if(left_wall(all->map) == 1)
+	if (left_wall(all->map) == 1)
 		return (free_map(all->map), 1);
-	if(right_wall(all->map) == 1)
+	if (right_wall(all->map) == 1)
 		return (free_map(all->map), 1);
 	printf("outside haha\n");
 	return (0);
 }
-
 
 int	parse_lower(char **av, t_global *all)
 {
