@@ -180,7 +180,38 @@ int	right_wall(t_map *map)
 		while (map->map[i][j] == ' ')
 			j--;
 		if (map->map[i][j] != '1')
-			return (printf("map error1\n"), 1);
+			return (printf("map error\n"), 1);
+		i++;
+	}
+	return (0);
+}
+
+int	check_sides(char prev, char next)
+{
+	if (prev != ' ' && next != ' ')
+		if (prev != '1' || next != '1')
+			return (1);
+	return (0);
+}
+
+int	inner_wall(t_map *map)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (map->map[i] != NULL)
+	{
+		j = 1;
+		while (map->map[i][j + 1] != '\0')
+		{
+			if (map->map[i][j] == ' ')
+			{
+				if (check_sides(map->map[i][j - 1], map->map[i][j + 1]) == 1)
+					return (printf("map error1\n"), 1);
+			}
+			j++;
+		}
 		i++;
 	}
 	return (0);
@@ -195,6 +226,8 @@ int	parse_wall(t_global *all)
 	if (left_wall(all->map) == 1)
 		return (free_map(all->map), 1);
 	if (right_wall(all->map) == 1)
+		return (free_map(all->map), 1);
+	if (inner_wall(all->map) == 1)
 		return (free_map(all->map), 1);
 	printf("outside haha\n");
 	return (0);
