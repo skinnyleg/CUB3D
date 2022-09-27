@@ -11,12 +11,16 @@ void	init_height(int fd, t_global *all)
 	char	*line;
 
 	all->map->height = 1;
+	all->map->width = all->a;
 	line = get_next_line(fd);
 	while (line != NULL)
 	{
-		line = ft_strtrim_free(line, " \t");
-		if (*line != '\0')
+		if (ft_strchr(line, '0') != NULL || ft_strchr(line, '1') != NULL)
+		{
+			if (all->map->width < (int)ft_strlen(line))
+					all->map->width = ft_strlen(line);
 			all->map->height++;
+		}
 		free(line);
 		line = get_next_line(fd);
 	}
@@ -75,6 +79,15 @@ int	array_fill(t_global *all)
 	{
 		if (line_valid(line) == 0)
 		{
+			if (all->map->width > (int)ft_strlen(line))
+			{
+				all->a = all->map->width - ft_strlen(line);
+				while (all->a != 0)
+				{
+					line = ft_strjoin_free(line, " ");
+					all->a--;
+				}
+			}
 			all->map->map[i] = ft_strdup(line);
 			if (all->map->map[i] == NULL)
 				return (free(line), free_2d(all->map->map, i), 1);
@@ -104,6 +117,7 @@ int	fill(char **av, t_global *all)
 	if (all->map == NULL)
 		return (printf("malloc error\n"), close(all->fd), 1);
 	init_height(all->fd, all);
+	printf("height == %d  width == %d\n", all->map->height, all->map->width);
 	all->map->map = (char **) malloc(sizeof(char *) * (all->map->height + 1));
 	if (all->map->map == NULL)
 		return (printf("malloc error\n"), free(all->map), 1);
@@ -122,7 +136,7 @@ int	upper_wall(t_map *map)
 	while (map->map[i][j] != '\0')
 	{
 		i = 0;
-		while (map->map[i][j] == ' ')
+		while (map->map[i] != NULL && map->map[i][j] == ' ')
 			i++;
 		if (map->map[i][j] != '1')
 			return (printf("map error\n"), 1);
@@ -180,7 +194,7 @@ int	right_wall(t_map *map)
 		while (map->map[i][j] == ' ')
 			j--;
 		if (map->map[i][j] != '1')
-			return (printf("map error\n"), 1);
+			return (printf("map error1\n"), 1);
 		i++;
 	}
 	return (0);
@@ -237,7 +251,13 @@ int	parse_lower(char **av, t_global *all)
 {
 	if (fill(av, all) == 1)
 		return (1);
-	if (parse_wall(all) == 1)
-		return (1);
+	int	i= 0;
+	while (all->map->map[i] != NULL)
+	{
+		printf("line == $%s$\n", all->map->map[i]);
+		i++;
+	}
+	// if (parse_wall(all) == 1)
+	// 	return (1);
 	return (0);
 }

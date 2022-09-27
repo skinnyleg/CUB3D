@@ -6,7 +6,7 @@
 /*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:18:31 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/09/26 19:25:14 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/09/27 22:10:32 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct s_map
 typedef struct s_global
 {
 	int			fd;
+	int			a;
 	t_paraup	*up;
 	t_map		*map;
 	t_mlx		*mlx;

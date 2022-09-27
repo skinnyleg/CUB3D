@@ -6,7 +6,7 @@
 /*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 18:47:58 by med-doba          #+#    #+#             */
-/*   Updated: 2022/09/25 23:22:54 by med-doba         ###   ########.fr       */
+/*   Updated: 2022/09/27 22:25:41 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ int	parse_upper(char **av, t_global *all)
 		if (rtn == 1)
 			return (1);
 		rtn_gnl = get_next_line(all->fd);
+		if (rtn_gnl != NULL)
+			all->a = ft_strlen(rtn_gnl);
 	}
 	if (!all->up || ((ft_lstsize_paraup(all->up) < 5
 				|| ft_lstsize_paraup(all->up) > 5) || check_double(all->up)))
