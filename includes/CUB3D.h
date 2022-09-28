@@ -6,7 +6,7 @@
 /*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:18:31 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/09/27 22:10:32 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/09/28 20:58:03 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,21 @@ int			parse_lower(char **av, t_global *all);
 char		*get_next_line(int fd);
 char		*gnl(int fd);
 void		free_2d(char **map, int size);
+int			change_line(t_global *all, char **line);
+int			line_valid(char *line);
+void		free_map(t_map *map);
+void		free_2d(char **map, int size);
+int			fill(char **av, t_global *all);
+void		init_height(int fd, t_global *all);
+int			fill_map(t_global *all, char **av);
+void		player_count(char c, int *count);
+int			check_cas(char c);
+int			vertical_wall(t_map *map);
+int			horizantal_wall(t_map *map);
+int			check_contents(t_map *map);
+
+
+
 //created by med-doba
 int			ft_rtn_gnl(char *rtn_gnl, t_global *all);
 int			check_double(t_paraup *up);
