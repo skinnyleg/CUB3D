@@ -1,4 +1,3 @@
-
 #include "../includes/CUB3D.h"
 
 void	free_map(t_map *map)
@@ -44,4 +43,3 @@ void	player_count(char c, int *count)
 	if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
 		(*count)++;
 }
-

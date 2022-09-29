@@ -1,4 +1,3 @@
-
 #include "../includes/CUB3D.h"
 
 int	vertical_wall2(t_map *map, int i, int j)
@@ -109,4 +108,3 @@ int	check_contents(t_map *map)
 		return (1);
 	return (0);
 }
-

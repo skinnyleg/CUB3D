@@ -87,4 +87,3 @@ int	line_valid(char *line)
 		return (free(buffer), 1);
 	return (free(buffer), 0);
 }
-
