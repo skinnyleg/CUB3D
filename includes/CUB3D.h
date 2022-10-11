@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:18:31 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/10/11 12:17:20 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/10/11 21:42:24 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ int			check_cas(char c);
 int			vertical_wall(t_map *map);
 int			horizantal_wall(t_map *map);
 int			check_contents(t_map *map);
+int			check_extension(char *str, char *extension);
 //created by med-doba
 int			ft_rtn_gnl(char *rtn_gnl, t_global *all);
 int			check_double(t_paraup *up);

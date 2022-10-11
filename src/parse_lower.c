@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 12:23:33 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/10/11 12:57:42 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/10/11 21:46:49 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@ int	fill(char **av, t_global *all)
 	all->map = (t_map *)malloc(sizeof(t_map) * 1);
 	if (all->map == NULL)
 		return (printf("malloc error\n"), close(all->fd), 1);
-	if (all->l == 0)
-		return (printf("map not found\n"), free(all->map), 1);
 	init_height(all->fd, all);
 	all->map->map = (char **) malloc(sizeof(char *) * (all->map->height + 1));
 	if (all->map->map == NULL)
@@ -42,6 +40,8 @@ int	fill(char **av, t_global *all)
 
 int	parse_lower(char **av, t_global *all)
 {
+	if (all->l == 0)
+		return (printf("map not found\n"), 1);
 	if (fill(av, all) == 1)
 		return (1);
 	if (parse_wall(all) == 1)

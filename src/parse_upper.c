@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 18:47:58 by med-doba          #+#    #+#             */
-/*   Updated: 2022/10/11 12:56:41 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/10/11 21:46:52 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	ft_rtn_gnl(char *rtn_gnl, t_global *all)
 				return (ft_free_2d(ptr), free(rtn_gnl), 1);
 		}
 		else
-			return ((all->l = 1), ft_free_2d(ptr), free(rtn_gnl), 2);
+			return (all->l = 1, ft_free_2d(ptr), free(rtn_gnl), 2);
 		ft_free_2d(ptr);
 	}
 	return (free(rtn_gnl), 0);
