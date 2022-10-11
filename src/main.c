@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:17:40 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/09/26 18:23:21 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/10/11 12:19:04 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,15 @@ int	check_extension(char **av)
 	return (0);
 }
 
+void	ft_init(t_global	*all)
+{
+	all->a = -1;
+	all->l = 0;
+	all->up = NULL;
+}
 void	parse_map(char	**av, t_global *all)
 {
+	ft_init(all);
 	if (check_extension(av) == 1)
 		exit(1);
 	if (parse_upper(av, all) == 1)

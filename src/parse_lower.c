@@ -17,9 +17,9 @@ int	fill(char **av, t_global *all)
 	all->map = (t_map *)malloc(sizeof(t_map) * 1);
 	if (all->map == NULL)
 		return (printf("malloc error\n"), close(all->fd), 1);
-	init_height(all->fd, all);
-	if (all->map->height == 1)
+	if (all->l == 0)
 		return (printf("map not found\n"), free(all->map), 1);
+	init_height(all->fd, all);
 	all->map->map = (char **) malloc(sizeof(char *) * (all->map->height + 1));
 	if (all->map->map == NULL)
 		return (printf("malloc error\n"), free(all->map), 1);

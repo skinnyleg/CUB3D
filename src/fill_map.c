@@ -59,7 +59,7 @@ void	init_height(int fd, t_global *all)
 {
 	char	*line;
 
-	all->map->height = 1;
+	all->map->height = all->l;
 	all->map->width = all->a;
 	line = get_next_line(fd);
 	while (line != NULL)

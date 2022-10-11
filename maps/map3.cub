@@ -1,9 +1,9 @@
 
- 
+
 NO ./textures/test.xpm
-		
+
 SO ./textures/test.xpm
-						
+
 WE ./textures/test.xpm
 
 EA ./textures/test.xpm
@@ -12,7 +12,7 @@ F 220,100,0
 
 C 225,30,0
 
-
+k 220,100,0
 
 
 

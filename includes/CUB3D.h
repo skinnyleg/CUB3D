@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   CUB3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:18:31 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/09/29 23:12:35 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/10/11 12:17:20 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <unistd.h>
 # include <math.h>
 # include <fcntl.h>
-// # include <mlx.h>
+# include <mlx.h>
 // # include "/usr/X11/include/mlx.h"
 # include "../libft/includes/libft.h"
 # define BUFFER_SIZE 1
@@ -48,6 +48,7 @@ typedef struct s_global
 {
 	int			fd;
 	int			a;
+	int			l;
 	t_paraup	*up;
 	t_map		*map;
 	t_mlx		*mlx;

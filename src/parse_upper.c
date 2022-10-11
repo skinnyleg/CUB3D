@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_upper.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 18:47:58 by med-doba          #+#    #+#             */
-/*   Updated: 2022/09/27 22:25:41 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/10/11 12:07:33 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,21 +17,20 @@ int	parse_upper(char **av, t_global *all)
 	char	*rtn_gnl;
 	int		rtn;
 
-	all->up = NULL;
 	all->fd = open(av[1], O_RDONLY);
 	if (all->fd == -1)
 		return (perror("open"), 1);
 	rtn_gnl = get_next_line(all->fd);
 	while (rtn_gnl)
 	{
+		if (rtn_gnl != NULL && (int)ft_strlen(rtn_gnl) > all->a)
+			all->a = ft_strlen(rtn_gnl);
 		rtn = ft_rtn_gnl(rtn_gnl, all);
 		if (rtn == 2)
 			break ;
 		if (rtn == 1)
 			return (1);
 		rtn_gnl = get_next_line(all->fd);
-		if (rtn_gnl != NULL)
-			all->a = ft_strlen(rtn_gnl);
 	}
 	if (!all->up || ((ft_lstsize_paraup(all->up) < 5
 				|| ft_lstsize_paraup(all->up) > 5) || check_double(all->up)))
@@ -53,7 +52,10 @@ int	ft_rtn_gnl(char *rtn_gnl, t_global *all)
 				return (ft_free_2d(ptr), free(rtn_gnl), 1);
 		}
 		else
+		{
+			all->l = 1;
 			return (ft_free_2d(ptr), free(rtn_gnl), 2);
+		}
 		ft_free_2d(ptr);
 	}
 	return (free(rtn_gnl), 0);
