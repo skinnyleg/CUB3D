@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:17:40 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/10/11 12:19:04 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/10/11 12:22:33 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	ft_init(t_global	*all)
 	all->l = 0;
 	all->up = NULL;
 }
+
 void	parse_map(char	**av, t_global *all)
 {
 	ft_init(all);
