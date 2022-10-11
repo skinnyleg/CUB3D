@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 12:23:19 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/10/11 12:23:20 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/10/11 12:38:33 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ int	array_fill(t_global *all)
 				return (free(line), free_2d(all->map->map, i), 1);
 			i++;
 		}
+		else if (i != 0 && i != all->map->height)
+			return (free(line), free_2d(all->map->map, i), 1);
 		free(line);
 		line = get_next_line(all->fd);
 	}
