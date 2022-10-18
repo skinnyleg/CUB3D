@@ -10,6 +10,8 @@ CFILES = main.c\
 		parse_lower_utils.c\
 		fill_map.c\
 		wall_parser.c\
+		destroy_global.c\
+		mlx_render.c\
 
 OFILES = $(addprefix $(OBJ_DIR)/,$(CFILES:.c=.o))
 
@@ -30,7 +32,7 @@ NAME = cub3D
 all : $(NAME)
 
 $(NAME) : $(OBJ_DIR) $(LIBFT) $(OFILES)
-	@$(CC) $(LFLAGS) $(OFILES) $(LIBFT) -o $(NAME)
+	@$(CC) -fsanitize=address $(LFLAGS) $(OFILES) $(LIBFT) -o $(NAME)
 	@echo "done for cub3D"
 
 $(OBJ_DIR) :
@@ -40,7 +42,7 @@ $(LIBFT) :
 	@make -C libft
 
 $(OFILES) : $(OBJ_DIR)/%.o : $(SRC_DIR)/%.c $(INC)
-	$(CC) -c $(CFLAGS) $< -o $@
+	@$(CC) -c $(CFLAGS) $< -o $@
 
 clean :
 	@rm -rf $(OBJ_DIR)

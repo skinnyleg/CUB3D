@@ -6,12 +6,16 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:18:31 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/10/11 21:42:24 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/10/17 23:40:10 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
+
+# define TILE_SIZE 20
+# define WIN_HEIGHT 900
+# define WIN_WIDTH 1800
 
 # include <stdio.h>
 # include <stdlib.h>
@@ -27,6 +31,11 @@ typedef struct s_mlx
 {
 	void	*mlx_ptr;
 	void	*mlx_win;
+	void	*image;
+	char	*get_addr;
+	int		size_line;
+	int		bits_per_pixel;
+	int		endian;
 }	t_mlx;
 
 typedef struct s_paraup
@@ -72,7 +81,10 @@ int			vertical_wall(t_map *map);
 int			horizantal_wall(t_map *map);
 int			check_contents(t_map *map);
 int			check_extension(char *str, char *extension);
+void		mlx_render(t_global *all);
+
 //created by med-doba
+void		ft_free_lst_paraup(t_paraup **head);
 int			ft_rtn_gnl(char *rtn_gnl, t_global *all);
 int			check_double(t_paraup *up);
 int			ft_check_ptr_0(char *ptr0);
@@ -84,4 +96,5 @@ int			ft_lstsize_paraup(t_paraup *lst);
 t_paraup	*ft_lstnew_paraup(char *name, char *value, int repate);
 void		ft_free_2d(char **ptr);
 int			ft_handle_c_f(char *ptr);
+void		destroy_all(t_global *all);
 #endif
