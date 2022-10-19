@@ -47,16 +47,26 @@ void	render_block(t_global *all, int i, int j, int color)
 	int		x;
 	int		y;
 	t_mlx	*mlx;
-	double	tile_width;
-	double	tile_height;
+	int	tile_width = all->map->width;
+	int	tile_height = all->map->height;
 
 	mlx = all->mlx;
-	double target_area = MINI_HEIGHT * MINI_WIDTH;
-	double	div = all->map->width / all->map->height;
-	printf("lol%f\n", div);
-	tile_width = sqrt(div * target_area);
-	tile_height = target_area / tile_width;
-	printf("width == %f\nheight == %f\n", tile_width, tile_height);
+	double resizewidth = tile_width;
+	double resizeheight = tile_height;
+	double aspect = resizewidth / resizeheight;
+	if (resizewidth > MINI_WIDTH)
+	{
+		resizewidth = MINI_WIDTH;
+		resizeheight = resizewidth / aspect;
+	}
+	if (resizeheight > MINI_HEIGHT)
+	{
+		aspect = resizewidth / resizeheight;
+		resizeheight = MINI_HEIGHT;
+		resizewidth = resizeheight * aspect;
+	}
+	tile_width = (resizewidth / all->map->width) + 4;
+	tile_height = (resizeheight / all->map->height) + 4;
 	x = i * tile_width;
 	while (x < ((i * tile_width) + tile_width))
 	{
