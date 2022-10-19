@@ -6,16 +6,18 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:18:31 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/10/17 23:40:10 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/10/18 17:59:12 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# define TILE_SIZE 20
-# define WIN_HEIGHT 900
-# define WIN_WIDTH 1800
+# define TILE_SIZE 4
+# define WIN_HEIGHT 800
+# define WIN_WIDTH 1500
+# define MINI_HEIGHT 500
+# define MINI_WIDTH 500
 
 # include <stdio.h>
 # include <stdlib.h>

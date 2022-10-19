@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 13:24:41 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/10/17 23:48:45 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/10/18 17:31:41by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,21 @@ void	render_block(t_global *all, int i, int j, int color)
 	int		x;
 	int		y;
 	t_mlx	*mlx;
+	double	tile_width;
+	double	tile_height;
 
 	mlx = all->mlx;
-	x = i * TILE_SIZE;
-	while (x < ((i * TILE_SIZE) + TILE_SIZE))
+	double target_area = MINI_HEIGHT * MINI_WIDTH;
+	double	div = all->map->width / all->map->height;
+	printf("lol%f\n", div);
+	tile_width = sqrt(div * target_area);
+	tile_height = target_area / tile_width;
+	printf("width == %f\nheight == %f\n", tile_width, tile_height);
+	x = i * tile_width;
+	while (x < ((i * tile_width) + tile_width))
 	{
-		y = j * TILE_SIZE;
-		while (y < ((j * TILE_SIZE) + TILE_SIZE))
+		y = j * tile_height;
+		while (y < ((j * tile_height) + tile_height))
 		{
 			pixel_put(mlx, x, y, color);
 			y++;
@@ -83,11 +91,11 @@ int	render_map(t_global *all)
 			if (all->map->map[all->a][all->l] != ' ')
 			{
 				if (all->map->map[all->a][all->l] == '1')
-					render_block(all, all->a, all->l, 8421504);
+					render_block(all, all->l, all->a, 8421504);
 				if (all->map->map[all->a][all->l] == '0')
-					render_block(all, all->a, all->l, 65280);
+					render_block(all, all->l, all->a, 65280);
 				if (all->map->map[all->a][all->l] == 'N')
-					render_block(all, all->a, all->l, color);
+					render_block(all, all->l, all->a, color);
 			}
 			all->l++;
 		}
