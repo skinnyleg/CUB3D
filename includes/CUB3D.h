@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:18:31 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/10/19 16:55:43 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/10/21 15:23:27 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,16 @@ typedef struct s_map
 	int		width;
 }	t_map;
 
+typedef struct s_player
+{
+	int	x;
+	int	y;
+	int	xvel;
+	int	yvel;
+	int	RLD;
+	int	UDD;
+}	t_player;
+
 typedef struct s_global
 {
 	int			fd;
@@ -63,6 +73,7 @@ typedef struct s_global
 	t_paraup	*up;
 	t_map		*map;
 	t_mlx		*mlx;
+	t_player	*player;
 }	t_global;
 
 char		*ft_strjoin_free(char *s1,	char *s2);

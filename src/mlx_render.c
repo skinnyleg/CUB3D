@@ -12,6 +12,16 @@
 
 #include "../includes/CUB3D.h"
 
+void	init_player(t_player *player)
+{
+	player->x = 0;
+	player->y = 0;
+	player->xvel = 2;
+	player->yvel = 2;
+	player->RLD = 0;
+	player->UDD = 0;
+}
+
 int	set_mlx(t_global *all)
 {
 	t_mlx	*mlx_cpy;
@@ -21,6 +31,10 @@ int	set_mlx(t_global *all)
 	all->mlx = (t_mlx *)malloc(sizeof(t_mlx) * 1);
 	if (all->mlx == NULL)
 		return (destroy_all(all), -1);
+	all->player = (t_player *)malloc(sizeof(t_player) * 1);
+	if (all->player == NULL)
+		return (destroy_all(all), -1);
+	init_player(all->player);
 	mlx_cpy = all->mlx;
 	all->mlx->mlx_ptr = mlx_init();
 	if (all->mlx->mlx_ptr == NULL)
@@ -42,17 +56,10 @@ void	pixel_put(t_mlx *mlx, int x, int y, int color)
 	}
 }
 
-void	render_block(t_global *all, int i, int j, int color)
+void	aspect_ratio(t_global *all , int *tile_width, int *tile_height)
 {
-	int		x;
-	int		y;
-	t_mlx	*mlx;
-	int	tile_width = all->map->width;
-	int	tile_height = all->map->height;
-
-	mlx = all->mlx;
-	double resizewidth = tile_width;
-	double resizeheight = tile_height;
+	double resizewidth = all->map->width;
+	double resizeheight = all->map->height;
 	double aspect = resizewidth / resizeheight;
 	if (resizewidth > MINI_WIDTH)
 	{
@@ -65,15 +72,48 @@ void	render_block(t_global *all, int i, int j, int color)
 		resizeheight = MINI_HEIGHT;
 		resizewidth = resizeheight * aspect;
 	}
-	tile_width = (resizewidth / all->map->width) + 4;
-	tile_height = (resizeheight / all->map->height) + 4;
+	*tile_width = (resizewidth / all->map->width) + 4;
+	*tile_height = (resizeheight / all->map->height) + 4;
+}
+
+void	render_block(t_global *all, int i, int j, int color)
+{
+	int		x;
+	int		y;
+	int		tile_width;
+	int		tile_height;
+
+	aspect_ratio(all, &tile_width, &tile_height);
 	x = i * tile_width;
 	while (x < ((i * tile_width) + tile_width))
 	{
 		y = j * tile_height;
 		while (y < ((j * tile_height) + tile_height))
 		{
-			pixel_put(mlx, x, y, color);
+			pixel_put(all->mlx, x, y, color);
+			y++;
+		}
+		x++;
+	}
+}
+
+void	render_player(t_global *all, int i, int j, int color)
+{
+	int			tile_width;
+	int			tile_height;
+	int			x;
+	int			y;
+
+	x = all->player->x;
+	y = all->player->y;
+	aspect_ratio(all, &tile_width, &tile_height);
+	x += i * tile_width;
+	while (x < ((i * tile_width) + tile_width))
+	{
+		y += j * tile_height;
+		while (y < ((j * tile_height) + tile_height))
+		{
+			pixel_put(all->mlx, x, y, color);
 			y++;
 		}
 		x++;
@@ -87,25 +127,30 @@ int	ft_close(t_global *all)
 	return (0);
 }
 
-int	render_map(t_global *all)
-{
-	int	color;
+// int	ft_keystroke
 
+int	render_minimap(t_global *all)
+{
+	int		color;
+	t_map	*map;
+
+	map = all->map;
 	all->a = 0;
 	color = 16711680;
-	while (all->a < all->map->height)
+	while (all->a < map->height)
 	{
 		all->l = 0;
-		while (all->l < all->map->width)
+		while (all->l < map->width)
 		{
-			if (all->map->map[all->a][all->l] != ' ')
+			if (map->map[all->a][all->l] != ' ')
 			{
-				if (all->map->map[all->a][all->l] == '1')
+				if (map->map[all->a][all->l] == '1')
 					render_block(all, all->l, all->a, 8421504);
-				if (all->map->map[all->a][all->l] == '0')
+				if (map->map[all->a][all->l] == '0')
 					render_block(all, all->l, all->a, 65280);
-				if (all->map->map[all->a][all->l] == 'N')
-					render_block(all, all->l, all->a, color);
+				if (map->map[all->a][all->l] == 'N' || map->map[all->a][all->l] == 'E' || map->map[all->a][all->l] == 'W'
+						|| map->map[all->a][all->l] == 'S')
+					render_player(all, all->l, all->a, 16711680);
 			}
 			all->l++;
 		}
@@ -114,6 +159,7 @@ int	render_map(t_global *all)
 	mlx_put_image_to_window(all->mlx->mlx_ptr, all->mlx->mlx_win, all->mlx->image, 0, 0);
 	mlx_destroy_image(all->mlx->mlx_ptr, all->mlx->image);
 	mlx_hook(all->mlx->mlx_win, 17, 0, ft_close, all);
+	// mlx_key_hook(all->mlx->mlx_win, ft_keystroke, all);
 	mlx_loop(all->mlx->mlx_ptr);
 	return (0);
 }
@@ -122,6 +168,6 @@ void	mlx_render(t_global *all)
 {
 	if (set_mlx(all) == -1)
 		exit(1);
-	if (render_map(all) == -1)
+	if (render_minimap(all) == -1)
 		exit(1);
 }

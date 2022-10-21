@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 13:28:11 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/10/17 15:07:39 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/10/21 15:25:25 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,18 @@ void	destroy_mlx(t_global *all)
 	all->mlx = NULL;
 }
 
+void	destroy_player(t_global *all)
+{
+	free(all->player);
+	all->player = NULL;
+}
+
 void	destroy_all(t_global *all)
 {
 	if (all->mlx != NULL)
 		destroy_mlx(all);
+	if (all->player != NULL)
+		destroy_player(all);
 	if (all->map != NULL)
 		destroy_map(all);
 	if (all->up != NULL)
