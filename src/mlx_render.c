@@ -16,8 +16,8 @@ void	init_player(t_player *player)
 {
 	player->x = 0;
 	player->y = 0;
-	player->xvel = 2;
-	player->yvel = 2;
+	player->xvel = 10;
+	player->yvel = 10;
 	player->RLD = 0;
 	player->UDD = 0;
 }
@@ -40,10 +40,6 @@ int	set_mlx(t_global *all)
 	if (all->mlx->mlx_ptr == NULL)
 		return (destroy_all(all), -1);
 	mlx_cpy->mlx_win = mlx_new_window(mlx_cpy->mlx_ptr, WIN_WIDTH, WIN_HEIGHT, "CUB3D");
-	mlx_cpy->image = mlx_new_image(all->mlx->mlx_ptr, WIN_WIDTH, WIN_HEIGHT);
-	mlx_cpy->get_addr = mlx_get_data_addr(mlx_cpy->image, &(mlx_cpy->bits_per_pixel), &(mlx_cpy->size_line), &(mlx_cpy->endian));
-	if (mlx_cpy->get_addr == NULL)
-		return (destroy_all(all), -1);
 	return (0);
 }
 
@@ -101,17 +97,26 @@ void	render_player(t_global *all, int i, int j, int color)
 {
 	int			tile_width;
 	int			tile_height;
-	int			x;
-	int			y;
+	double			x;
+	double			y;
+	int			size;
 
-	x = all->player->x;
-	y = all->player->y;
 	aspect_ratio(all, &tile_width, &tile_height);
-	x += i * tile_width;
-	while (x < ((i * tile_width) + tile_width))
+	x = (i * tile_width) + all->player->x + (tile_width / 2);
+	y = (j * tile_height) + all->player->y;
+	size = y - 10;
+	while (y > size)
 	{
+		pixel_put(all->mlx, x, y, color);
+		y--;
+	}
+	x = all->player->x;
+	x += i * tile_width;
+	while (x < ((i * tile_width) + tile_width + all->player->x))
+	{
+		y = all->player->y;
 		y += j * tile_height;
-		while (y < ((j * tile_height) + tile_height))
+		while (y < ((j * tile_height) + tile_height + all->player->y))
 		{
 			pixel_put(all->mlx, x, y, color);
 			y++;
@@ -119,7 +124,6 @@ void	render_player(t_global *all, int i, int j, int color)
 		x++;
 	}
 }
-
 int	ft_close(t_global *all)
 {
 	destroy_all(all);
@@ -127,13 +131,86 @@ int	ft_close(t_global *all)
 	return (0);
 }
 
-// int	ft_keystroke
+void	move_up(t_global *all)
+{
+	t_player	*p;
+	t_mlx	*mlx_cpy;
+
+	mlx_cpy = all->mlx;
+	p = all->player;
+	p->UDD = -1;
+	p->y = p->y + (p->yvel * p->UDD);
+	mlx_clear_window(mlx_cpy->mlx_ptr, mlx_cpy->mlx_win);
+	render_minimap(all);
+}
+
+void	move_down(t_global *all)
+{
+	t_player	*p;
+	t_mlx	*mlx_cpy;
+
+	mlx_cpy = all->mlx;
+	p = all->player;
+	p->UDD = 1;
+	p->y = p->y + (p->yvel * p->UDD);
+	mlx_clear_window(mlx_cpy->mlx_ptr, mlx_cpy->mlx_win);
+	render_minimap(all);
+}
+
+void	move_left(t_global *all)
+{
+	t_player	*p;
+	t_mlx	*mlx_cpy;
+
+	mlx_cpy = all->mlx;
+	p = all->player;
+	p->RLD = -1;
+	p->x = (p->x + (p->xvel * p->RLD * sin(10)));
+	p->y = (p->y + (p->yvel * p->UDD * sin(10)));
+	// p->y = (p->y + p->yvel) * p->UDD;
+	mlx_clear_window(mlx_cpy->mlx_ptr, mlx_cpy->mlx_win);
+	render_minimap(all);
+}
+
+void	move_right(t_global *all)
+{
+	t_player	*p;
+	t_mlx	*mlx_cpy;
+
+	mlx_cpy = all->mlx;
+	p = all->player;
+	p->RLD = 1;
+	p->x = (p->x + p->xvel) * p->RLD;
+	mlx_clear_window(mlx_cpy->mlx_ptr, mlx_cpy->mlx_win);
+	render_minimap(all);
+}
+
+int	ft_keystroke(int keycode, t_global *all)
+{
+	if (keycode == 53)
+		ft_close(all);
+	if (keycode == 13)
+		move_up(all);
+	if (keycode == 1)
+		move_down(all);
+	if (keycode == 0)
+		move_left(all);
+	if (keycode == 2)
+		move_right(all);
+	return (0);
+}
 
 int	render_minimap(t_global *all)
 {
 	int		color;
 	t_map	*map;
+	t_mlx	*mlx_cpy;
 
+	mlx_cpy = all->mlx;
+	mlx_cpy->image = mlx_new_image(all->mlx->mlx_ptr, WIN_WIDTH, WIN_HEIGHT);
+	mlx_cpy->get_addr = mlx_get_data_addr(mlx_cpy->image, &(mlx_cpy->bits_per_pixel), &(mlx_cpy->size_line), &(mlx_cpy->endian));
+	if (mlx_cpy->get_addr == NULL)
+		return (destroy_all(all), -1);
 	map = all->map;
 	all->a = 0;
 	color = 16711680;
@@ -150,6 +227,22 @@ int	render_minimap(t_global *all)
 					render_block(all, all->l, all->a, 65280);
 				if (map->map[all->a][all->l] == 'N' || map->map[all->a][all->l] == 'E' || map->map[all->a][all->l] == 'W'
 						|| map->map[all->a][all->l] == 'S')
+					render_block(all, all->l, all->a, 65280);
+			}
+			all->l++;
+		}
+		all->a++;
+	}
+	all->a = 0;
+	while (all->a < map->height)
+	{
+		all->l = 0;
+		while (all->l < map->width)
+		{
+			if (map->map[all->a][all->l] != ' ')
+			{
+				if (map->map[all->a][all->l] == 'N' || map->map[all->a][all->l] == 'E' || map->map[all->a][all->l] == 'W'
+						|| map->map[all->a][all->l] == 'S')
 					render_player(all, all->l, all->a, 16711680);
 			}
 			all->l++;
@@ -159,7 +252,7 @@ int	render_minimap(t_global *all)
 	mlx_put_image_to_window(all->mlx->mlx_ptr, all->mlx->mlx_win, all->mlx->image, 0, 0);
 	mlx_destroy_image(all->mlx->mlx_ptr, all->mlx->image);
 	mlx_hook(all->mlx->mlx_win, 17, 0, ft_close, all);
-	// mlx_key_hook(all->mlx->mlx_win, ft_keystroke, all);
+	mlx_hook(all->mlx->mlx_win, 2, 0, ft_keystroke, all);
 	mlx_loop(all->mlx->mlx_ptr);
 	return (0);
 }

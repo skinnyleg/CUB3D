@@ -32,8 +32,12 @@ NAME = cub3D
 all : $(NAME)
 
 $(NAME) : $(OBJ_DIR) $(LIBFT) $(OFILES)
-	@$(CC) -fsanitize=address $(LFLAGS) $(OFILES) $(LIBFT) -o $(NAME)
+	@$(CC) $(LFLAGS) $(OFILES) $(LIBFT) -o $(NAME)
 	@echo "done for cub3D"
+
+debug : $(OBJ_DIR) $(LIBFT) $(OFILES)
+	@$(CC) -fsanitize=address $(LFLAGS) $(OFILES) $(LIBFT) -o $(NAME)
+	@echo "done for cub3D (debug mode)"
 
 $(OBJ_DIR) :
 	@mkdir obj

@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:18:31 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/10/21 15:23:27 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/10/22 12:04:25 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ int			horizantal_wall(t_map *map);
 int			check_contents(t_map *map);
 int			check_extension(char *str, char *extension);
 void		mlx_render(t_global *all);
+int			render_minimap(t_global *all);
 
 //created by med-doba
 void		ft_free_lst_paraup(t_paraup **head);
