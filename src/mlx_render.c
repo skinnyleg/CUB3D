@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/17 13:24:41 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/10/18 17:31:41by hmoubal          ###   ########.fr       */
+/*   Created: 2022/10/22 20:27:45 by hmoubal           #+#    #+#             */
+/*   Updated: 2022/10/22 21:46:15 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,11 @@ void	init_player(t_player *player)
 {
 	player->x = 0;
 	player->y = 0;
-	player->xvel = 10;
-	player->yvel = 10;
-	player->RLD = 0;
-	player->UDD = 0;
+	player->vel = 3;
+	player->rld = 0;
+	player->udd = 0;
+	player->rotateangle = M_PI / 2;
+	player->rotatespeed = player->vel * (M_PI / 180);
 }
 
 int	set_mlx(t_global *all)
@@ -52,11 +53,15 @@ void	pixel_put(t_mlx *mlx, int x, int y, int color)
 	}
 }
 
-void	aspect_ratio(t_global *all , int *tile_width, int *tile_height)
+void	aspect_ratio(t_global *all, int *tile_width, int *tile_height)
 {
-	double resizewidth = all->map->width;
-	double resizeheight = all->map->height;
-	double aspect = resizewidth / resizeheight;
+	double	resizewidth;
+	double	resizeheight;
+	double	aspect;
+
+	resizewidth = all->map->width;
+	resizeheight = all->map->height;
+	aspect = resizewidth / resizeheight;
 	if (resizewidth > MINI_WIDTH)
 	{
 		resizewidth = MINI_WIDTH;
@@ -97,18 +102,45 @@ void	render_player(t_global *all, int i, int j, int color)
 {
 	int			tile_width;
 	int			tile_height;
-	double			x;
-	double			y;
-	int			size;
+	double		x;
+	double		y;
+	double		xsize;
+	double		ysize;
+
 
 	aspect_ratio(all, &tile_width, &tile_height);
-	x = (i * tile_width) + all->player->x + (tile_width / 2);
-	y = (j * tile_height) + all->player->y;
-	size = y - 10;
-	while (y > size)
+	x = ((i * tile_width) + all->player->x + (tile_width / 2));
+	y = ((j * tile_height) + all->player->y);
+	ysize = y;
+	xsize = x;
+	// printf("size == %f\n", xsize + (cos(all->player->rotateangle) * 20));
+	// printf("y == %f\n", x);
+	// while (x < xsize + (cos(all->player->rotateangle) * 20))
+	// {
+	// 	printf("here\n");
+	if (x > xsize + (cos(all->player->rotateangle) * 20))
 	{
-		pixel_put(all->mlx, x, y, color);
-		y--;
+		while (x > xsize + (cos(all->player->rotateangle) * 20))
+		{
+			while (y < ysize + (sin(all->player->rotateangle) * 20))
+			{
+				pixel_put(all->mlx, x, y, color);
+				y++;
+			}
+			x--;
+		}
+	}
+	else if (x < xsize + (cos(all->player->rotateangle) * 20))
+	{
+		while (x < xsize + (cos(all->player->rotateangle) * 20))
+		{
+			while (y < ysize + (sin(all->player->rotateangle) * 20))
+			{
+				pixel_put(all->mlx, x, y, color);
+				y++;
+			}
+			x++;
+		}
 	}
 	x = all->player->x;
 	x += i * tile_width;
@@ -124,6 +156,7 @@ void	render_player(t_global *all, int i, int j, int color)
 		x++;
 	}
 }
+
 int	ft_close(t_global *all)
 {
 	destroy_all(all);
@@ -134,12 +167,12 @@ int	ft_close(t_global *all)
 void	move_up(t_global *all)
 {
 	t_player	*p;
-	t_mlx	*mlx_cpy;
+	t_mlx		*mlx_cpy;
 
 	mlx_cpy = all->mlx;
 	p = all->player;
-	p->UDD = -1;
-	p->y = p->y + (p->yvel * p->UDD);
+	p->udd = -1;
+	p->y = p->y + (p->vel * p->udd);
 	mlx_clear_window(mlx_cpy->mlx_ptr, mlx_cpy->mlx_win);
 	render_minimap(all);
 }
@@ -147,12 +180,12 @@ void	move_up(t_global *all)
 void	move_down(t_global *all)
 {
 	t_player	*p;
-	t_mlx	*mlx_cpy;
+	t_mlx		*mlx_cpy;
 
 	mlx_cpy = all->mlx;
 	p = all->player;
-	p->UDD = 1;
-	p->y = p->y + (p->yvel * p->UDD);
+	p->udd = 1;
+	p->y = p->y + (p->vel * p->udd);
 	mlx_clear_window(mlx_cpy->mlx_ptr, mlx_cpy->mlx_win);
 	render_minimap(all);
 }
@@ -160,14 +193,15 @@ void	move_down(t_global *all)
 void	move_left(t_global *all)
 {
 	t_player	*p;
-	t_mlx	*mlx_cpy;
+	t_mlx		*mlx_cpy;
 
 	mlx_cpy = all->mlx;
 	p = all->player;
-	p->RLD = -1;
-	p->x = (p->x + (p->xvel * p->RLD * sin(10)));
-	p->y = (p->y + (p->yvel * p->UDD * sin(10)));
-	// p->y = (p->y + p->yvel) * p->UDD;
+	p->rld = -1;
+	p->rotateangle += p->rotatespeed * p->rld;
+	// p->x = (p->x + (p->vel * p->rld * sin(10)));
+	// p->y = (p->y + (p->vel * p->udd * cos(10)));
+	// p->x = p->x + (p->vel * p->rld);
 	mlx_clear_window(mlx_cpy->mlx_ptr, mlx_cpy->mlx_win);
 	render_minimap(all);
 }
@@ -175,12 +209,13 @@ void	move_left(t_global *all)
 void	move_right(t_global *all)
 {
 	t_player	*p;
-	t_mlx	*mlx_cpy;
+	t_mlx		*mlx_cpy;
 
 	mlx_cpy = all->mlx;
 	p = all->player;
-	p->RLD = 1;
-	p->x = (p->x + p->xvel) * p->RLD;
+	p->rld = 1;
+	p->rotateangle += p->rotatespeed * p->rld;
+	// p->x = p->x + (p->vel * p->rld);
 	mlx_clear_window(mlx_cpy->mlx_ptr, mlx_cpy->mlx_win);
 	render_minimap(all);
 }
@@ -207,6 +242,8 @@ int	render_minimap(t_global *all)
 	t_mlx	*mlx_cpy;
 
 	mlx_cpy = all->mlx;
+	all->player->rld = 0;
+	all->player->udd = 0;
 	mlx_cpy->image = mlx_new_image(all->mlx->mlx_ptr, WIN_WIDTH, WIN_HEIGHT);
 	mlx_cpy->get_addr = mlx_get_data_addr(mlx_cpy->image, &(mlx_cpy->bits_per_pixel), &(mlx_cpy->size_line), &(mlx_cpy->endian));
 	if (mlx_cpy->get_addr == NULL)

@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:18:31 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/10/22 12:04:25 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/10/22 21:03:18 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,13 @@ typedef struct s_map
 
 typedef struct s_player
 {
-	int	x;
-	int	y;
-	int	xvel;
-	int	yvel;
-	int	RLD;
-	int	UDD;
+	int		x;
+	int		y;
+	int		vel;
+	int		rld;
+	int		udd;
+	double	rotateangle;
+	double	rotatespeed;
 }	t_player;
 
 typedef struct s_global
