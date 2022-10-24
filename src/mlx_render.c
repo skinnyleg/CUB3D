@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 20:27:45 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/10/23 20:40:58 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/10/24 14:15:28y hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,14 @@ void	init_player(t_player *player)
 	player->vel = 10;
 	player->rld = 0;
 	player->udd = 0;
-	player->rotateangle = M_PI / 2;
-	player->rotatespeed = player->vel * (M_PI / 180);
+	player->rotateangle = M_PI ;
+	player->rotatespeed = 20 * (M_PI / 180);
 }
 
 int	set_mlx(t_global *all)
 {
 	t_mlx	*mlx_cpy;
-	t_map	*map_cpy;
 
-	map_cpy = all->map;
 	all->mlx = (t_mlx *)malloc(sizeof(t_mlx) * 1);
 	if (all->mlx == NULL)
 		return (destroy_all(all), -1);
@@ -37,8 +35,8 @@ int	set_mlx(t_global *all)
 		return (destroy_all(all), -1);
 	init_player(all->player);
 	mlx_cpy = all->mlx;
-	all->mlx->mlx_ptr = mlx_init();
-	if (all->mlx->mlx_ptr == NULL)
+	mlx_cpy->mlx_ptr = mlx_init();
+	if (mlx_cpy->mlx_ptr == NULL)
 		return (destroy_all(all), -1);
 	mlx_cpy->mlx_win = mlx_new_window(mlx_cpy->mlx_ptr, WIN_WIDTH, WIN_HEIGHT, "CUB3D");
 	return (0);
@@ -73,23 +71,25 @@ void	aspect_ratio(t_global *all, int *tile_width, int *tile_height)
 		resizeheight = MINI_HEIGHT;
 		resizewidth = resizeheight * aspect;
 	}
-	*tile_width = (resizewidth / all->map->width) + 4;
-	*tile_height = (resizeheight / all->map->height) + 4;
+	*tile_width = (resizewidth / all->player->x) + 4;
+	*tile_height = (resizeheight / all->player->y) + 4;
 }
 
 void	render_block(t_global *all, int i, int j, int color)
 {
 	int		x;
 	int		y;
-	int		tile_width;
-	int		tile_height;
+	// int		tile_width;
+	// int		tile_height;
 
-	aspect_ratio(all, &tile_width, &tile_height);
-	x = i * tile_width;
-	while (x < ((i * tile_width) + tile_width))
+	// aspect_ratio(all, &tile_width, &tile_height);
+	// tile_height = TILE_SIZE;
+	// tile_width = TILE_SIZE;
+	x = i * TILE_SIZE;
+	while (x < ((i * TILE_SIZE) + TILE_SIZE))
 	{
-		y = j * tile_height;
-		while (y < ((j * tile_height) + tile_height))
+		y = j * TILE_SIZE;
+		while (y < ((j * TILE_SIZE) + TILE_SIZE))
 		{
 			pixel_put(all->mlx, x, y, color);
 			y++;
@@ -98,29 +98,36 @@ void	render_block(t_global *all, int i, int j, int color)
 	}
 }
 
-void	render_rays(t_global *all, int color)
+void	render_rays(t_global *all, double degree, int color)
 {
 	int		dx;
 	int		dy;
+	double		ddx;
+	double		ddy;
 	double	x_inc;
 	double	y_inc;
 	int		step;
 
-	dx = 1400 - all->player->x;
-	dy = 500 - all->player->y;
+	dx = 1000 - all->player->x;
+	dy = (tan(degree) * dx);
+	printf("dx == %d\ndy == %d\ndegree == %f\ntan(degree) == %f\n", dx, dy, degree, tan(degree));
 	if (abs(dx) > abs(dy))
 		step = abs(dx);
 	else
 		step = abs(dy);
-	x_inc = (dx / step);
-	y_inc = (dy / step);
+	x_inc = ((double)dx / (double)step);
+	y_inc = ((double)dy / (double)step);
 	dx = all->player->x;
 	dy = all->player->y;
+	ddx = all->player->x;
+	ddy = all->player->y;
 	while (step != 0)
 	{
 		pixel_put(all->mlx, dx, dy, color);
-		dx += x_inc;
-		dy += y_inc;
+		ddx += x_inc;
+		ddy += y_inc;
+		dx = round(ddx);
+		dy = round(ddy);
 		step--;
 	}
 }
@@ -131,33 +138,39 @@ void	render_player(t_global *all, int i, int j, int color)
 	// int			tile_height;
 	double		x;
 	double		y;
-	// double		ysize;
-
+	double		degree;
 
 	(void)i;
 	(void)j;
-	render_rays(all,color);
-	// aspect_ratio(all, &tile_width, &tile_height);
-	// x = ((i * tile_width) + all->player->x + (tile_width / 2));
-	// y = ((j * tile_height) + all->player->y);
-	// ysize = y;
-	// while (y < ysize + 10)
+	x = 500;
+	y = 500;
+	all->player->x = x;
+	all->player->y = y;
+	pixel_put(all->mlx, x, y, color);
+	// if (all->player->rotateangle > 2 * M_PI)
 	// {
-	// 	pixel_put(all->mlx, x, y, color);
-	// 	y++;
+	// 	printf("lol\n");
+	// 	all->player->rotateangle = 0;
 	// }
-	x = all->player->x;
+	degree = all->player->rotateangle * (M_PI / 180);
+	printf("degree == %f\ndest == %f\n",all->player->rotateangle, ((all->player->rotateangle - FOV) * (M_PI / 180)));
+	while (degree > (double)((all->player->rotateangle - FOV) * (M_PI / 180)))
+	{
+		// printf("lol\n");
+		render_rays(all, degree, color);
+		degree -= (2 * (M_PI / 180));
+		printf("inside degree == %f\n", (degree * 180) / M_PI);
+	}
+	// aspect_ratio(all, &tile_width, &tile_height);
 	// x += i * tile_width;
 	// while (x < ((i * tile_width) + tile_width + all->player->x))
 	// {
-		y = all->player->y;
-	// 	y += j * tile_height;
-	// 	while (y < ((j * tile_height) + tile_height + all->player->y))
-	// 	{
-			pixel_put(all->mlx, x, y, color);
-			y++;
-	// 	}
-	// 	x++;
+		// y += j * tile_height;
+		// while (y < ((j * tile_height) + tile_height + all->player->y))
+		// {
+			// y++;
+		// }
+		// x++;
 	// }
 }
 
@@ -202,8 +215,8 @@ void	move_left(t_global *all)
 	mlx_cpy = all->mlx;
 	p = all->player;
 	p->rld = -1;
-	// p->rotateangle += p->rotatespeed * p->rld;
-	p->x = p->x + (p->vel * p->rld);
+	p->rotateangle += p->rotatespeed * p->rld;
+	// p->x = p->x + (p->vel * p->rld);
 	mlx_clear_window(mlx_cpy->mlx_ptr, mlx_cpy->mlx_win);
 	render_minimap(all);
 }
@@ -216,8 +229,8 @@ void	move_right(t_global *all)
 	mlx_cpy = all->mlx;
 	p = all->player;
 	p->rld = 1;
-	// p->rotateangle += p->rotatespeed * p->rld;
-	p->x = p->x + (p->vel * p->rld);
+	p->rotateangle += p->rotatespeed * p->rld;
+	// p->x = p->x + (p->vel * p->rld);
 	mlx_clear_window(mlx_cpy->mlx_ptr, mlx_cpy->mlx_win);
 	render_minimap(all);
 }

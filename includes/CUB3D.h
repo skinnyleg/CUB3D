@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:18:31 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/10/22 21:03:18 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/10/24 13:55:07 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define CUB3D_H
 
 # define TILE_SIZE 4
+# define FOV 60
 # define WIN_HEIGHT 800
 # define WIN_WIDTH 1500
 # define MINI_HEIGHT 500
