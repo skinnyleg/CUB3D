@@ -6,15 +6,15 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:18:31 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/10/24 13:55:07 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/10/25 23:43:32 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# define TILE_SIZE 4
-# define FOV 60
+# define TILE_SIZE 10
+# define FOV (60 * (M_PI / 180))
 # define WIN_HEIGHT 800
 # define WIN_WIDTH 1500
 # define MINI_HEIGHT 500
@@ -65,6 +65,8 @@ typedef struct s_player
 	int		udd;
 	double	rotateangle;
 	double	rotatespeed;
+	int		tile_width;
+	int		tile_height;
 }	t_player;
 
 typedef struct s_global

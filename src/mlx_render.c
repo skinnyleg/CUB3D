@@ -19,8 +19,8 @@ void	init_player(t_player *player)
 	player->vel = 10;
 	player->rld = 0;
 	player->udd = 0;
-	player->rotateangle = M_PI ;
-	player->rotatespeed = 20 * (M_PI / 180);
+	player->rotateangle = M_PI / 2 ;
+	player->rotatespeed = 10 * (M_PI / 180);
 }
 
 int	set_mlx(t_global *all)
@@ -79,17 +79,19 @@ void	render_block(t_global *all, int i, int j, int color)
 {
 	int		x;
 	int		y;
+	t_player	*p;
 	// int		tile_width;
 	// int		tile_height;
 
 	// aspect_ratio(all, &tile_width, &tile_height);
-	// tile_height = TILE_SIZE;
-	// tile_width = TILE_SIZE;
-	x = i * TILE_SIZE;
-	while (x < ((i * TILE_SIZE) + TILE_SIZE))
+	p = all->player;
+	p->tile_height = WIN_HEIGHT / all->map->height;
+	p->tile_width = WIN_WIDTH / all->map->width;
+	x = i * p->tile_width;
+	while (x < ((i * p->tile_width) + p->tile_width))
 	{
-		y = j * TILE_SIZE;
-		while (y < ((j * TILE_SIZE) + TILE_SIZE))
+		y = j * p->tile_height;
+		while (y < ((j * p->tile_height) + p->tile_height))
 		{
 			pixel_put(all->mlx, x, y, color);
 			y++;
@@ -98,7 +100,7 @@ void	render_block(t_global *all, int i, int j, int color)
 	}
 }
 
-void	render_rays(t_global *all, double degree, int color)
+void	render_rays(t_global *all, double degree, int x, int y)
 {
 	int		dx;
 	int		dy;
@@ -110,26 +112,32 @@ void	render_rays(t_global *all, double degree, int color)
 
 	dx = 1000 - all->player->x;
 	dy = (tan(degree) * dx);
-	printf("dx == %d\ndy == %d\ndegree == %f\ntan(degree) == %f\n", dx, dy, degree, tan(degree));
 	if (abs(dx) > abs(dy))
 		step = abs(dx);
 	else
 		step = abs(dy);
 	x_inc = ((double)dx / (double)step);
 	y_inc = ((double)dy / (double)step);
-	dx = all->player->x;
-	dy = all->player->y;
-	ddx = all->player->x;
-	ddy = all->player->y;
+	dx = x;
+	dy = y;
+	ddx = dx;
+	ddy = dy;
 	while (step != 0)
 	{
-		pixel_put(all->mlx, dx, dy, color);
+		pixel_put(all->mlx, dx, dy, 16711680);
 		ddx += x_inc;
 		ddy += y_inc;
 		dx = round(ddx);
 		dy = round(ddy);
 		step--;
 	}
+}
+
+void	ft_normalize_angle(double *angle)
+{
+	*angle = remainder(*angle, (2 * M_PI));
+	if (*angle < 0)
+		*angle = (2 * M_PI) + *angle;
 }
 
 void	render_player(t_global *all, int i, int j, int color)
@@ -139,39 +147,45 @@ void	render_player(t_global *all, int i, int j, int color)
 	double		x;
 	double		y;
 	double		degree;
+	t_player	*p;
 
-	(void)i;
-	(void)j;
-	x = 500;
-	y = 500;
-	all->player->x = x;
-	all->player->y = y;
-	pixel_put(all->mlx, x, y, color);
-	// if (all->player->rotateangle > 2 * M_PI)
+	p = all->player;
+	p->tile_height = WIN_HEIGHT / all->map->height;
+	p->tile_width = WIN_WIDTH / all->map->width;
+	// if (all->player->x == 0 && all->player->y == 0)
 	// {
-	// 	printf("lol\n");
-	// 	all->player->rotateangle = 0;
+	// 	all->player->x = i * tile_width;
+	// 	all->player->y = j * tile_height;
 	// }
-	degree = all->player->rotateangle * (M_PI / 180);
-	printf("degree == %f\ndest == %f\n",all->player->rotateangle, ((all->player->rotateangle - FOV) * (M_PI / 180)));
-	while (degree > (double)((all->player->rotateangle - FOV) * (M_PI / 180)))
+	x = all->player->x;
+	y = all->player->y;
+	// all->player->x = x;
+	// all->player->y = y;
+	// if ()
+	x += i * TILE_SIZE;
+	while (x < ((i * TILE_SIZE) + TILE_SIZE + all->player->x))
 	{
-		// printf("lol\n");
-		render_rays(all, degree, color);
-		degree -= (2 * (M_PI / 180));
-		printf("inside degree == %f\n", (degree * 180) / M_PI);
+		y = all->player->y;
+		y += j * TILE_SIZE;
+		while (y < ((j * TILE_SIZE) + TILE_SIZE + all->player->y))
+		{
+			pixel_put(all->mlx, x, y, color);
+			y++;
+		}
+		x++;
 	}
-	// aspect_ratio(all, &tile_width, &tile_height);
-	// x += i * tile_width;
-	// while (x < ((i * tile_width) + tile_width + all->player->x))
-	// {
-		// y += j * tile_height;
-		// while (y < ((j * tile_height) + tile_height + all->player->y))
-		// {
-			// y++;
-		// }
-		// x++;
-	// }
+	x = all->player->x + (i * TILE_SIZE) + (TILE_SIZE / 2);
+	y = all->player->y + (j * TILE_SIZE) + (TILE_SIZE / 2);
+	// degree = (all->player->rotateangle - (FOV / 2));
+	degree = (all->player->rotateangle);
+	int count = 0;
+	while (count < 1)
+	{
+		ft_normalize_angle(&degree);
+		render_rays(all, degree, x, y);
+		degree += (2 * (M_PI / 180));
+		count++;
+	}
 }
 
 int	ft_close(t_global *all)
@@ -185,11 +199,25 @@ void	move_up(t_global *all)
 {
 	t_player	*p;
 	t_mlx		*mlx_cpy;
+	int			x;
+	int			y;
+	int			i;
+	int			j;
 
 	mlx_cpy = all->mlx;
 	p = all->player;
 	p->udd = -1;
-	p->y = p->y + (p->vel * p->udd);
+	y = p->y + (p->vel * p->udd * sin(p->rotateangle));
+	x = p->x + (p->vel * p->udd * cos(p->rotateangle));
+	i = round(x / p->tile_width);
+	j = round(y / p->tile_height);
+	printf("is wall i == %d\n j == %d\n", i , j);
+	// if ()
+	p->y += (p->vel * p->udd * sin(p->rotateangle));
+	p->x += (p->vel * p->udd * cos(p->rotateangle));
+	// p->x +=(p->vel * p->udd);
+	// printf("degree == %f\nsin(degree) == %f\ncos(degree) == %f\ny == %d\nx == %d\n", p->rotateangle, sin(p->rotateangle), cos(p->rotateangle), p->y , p->x);
+	// printf("udd == %d\n", p->udd);
 	mlx_clear_window(mlx_cpy->mlx_ptr, mlx_cpy->mlx_win);
 	render_minimap(all);
 }
@@ -202,7 +230,10 @@ void	move_down(t_global *all)
 	mlx_cpy = all->mlx;
 	p = all->player;
 	p->udd = 1;
-	p->y = p->y + (p->vel * p->udd);
+	p->y += (p->vel * p->udd * sin(all->player->rotateangle));
+	p->x += (p->vel * p->udd * cos(all->player->rotateangle));
+	// p->x +=(p->vel * p->udd);
+	// p->y = p->y + (p->vel * p->udd);
 	mlx_clear_window(mlx_cpy->mlx_ptr, mlx_cpy->mlx_win);
 	render_minimap(all);
 }
@@ -279,7 +310,7 @@ int	render_minimap(t_global *all)
 					render_block(all, all->l, all->a, 65280);
 				if (map->map[all->a][all->l] == 'N' || map->map[all->a][all->l] == 'E' || map->map[all->a][all->l] == 'W'
 						|| map->map[all->a][all->l] == 'S')
-					render_block(all, all->l, all->a, 65280);
+						render_block(all, all->l, all->a, 65280);
 			}
 			all->l++;
 		}
