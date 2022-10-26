@@ -112,6 +112,7 @@ void	render_rays(t_global *all, double degree, int x, int y)
 
 	dx = 1000 - all->player->x;
 	dy = (tan(degree) * dx);
+	// dx =
 	if (abs(dx) > abs(dy))
 		step = abs(dx);
 	else
@@ -135,7 +136,8 @@ void	render_rays(t_global *all, double degree, int x, int y)
 
 void	ft_normalize_angle(double *angle)
 {
-	*angle = remainder(*angle, (2 * M_PI));
+	*angle = fmod(*angle, (2 * M_PI));
+	// printf("rem angle == %f\nmod angle == %f\n", remainder(*angle, (2 * M_PI)), fmod(*angle, (2 * M_PI)));
 	if (*angle < 0)
 		*angle = (2 * M_PI) + *angle;
 }
@@ -162,20 +164,20 @@ void	render_player(t_global *all, int i, int j, int color)
 	// all->player->x = x;
 	// all->player->y = y;
 	// if ()
-	x += i * TILE_SIZE;
-	while (x < ((i * TILE_SIZE) + TILE_SIZE + all->player->x))
+	x += i * p->tile_width;
+	while (x < ((i * p->tile_width) + p->tile_width + all->player->x))
 	{
 		y = all->player->y;
-		y += j * TILE_SIZE;
-		while (y < ((j * TILE_SIZE) + TILE_SIZE + all->player->y))
+		y += j * p->tile_height;
+		while (y < ((j * p->tile_height) + p->tile_height + all->player->y))
 		{
 			pixel_put(all->mlx, x, y, color);
 			y++;
 		}
 		x++;
 	}
-	x = all->player->x + (i * TILE_SIZE) + (TILE_SIZE / 2);
-	y = all->player->y + (j * TILE_SIZE) + (TILE_SIZE / 2);
+	x = all->player->x + (i * p->tile_width) + (p->tile_width / 2);
+	y = all->player->y + (j * p->tile_height) + (p->tile_height / 2);
 	// degree = (all->player->rotateangle - (FOV / 2));
 	degree = (all->player->rotateangle);
 	int count = 0;
@@ -206,12 +208,12 @@ void	move_up(t_global *all)
 
 	mlx_cpy = all->mlx;
 	p = all->player;
-	p->udd = -1;
+	p->udd = 1;
 	y = p->y + (p->vel * p->udd * sin(p->rotateangle));
 	x = p->x + (p->vel * p->udd * cos(p->rotateangle));
 	i = round(x / p->tile_width);
 	j = round(y / p->tile_height);
-	printf("is wall i == %d\n j == %d\n", i , j);
+	printf("i == %d\nj == %d\n", i, j);
 	// if ()
 	p->y += (p->vel * p->udd * sin(p->rotateangle));
 	p->x += (p->vel * p->udd * cos(p->rotateangle));
@@ -229,7 +231,7 @@ void	move_down(t_global *all)
 
 	mlx_cpy = all->mlx;
 	p = all->player;
-	p->udd = 1;
+	p->udd = -1;
 	p->y += (p->vel * p->udd * sin(all->player->rotateangle));
 	p->x += (p->vel * p->udd * cos(all->player->rotateangle));
 	// p->x +=(p->vel * p->udd);
@@ -242,11 +244,15 @@ void	move_left(t_global *all)
 {
 	t_player	*p;
 	t_mlx		*mlx_cpy;
+	double		tmp_rotate;
 
 	mlx_cpy = all->mlx;
 	p = all->player;
 	p->rld = -1;
-	p->rotateangle += p->rotatespeed * p->rld;
+	tmp_rotate = p->rotateangle + (p->rotatespeed * p->rld);
+	ft_normalize_angle(&tmp_rotate);
+	p->rotateangle = tmp_rotate;
+	// p->rotateangle += p->rotatespeed * p->rld;
 	// p->x = p->x + (p->vel * p->rld);
 	mlx_clear_window(mlx_cpy->mlx_ptr, mlx_cpy->mlx_win);
 	render_minimap(all);
@@ -256,11 +262,15 @@ void	move_right(t_global *all)
 {
 	t_player	*p;
 	t_mlx		*mlx_cpy;
+	double		tmp_rotate;
 
 	mlx_cpy = all->mlx;
 	p = all->player;
 	p->rld = 1;
-	p->rotateangle += p->rotatespeed * p->rld;
+	tmp_rotate = p->rotateangle + (p->rotatespeed * p->rld);
+	ft_normalize_angle(&tmp_rotate);
+	p->rotateangle = tmp_rotate;
+	// p->rotateangle += p->rotatespeed * p->rld;
 	// p->x = p->x + (p->vel * p->rld);
 	mlx_clear_window(mlx_cpy->mlx_ptr, mlx_cpy->mlx_win);
 	render_minimap(all);
