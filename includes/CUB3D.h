@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:18:31 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/10/25 23:43:32 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/10/27 15:37:28 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ typedef struct s_player
 {
 	int		x;
 	int		y;
+	double	pos_tilex;
+	double	pos_tiley;
 	int		vel;
 	int		rld;
 	int		udd;
