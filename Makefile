@@ -20,16 +20,16 @@ LIBFT = libft/libft.a
 
 NAME = cub3D
 
-# INC=/usr/X11/include
-
-LFLAGS = -L.. -lmlx -L$(INCLIB) -lXext -lX11 -lm
-
+INCMLX = -I /usr/X11/include
 INCLIB= /usr/X11/lib
+
+LFLAGS = -L /usr/X11/lib -lX11 -lmlx -lXext
+
 
 all : $(NAME)
 
 $(NAME) : $(OBJ_DIR) $(LIBFT) $(OFILES)
-	@$(CC) $(OFILES) $(LIBFT) $(LFLAGS) -o $(NAME)
+	@$(CC) $(INCMLX) -g $(LBXFLAGS) $(LFLAGS) $(OFILES) $(LIBFT)  -o $(NAME)
 	@echo "done for cub3D"
 
 $(OBJ_DIR) :
@@ -39,7 +39,7 @@ $(LIBFT) :
 	@make -C libft
 
 $(OFILES) : $(OBJ_DIR)/%.o : $(SRC_DIR)/%.c $(INC)
-	$(CC) -c $(CFLAGS) $< -o $@
+	$(CC) -c  $< -o $@
 
 clean :
 	@rm -rf $(OBJ_DIR)
