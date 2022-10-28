@@ -6,7 +6,7 @@
 /*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:17:40 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/09/25 23:30:29 by med-doba         ###   ########.fr       */
+/*   Updated: 2022/10/28 12:33:04 by med-doba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,5 +45,8 @@ int	main(int ac, char **av)
 	if (ac != 2)
 		return (printf("Not Enough Arguments\n"), 0);
 	parse_map(av, &all);
+
+	void		*mlx;
+	mlx = mlx_init();
 	return (0);
 }

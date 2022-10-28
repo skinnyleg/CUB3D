@@ -6,7 +6,7 @@
 /*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:18:31 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/09/25 23:29:58 by med-doba         ###   ########.fr       */
+/*   Updated: 2022/10/28 12:47:05 by med-doba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <math.h>
 # include <fcntl.h>
 // # include <mlx.h>
-// # include "/usr/X11/include/mlx.h"
+# include "/usr/X11/include/mlx.h"
 # include "../libft/includes/libft.h"
 # define BUFFER_SIZE 1
 
