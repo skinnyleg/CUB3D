@@ -6,24 +6,35 @@
 /*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 18:47:58 by med-doba          #+#    #+#             */
-/*   Updated: 2022/09/25 23:22:54 by med-doba         ###   ########.fr       */
+/*   Updated: 2022/10/28 20:56:24 by med-doba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/CUB3D.h"
+
+int	check_extension_up(char *str, char *extension)
+{
+	str++;
+	while (*str != '\0' && *str != '.')
+		str++;
+	if (ft_strcmp(str, extension) != 0)
+		return (printf("Error: Wrong extension\n"), 1);
+	return (0);
+}
 
 int	parse_upper(char **av, t_global *all)
 {
 	char	*rtn_gnl;
 	int		rtn;
 
-	all->up = NULL;
 	all->fd = open(av[1], O_RDONLY);
 	if (all->fd == -1)
 		return (perror("open"), 1);
 	rtn_gnl = get_next_line(all->fd);
 	while (rtn_gnl)
 	{
+		if (rtn_gnl != NULL && (int)ft_strlen(rtn_gnl) > all->a)
+			all->a = ft_strlen(rtn_gnl);
 		rtn = ft_rtn_gnl(rtn_gnl, all);
 		if (rtn == 2)
 			break ;
@@ -51,7 +62,7 @@ int	ft_rtn_gnl(char *rtn_gnl, t_global *all)
 				return (ft_free_2d(ptr), free(rtn_gnl), 1);
 		}
 		else
-			return (ft_free_2d(ptr), free(rtn_gnl), 2);
+			return (all->l = 1, ft_free_2d(ptr), free(rtn_gnl), 2);
 		ft_free_2d(ptr);
 	}
 	return (free(rtn_gnl), 0);
@@ -66,10 +77,12 @@ int	ft_handle_line(char	**ptr, t_global *all)
 	while (ptr[i])
 		i++;
 	if (i > 2 || i == 1)
-		return (ft_putendl_fd("Error map_1", 2), -1);
+		return (ft_putendl_fd("Error: map_1", 2), -1);
 	if (ft_strcmp(ptr[0], "NO") == 0 || ft_strcmp(ptr[0], "SO") == 0
 		|| ft_strcmp(ptr[0], "WE") == 0 || ft_strcmp(ptr[0], "EA") == 0)
 	{
+		if (check_extension_up(ptr[1], ".xpm") == 1)
+			return (-1);
 		if (open(ptr[1], O_RDONLY) == -1)
 			return (perror("path_to_texture"), -1);
 		node = ft_lstnew_paraup(ptr[0], ptr[1], 1);
@@ -78,11 +91,11 @@ int	ft_handle_line(char	**ptr, t_global *all)
 	else if (ft_strcmp(ptr[0], "F") == 0 || ft_strcmp(ptr[0], "C") == 0)
 	{
 		if (ft_handle_c_f(ptr[1]) == -1)
-			return (ft_putendl_fd("Error map_2", 2), -1);
+			return (ft_putendl_fd("Error: map_2", 2), -1);
 		node = ft_lstnew_paraup(ptr[0], ptr[1], 1);
 		return (ft_lstadd_back_paraup(&(all->up), node), 0);
 	}
-	return (ft_putendl_fd("Error map_3", 2), -1);
+	return (ft_putendl_fd("Error: map_3", 2), -1);
 }
 
 int	ft_handle_c_f(char *ptr)
