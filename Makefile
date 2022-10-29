@@ -25,6 +25,12 @@ INC = includes/CUB3D.h
 
 LFLAGS = -lmlx -framework OpenGL -framework AppKit
 
+INCMLX=/usr/include
+
+INCLIB=$(INCMLX)/../lib
+
+HFLAGS = -L.. -lmlx -L$(INCLIB) -lXext -lX11 -lm -lbsd
+
 LIBFT = libft/libft.a
 
 NAME = cub3D
@@ -38,6 +44,10 @@ $(NAME) : $(OBJ_DIR) $(LIBFT) $(OFILES)
 debug : $(OBJ_DIR) $(LIBFT) $(OFILES)
 	@$(CC) -fsanitize=address $(LFLAGS) $(OFILES) $(LIBFT) -o $(NAME)
 	@echo "done for cub3D (debug mode)"
+
+pc : $(OBJ_DIR) $(LIBFT) $(OFILES)
+	@$(CC) $(OFILES) $(HFLAGS) $(LIBFT) -o $(NAME)
+	@echo "done for cub3D"
 
 $(OBJ_DIR) :
 	@mkdir obj
