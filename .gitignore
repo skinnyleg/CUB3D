@@ -1,6 +1,6 @@
 .vscode
 .DS_Store
 *.o
-CUB3D
+cub3D
 *.a
 *.dSYM
