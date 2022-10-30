@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 20:27:45 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/10/29 17:18:42 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/10/30 22:09:43 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,7 +228,7 @@ void	move_forward(t_global *all)
 	// printf("degree == %f\nsin(degree) == %f\ncos(degree) == %f\ny == %d\nx == %d\n", p->rotateangle, sin(p->rotateangle), cos(p->rotateangle), p->y , p->x);
 	// printf("udd == %d\n", p->udd);
 	mlx_destroy_image(mlx_cpy->mlx_ptr, mlx_cpy->image);
-	// mlx_clear_window(mlx_cpy->mlx_ptr, mlx_cpy->mlx_win);
+	mlx_clear_window(mlx_cpy->mlx_ptr, mlx_cpy->mlx_win);
 	render_minimap(all);
 }
 
@@ -254,7 +254,7 @@ void	move_backwards(t_global *all)
 	// p->x +=(p->vel * p->udd);
 	// p->y = p->y + (p->vel * p->udd);
 	mlx_destroy_image(mlx_cpy->mlx_ptr, mlx_cpy->image);
-	// mlx_clear_window(mlx_cpy->mlx_ptr, mlx_cpy->mlx_win);
+	mlx_clear_window(mlx_cpy->mlx_ptr, mlx_cpy->mlx_win);
 	render_minimap(all);
 }
 
@@ -286,7 +286,7 @@ void	move_left(t_global *all)
 	// printf("degree == %f\nsin(degree) == %f\ncos(degree) == %f\ny == %d\nx == %d\n", p->rotateangle, sin(p->rotateangle), cos(p->rotateangle), p->y , p->x);
 	// printf("udd == %d\n", p->udd);
 	mlx_destroy_image(mlx_cpy->mlx_ptr, mlx_cpy->image);
-	// mlx_clear_window(mlx_cpy->mlx_ptr, mlx_cpy->mlx_win);
+	mlx_clear_window(mlx_cpy->mlx_ptr, mlx_cpy->mlx_win);
 	render_minimap(all);
 }
 
@@ -314,7 +314,7 @@ void	move_right(t_global *all)
 	// p->x +=(p->vel * p->udd);
 	// p->y = p->y + (p->vel * p->udd);
 	mlx_destroy_image(mlx_cpy->mlx_ptr, mlx_cpy->image);
-	// mlx_clear_window(mlx_cpy->mlx_ptr, mlx_cpy->mlx_win);
+	mlx_clear_window(mlx_cpy->mlx_ptr, mlx_cpy->mlx_win);
 	render_minimap(all);
 }
 
@@ -334,7 +334,7 @@ void	rotate_left(t_global *all)
 	// p->rotateangle += p->rotatespeed * p->rld;
 	// p->x = p->x + (p->vel * p->rld);
 	mlx_destroy_image(mlx_cpy->mlx_ptr, mlx_cpy->image);
-	// mlx_clear_window(mlx_cpy->mlx_ptr, mlx_cpy->mlx_win);
+	mlx_clear_window(mlx_cpy->mlx_ptr, mlx_cpy->mlx_win);
 	render_minimap(all);
 }
 
@@ -353,7 +353,7 @@ void	rotate_right(t_global *all)
 	// p->rotateangle += p->rotatespeed * p->rld;
 	// p->x = p->x + (p->vel * p->rld);
 	mlx_destroy_image(mlx_cpy->mlx_ptr, mlx_cpy->image);
-	// mlx_clear_window(mlx_cpy->mlx_ptr, mlx_cpy->mlx_win);
+	mlx_clear_window(mlx_cpy->mlx_ptr, mlx_cpy->mlx_win);
 	render_minimap(all);
 }
 
@@ -447,8 +447,8 @@ int	render_minimap(t_global *all)
 	}
 	mlx_put_image_to_window(all->mlx->mlx_ptr, all->mlx->mlx_win, all->mlx->image, 0, 0);
 	mlx_hook(all->mlx->mlx_win, 17, 0, ft_close, all);
-	// mlx_hook(all->mlx->mlx_win, 2, 0, ft_keystroke, all);
-	mlx_key_hook(all->mlx->mlx_win, ft_keystroke_ubuntu, all);
+	mlx_hook(all->mlx->mlx_win, 2, 0, ft_keystroke, all);
+	// mlx_key_hook(all->mlx->mlx_win, ft_keystroke_ubuntu, all);
 	mlx_loop(all->mlx->mlx_ptr);
 	return (0);
 }
