@@ -6,7 +6,7 @@
 /*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:17:40 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/10/28 15:53:41 by med-doba         ###   ########.fr       */
+/*   Updated: 2022/10/31 14:09:44 by med-doba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,35 @@ void	parse_map(char	**av, t_global *all)
 	if (parse_lower(av, all) == 1)
 		exit(1);
 }
+//med-doba
+int	key_press(int keycode, t_param *param)
+{
+	if (keycode == )
+	return (0);
+}
 
 int	main(int ac, char **av)
 {
 	t_global	all;
+	void		*mlx;
+	void		*mlx_win;
+	void		*img;
+	char		*addr;
+	int			bits_per_pixel;
+	int			line_length;
+	int			endian;
 
 	if (ac != 2)
 		return (printf("Not Enough Arguments\n"), 0);
 	parse_map(av, &all);
+	mlx = mlx_init();
+	mlx_win = mlx_new_window(mlx, 1920, 1080, "cub3D");
+	img = mlx_new_image(mlx, 1920, 1080);
+	addr = mlx_get_data_addr(img, &bits_per_pixel, &line_length, &endian);
+	mlx_pixel_put(mlx, mlx_win, 5, 5, 0x00FF0000);
+	mlx_put_image_to_window(mlx, mlx_win, img, 0, 0);
+	mlx_hook(mlx_win, int x_event, int x_mask, int (*funct)(), void *param);
+	mlx_loop(mlx);
 	destroy_all(&all);
 	return (0);
 }
