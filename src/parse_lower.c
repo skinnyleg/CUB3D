@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_lower.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 12:23:33 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/10/27 21:28:23 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/10/31 17:56:55 by med-doba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ int	parse_lower(char **av, t_global *all)
 	if (all->l == 0)
 		return (printf("map not found\n"), 1);
 	if (fill(av, all) == 1)
-		return (destroy_all(all), 1);
+		return (/*destroy_all(all),*/ 1);
 	if (parse_wall(all) == 1)
-		return (destroy_all(all), 1);
+		return (/*destroy_all(all),*/ 1);
 	return (0);
 }

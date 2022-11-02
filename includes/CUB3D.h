@@ -6,7 +6,7 @@
 /*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:18:31 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/10/28 15:53:51 by med-doba         ###   ########.fr       */
+/*   Updated: 2022/11/01 22:25:30 by med-doba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@
 # include <unistd.h>
 # include <math.h>
 # include <fcntl.h>
-# include <mlx.h>
-// # include "/usr/X11/include/mlx.h"
+// # include <mlx.h>
+# include "/usr/X11/include/mlx.h"
 # include "../libft/includes/libft.h"
 # define BUFFER_SIZE 1
 
@@ -71,6 +71,16 @@ typedef struct s_player
 	int		tile_height;
 }	t_player;
 
+typedef struct s_mini{
+	// void	*mlx_ptr;
+	// void	*mlx_win;
+	void	*img;
+	char	*addr;
+	int		size_line;
+	int		bpp;
+	int		endian;
+}	t_mini;
+
 typedef struct s_global
 {
 	int			fd;
@@ -79,6 +89,7 @@ typedef struct s_global
 	t_paraup	*up;
 	t_map		*map;
 	t_mlx		*mlx;
+	t_mini		*mini;
 	t_player	*player;
 }	t_global;
 
@@ -100,7 +111,18 @@ int			vertical_wall(t_map *map);
 int			horizantal_wall(t_map *map);
 int			check_contents(t_map *map);
 int			check_extension(char *str, char *extension);
-
+//start
+void	ft_mlx(t_global *all);
+void	ft_down(t_global * all);
+void	ft_rigth(t_global * all);
+void	ft_replace(t_global * all);
+void	ft_show(t_global * all, int i, int j, char *path);
+void	ft_move_up(t_global * all, int i, int j);
+void	ft_up(t_global * all);
+void	ft_move_down(t_global * all, int i, int j);
+void	ft_move_rigth(t_global * all, int i, int j);
+void	ft_move_left(t_global * all, int i, int j);
+void	ft_left(t_global * all);
 //created by med-doba
 void		ft_free_lst_paraup(t_paraup **head);
 int			ft_rtn_gnl(char *rtn_gnl, t_global *all);
