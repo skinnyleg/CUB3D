@@ -6,7 +6,7 @@
 /*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:18:31 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/11/01 22:25:30 by med-doba         ###   ########.fr       */
+/*   Updated: 2022/11/02 11:56:30 by med-doba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@
 # include <unistd.h>
 # include <math.h>
 # include <fcntl.h>
-// # include <mlx.h>
-# include "/usr/X11/include/mlx.h"
+# include <mlx.h>
+// # include "/usr/X11/include/mlx.h"
 # include "../libft/includes/libft.h"
 # define BUFFER_SIZE 1
 
@@ -116,7 +116,8 @@ void	ft_mlx(t_global *all);
 void	ft_down(t_global * all);
 void	ft_rigth(t_global * all);
 void	ft_replace(t_global * all);
-void	ft_show(t_global * all, int i, int j, char *path);
+// void	ft_show(t_global * all, int i, int j, char *path);
+void	ft_show(t_global *all, int color, int *j, int *i);
 void	ft_move_up(t_global * all, int i, int j);
 void	ft_up(t_global * all);
 void	ft_move_down(t_global * all, int i, int j);
