@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:18:31 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/10/27 15:37:28 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/11/01 21:36:26 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # define WIN_WIDTH 1500
 # define MINI_HEIGHT 500
 # define MINI_WIDTH 500
+# define STRIP_WIDTH 1
+# define NUM_RAYS (WIN_WIDTH / STRIP_WIDTH)
 
 # include <stdio.h>
 # include <stdlib.h>
@@ -58,8 +60,8 @@ typedef struct s_map
 
 typedef struct s_player
 {
-	int		x;
-	int		y;
+	double	x;
+	double	y;
 	double	pos_tilex;
 	double	pos_tiley;
 	int		vel;

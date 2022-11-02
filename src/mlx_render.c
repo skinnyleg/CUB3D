@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 20:27:45 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/10/30 22:09:43 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/11/01 22:27:53 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,8 +102,8 @@ void	render_rays(t_global *all, double degree, int x, int y)
 {
 	int		dx;
 	int		dy;
-	double		ddx;
-	double		ddy;
+	double	ddx;
+	double	ddy;
 	double	x_inc;
 	double	y_inc;
 	int		step;
@@ -138,45 +138,33 @@ void	ft_normalize_angle(double *angle)
 		*angle = (2 * M_PI) + *angle;
 }
 
+// void	cast_render(t_global *all, double degree)
+// {
+
+// }
+
 void	render_player(t_global *all, int i, int j, int color)
 {
 	double		degree;
 	t_player	*p;
+	int count;
 
+	count = 0;
 	p = all->player;
 	p->tile_height = WIN_HEIGHT / all->map->height;
 	p->tile_width = WIN_WIDTH / all->map->width;
-	p->pos_tilex = p->x;
-	p->pos_tiley = p->y;
-	// p->pos_tilex += i * p->tile_width + (p->tile_width / 2);
-	p->pos_tilex += i * p->tile_width;
-	// while (p->pos_tilex < ((i * p->tile_width) + p->tile_width + p->x))
-	// {
-		// p->pos_tiley = p->y;
-		// p->pos_tiley += j * p->tile_height + (p->tile_height / 2);
-		p->pos_tiley += j * p->tile_height;
-		// while (p->pos_tiley < ((j * p->tile_height) + p->tile_height + p->y))
-		// {
-			pixel_put(all->mlx, p->pos_tilex, p->pos_tiley, color);
-			// p->pos_tiley++;
-		// }
-		// p->pos_tilex++;
-	// }
-	// p->pos_tilex = p->x + (i * p->tile_width) + (p->tile_width / 2);
-	// p->pos_tiley = p->y + (j * p->tile_height) + (p->tile_height / 2);
-	// degree = (all->player->rotateangle - (FOV / 2));
-	degree = (all->player->rotateangle);
-	int count = 0;
-	while (count < 1)
+	p->pos_tilex = p->x + (i * p->tile_width);
+	p->pos_tiley = p->y + (j * p->tile_height);
+	pixel_put(all->mlx, p->pos_tilex, p->pos_tiley, color);
+	degree = (all->player->rotateangle - (FOV/ 2));
+	while (count < NUM_RAYS)
 	{
 		ft_normalize_angle(&degree);
-		// printf("angle == %f\n", degree);
+		// cast_render(all, degree);
 		render_rays(all, degree, p->pos_tilex, p->pos_tiley);
 		degree += (0.04 * (M_PI / 180));
 		count++;
 	}
-	p->pos_tilex = p->x + (i * p->tile_width);
-	p->pos_tiley = p->y + (j * p->tile_height);
 }
 
 int	ft_close(t_global *all)
@@ -191,15 +179,10 @@ int	iswall(t_global *all, double x, double y)
 	int	gridx;
 	int	gridy;
 
-	// printf("x == %f\ny == %f\n", x, y);
 	if (x < 0 || x > WIN_WIDTH || y < 0 || y > WIN_HEIGHT)
-	{
-		// printf("max bounderies\n");
 		return (1);
-	}
 	gridx = floor((x / all->player->tile_width));
 	gridy = floor((y / all->player->tile_height));
-	// printf("gridx == %d\ngridy == %d\n",gridx, gridy);
 	if (all->map->map[gridy] != NULL && all->map->map[gridy][gridx] == '1')
 		return (1);
 	return (0);
@@ -217,16 +200,13 @@ void	move_forward(t_global *all)
 	p->udd = 1;
 	x = p->pos_tilex;
 	y = p->pos_tiley;
-	y += (p->vel * p->udd * sin(p->rotateangle));
-	x += (p->vel * p->udd * cos(p->rotateangle));
+	y += ((double)(p->vel * p->udd) * sin(p->rotateangle));
+	x += ((double)(p->vel * p->udd) * cos(p->rotateangle));
 	if (iswall(all, x, y) == 0)
 	{
 		p->y = y - (p->pos_tiley - p->y);
 		p->x = x - (p->pos_tilex - p->x);
 	}
-	// p->x +=(p->vel * p->udd);
-	// printf("degree == %f\nsin(degree) == %f\ncos(degree) == %f\ny == %d\nx == %d\n", p->rotateangle, sin(p->rotateangle), cos(p->rotateangle), p->y , p->x);
-	// printf("udd == %d\n", p->udd);
 	mlx_destroy_image(mlx_cpy->mlx_ptr, mlx_cpy->image);
 	mlx_clear_window(mlx_cpy->mlx_ptr, mlx_cpy->mlx_win);
 	render_minimap(all);
@@ -244,15 +224,13 @@ void	move_backwards(t_global *all)
 	p->udd = -1;
 	x = p->pos_tilex;
 	y = p->pos_tiley;
-	y += (p->vel * p->udd * sin(all->player->rotateangle));
-	x += (p->vel * p->udd * cos(all->player->rotateangle));
+	y += ((double)(p->vel * p->udd) * sin(all->player->rotateangle));
+	x += ((double)(p->vel * p->udd) * cos(all->player->rotateangle));
 	if (iswall(all, x, y) == 0)
 	{
 		p->y = y - (p->pos_tiley - p->y);
 		p->x = x - (p->pos_tilex - p->x);
 	}
-	// p->x +=(p->vel * p->udd);
-	// p->y = p->y + (p->vel * p->udd);
 	mlx_destroy_image(mlx_cpy->mlx_ptr, mlx_cpy->image);
 	mlx_clear_window(mlx_cpy->mlx_ptr, mlx_cpy->mlx_win);
 	render_minimap(all);
@@ -264,16 +242,12 @@ void	move_left(t_global *all)
 	t_mlx		*mlx_cpy;
 	double		x;
 	double		y;
-	// int			i;
-	// int			j;
 
 	mlx_cpy = all->mlx;
 	p = all->player;
 	p->udd = 1;
 	x = p->pos_tilex;
 	y = p->pos_tiley;
-	// x = p->x + sin(p->rotateangle) * (double)(p->udd * p->vel);
-	// y = p->y - cos(p->rotateangle) * (double)(p->udd * p->vel);
 	x += sin(p->rotateangle) * (double)(p->udd * p->vel);
 	y -= cos(p->rotateangle) * (double)(p->udd * p->vel);
 	if (iswall(all, x, y) == 0)
@@ -281,10 +255,6 @@ void	move_left(t_global *all)
 		p->y = y - (p->pos_tiley - p->y);
 		p->x = x - (p->pos_tilex - p->x);
 	}
-	// printf("cos == %f\nsin == %f\n", (double)p->vel * (double)p->udd * cos(p->rotateangle), sin(p->rotateangle));
-	// p->x +=(p->vel * p->udd);
-	// printf("degree == %f\nsin(degree) == %f\ncos(degree) == %f\ny == %d\nx == %d\n", p->rotateangle, sin(p->rotateangle), cos(p->rotateangle), p->y , p->x);
-	// printf("udd == %d\n", p->udd);
 	mlx_destroy_image(mlx_cpy->mlx_ptr, mlx_cpy->image);
 	mlx_clear_window(mlx_cpy->mlx_ptr, mlx_cpy->mlx_win);
 	render_minimap(all);
@@ -300,8 +270,6 @@ void	move_right(t_global *all)
 	mlx_cpy = all->mlx;
 	p = all->player;
 	p->udd = -1;
-	// p->y += (p->vel * p->udd * cos(all->player->rotateangle));
-	// p->x += (p->vel * p->udd * sin(all->player->rotateangle));
 	x = p->pos_tilex;
 	y = p->pos_tiley;
 	x += sin(p->rotateangle) * (double)(p->udd * p->vel);
@@ -311,8 +279,6 @@ void	move_right(t_global *all)
 		p->y = y - (p->pos_tiley - p->y);
 		p->x = x - (p->pos_tilex - p->x);
 	}
-	// p->x +=(p->vel * p->udd);
-	// p->y = p->y + (p->vel * p->udd);
 	mlx_destroy_image(mlx_cpy->mlx_ptr, mlx_cpy->image);
 	mlx_clear_window(mlx_cpy->mlx_ptr, mlx_cpy->mlx_win);
 	render_minimap(all);
@@ -331,8 +297,6 @@ void	rotate_left(t_global *all)
 	tmp_rotate = p->rotateangle + (p->rotatespeed * p->rld);
 	ft_normalize_angle(&tmp_rotate);
 	p->rotateangle = tmp_rotate;
-	// p->rotateangle += p->rotatespeed * p->rld;
-	// p->x = p->x + (p->vel * p->rld);
 	mlx_destroy_image(mlx_cpy->mlx_ptr, mlx_cpy->image);
 	mlx_clear_window(mlx_cpy->mlx_ptr, mlx_cpy->mlx_win);
 	render_minimap(all);
@@ -350,8 +314,6 @@ void	rotate_right(t_global *all)
 	tmp_rotate = p->rotateangle + (p->rotatespeed * p->rld);
 	ft_normalize_angle(&tmp_rotate);
 	p->rotateangle = tmp_rotate;
-	// p->rotateangle += p->rotatespeed * p->rld;
-	// p->x = p->x + (p->vel * p->rld);
 	mlx_destroy_image(mlx_cpy->mlx_ptr, mlx_cpy->image);
 	mlx_clear_window(mlx_cpy->mlx_ptr, mlx_cpy->mlx_win);
 	render_minimap(all);
