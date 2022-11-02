@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 20:27:45 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/11/01 22:27:53 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/11/02 23:25:38by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,9 @@ int	set_mlx(t_global *all)
 	if (mlx_cpy->mlx_ptr == NULL)
 		return (destroy_all(all), -1);
 	mlx_cpy->mlx_win = mlx_new_window(mlx_cpy->mlx_ptr, WIN_WIDTH, WIN_HEIGHT, "CUB3D");
+	all->rays = (t_rays *)malloc(sizeof(t_rays) * NUM_RAYS);
+	if (all->rays == NULL)
+		return(destroy_all(all), -1);
 	return (0);
 }
 
@@ -98,18 +101,20 @@ void	render_block(t_global *all, int i, int j, int color)
 	}
 }
 
-void	render_rays(t_global *all, double degree, int x, int y)
+void	render_rays(t_global *all, t_rays ray, double x, double y)
 {
-	int		dx;
-	int		dy;
+	int	dx;
+	int	dy;
 	double	ddx;
 	double	ddy;
 	double	x_inc;
 	double	y_inc;
 	int		step;
 
-	dx = cos(degree) * 60;
-	dy = sin(degree) * 60;
+	// dx = cos(ray.rad) * 60;
+	// dy = sin(ray.rad) * 60;
+	dx = cos(ray.rad) * (ray.xnext - x);
+	dy = sin(ray.rad) * (ray.ynext - y);
 	if (abs(dx) > abs(dy))
 		step = abs(dx);
 	else
@@ -138,16 +143,51 @@ void	ft_normalize_angle(double *angle)
 		*angle = (2 * M_PI) + *angle;
 }
 
-// void	cast_render(t_global *all, double degree)
-// {
+void	horiz_intersect(t_global *all, t_rays ray)
+{
+	ray.ynext = floor((all->player->pos_tiley / all->player->tile_height)) * all->player->tile_height;
+	ray.xnext = all->player->pos_tilex - ((all->player->pos_tiley - ray.ynext) / tan(all->player->rotateangle));
+	ray.ystep = all->player->tile_height;
+	if (ray.up == true)
+	{
+		ray.ynext--;
+		ray.ystep *= -1;
+	}
+	else
+		ray.ynext++;
+	ray.xstep = ray.ystep / tan(all->player->rotateangle);
+	if ((ray.right == true && ray.xstep < 0) || (ray.right == false && ray.xstep > 0))
+		ray.xstep *= -1;
+	while (ray.xnext < WIN_WIDTH || ray.ynext < WIN_HEIGHT)
+	{
+		if (iswall(all, ray.xnext, ray.ynext) == 0)
+		{
+			render_rays(all, ray, all->player->pos_tilex, all->player->pos_tiley);
+			break ;
+		}
+		ray.xnext += ray.xstep;
+		ray.ynext += ray.ystep;
+	}
+}
 
-// }
+void	cast_render(t_global *all, t_rays ray)
+{
+	horiz_intersect(all, ray);
+}
+
+void	fill_ray(t_rays *ray, double deg)
+{
+	ray->rad = deg;
+	ray->up = deg > M_PI && deg < (2 * M_PI);
+	ray->right = (deg > 0 && deg < (M_PI * 0.5)) || (deg > (1.5 * M_PI) && deg < (2 * M_PI));
+	// printf("true == 1 && false == 0\nup == %d ... right == %d\n", ray->up, ray->right);
+}
 
 void	render_player(t_global *all, int i, int j, int color)
 {
 	double		degree;
+	int			count;
 	t_player	*p;
-	int count;
 
 	count = 0;
 	p = all->player;
@@ -157,11 +197,12 @@ void	render_player(t_global *all, int i, int j, int color)
 	p->pos_tiley = p->y + (j * p->tile_height);
 	pixel_put(all->mlx, p->pos_tilex, p->pos_tiley, color);
 	degree = (all->player->rotateangle - (FOV/ 2));
-	while (count < NUM_RAYS)
+	while (count < 1)
 	{
 		ft_normalize_angle(&degree);
-		// cast_render(all, degree);
-		render_rays(all, degree, p->pos_tilex, p->pos_tiley);
+		fill_ray(&all->rays[count], degree);
+		cast_render(all, all->rays[count]);
+		// render_rays(all, all->rays[count], p->pos_tilex, p->pos_tiley);
 		degree += (0.04 * (M_PI / 180));
 		count++;
 	}

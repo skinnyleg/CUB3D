@@ -12,6 +12,7 @@ CFILES = main.c\
 		wall_parser.c\
 		destroy_global.c\
 		mlx_render.c\
+		destroy_global2.c\
 
 OFILES = $(addprefix $(OBJ_DIR)/,$(CFILES:.c=.o))
 

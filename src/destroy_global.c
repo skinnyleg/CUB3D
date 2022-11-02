@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 13:28:11 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/10/21 15:25:25 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/11/02 22:37:39 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,6 @@ void	destroy_all(t_global *all)
 		destroy_map(all);
 	if (all->up != NULL)
 		destroy_up(all);
+	if (all->rays != NULL)
+		destroy_rays(all);
 }

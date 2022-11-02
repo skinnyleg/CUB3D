@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:17:40 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/10/21 15:25:51 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/11/02 22:42:04 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	ft_init(t_global	*all)
 	all->a = 0;
 	all->l = 0;
 	all->up = NULL;
+	all->rays = NULL;
 	all->map = NULL;
 	all->mlx = NULL;
 	all->player = NULL;

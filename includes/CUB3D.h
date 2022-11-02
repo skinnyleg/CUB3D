@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:18:31 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/11/01 21:36:26 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/11/02 23:26:23 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # include <math.h>
 # include <fcntl.h>
 # include <mlx.h>
+# include <stdbool.h>
 // # include "/usr/X11/include/mlx.h"
 # include "../libft/includes/libft.h"
 # define BUFFER_SIZE 1
@@ -73,6 +74,17 @@ typedef struct s_player
 	int		tile_height;
 }	t_player;
 
+typedef struct s_rays
+{
+	bool	up;
+	bool	right;
+	double	xnext;
+	double	ynext;
+	double	xstep;
+	double	ystep;
+	double	rad;
+}	t_rays;
+
 typedef struct s_global
 {
 	int			fd;
@@ -82,6 +94,7 @@ typedef struct s_global
 	t_map		*map;
 	t_mlx		*mlx;
 	t_player	*player;
+	t_rays		*rays;
 }	t_global;
 
 char		*ft_strjoin_free(char *s1,	char *s2);
@@ -104,6 +117,8 @@ int			check_contents(t_map *map);
 int			check_extension(char *str, char *extension);
 void		mlx_render(t_global *all);
 int			render_minimap(t_global *all);
+void		destroy_rays(t_global *all);
+int			iswall(t_global *all, double x, double y);
 
 //created by med-doba
 void		ft_free_lst_paraup(t_paraup **head);
