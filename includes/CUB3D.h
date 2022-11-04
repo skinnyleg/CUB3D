@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:18:31 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/11/02 23:26:23 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/11/04 17:52:26 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # include <unistd.h>
 # include <math.h>
 # include <fcntl.h>
+# include <limits.h>
 # include <mlx.h>
 # include <stdbool.h>
 // # include "/usr/X11/include/mlx.h"
@@ -78,6 +79,9 @@ typedef struct s_rays
 {
 	bool	up;
 	bool	right;
+	double	distance_vertic;
+	double	distance_horiz;
+	double	dist_const;
 	double	xnext;
 	double	ynext;
 	double	xstep;

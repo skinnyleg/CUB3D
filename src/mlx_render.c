@@ -111,13 +111,8 @@ void	render_rays(t_global *all, t_rays ray, double x, double y)
 	double	y_inc;
 	int		step;
 
-	// dx = cos(ray.rad) * 60;
-	// dy = sin(ray.rad) * 60;
-	(void)ray;
-	dx = (all->player->x - x);
-	dy = (all->player->y - y);
-	// dx = (x - all->player->pos_tilex);
-	// dy = (y - all->player->pos_tiley);
+	dx = (ray.xnext - x);
+	dy = (ray.ynext - y);
 	if (abs(dx) > abs(dy))
 		step = abs(dx);
 	else
@@ -146,50 +141,92 @@ void	ft_normalize_angle(double *angle)
 		*angle = (2 * M_PI) + *angle;
 }
 
-void	horiz_intersect(t_global *all, t_rays ray)
+void	horiz_intersect(t_global *all, t_rays *ray)
 {
-	double	tmpx;
-	double	tmpy;
-
-	ray.ynext = floor((all->player->pos_tiley / all->player->tile_height)) * all->player->tile_height;
-	if (!ray.up)
-		ray.ynext += all->player->tile_height;
-	ray.xnext = all->player->pos_tilex - ((all->player->pos_tiley - ray.ynext) / tan(ray.rad));
-	ray.ystep = all->player->tile_height;
-	if (ray.up == true)
-		ray.ystep *= -1;
-	// else
-	// 	ray.ynext++;
-	ray.xstep = all->player->tile_height / tan(ray.rad);
-	if ((ray.right == true && ray.xstep < 0) || (ray.right == false && ray.xstep > 0))
-		ray.xstep *= -1;
-	tmpx = ray.xnext;
-	tmpy = ray.ynext;
-	if (ray.up == true)
-		tmpy--;
-	while (tmpx >= 0 && tmpx <= WIN_WIDTH && tmpy >= 0 && tmpy <= WIN_HEIGHT)
+	ray->ynext = floor((all->player->pos_tiley / all->player->tile_height)) * all->player->tile_height;
+	if (!ray->up)
+		ray->ynext += all->player->tile_height;
+	ray->xnext = all->player->pos_tilex - ((all->player->pos_tiley - ray->ynext) / tan(ray->rad));
+	ray->ystep = all->player->tile_height;
+	if (ray->up == true)
+		ray->ystep *= -1;
+	ray->xstep = all->player->tile_height / tan(ray->rad);
+	if ((ray->right == true && ray->xstep < 0) || (ray->right == false && ray->xstep > 0))
+		ray->xstep *= -1;
+	if (ray->up == true)
+		ray->ynext--;
+	while (ray->xnext >= 0 && ray->xnext <= WIN_WIDTH && ray->ynext >= 0 && ray->ynext <= WIN_HEIGHT)
 	{
-		if (iswall(all, tmpx, tmpy) == 0)
+		if (iswall(all, ray->xnext, ray->ynext) == 1)
 		{
-			render_rays(all, ray, tmpx, tmpy);
+			// render_rays(all, *ray, all->player->pos_tilex, all->player->pos_tiley);
+			ray->distance_horiz = ((ray->xnext - all->player->pos_tilex) / cos(ray->rad));
 			break ;
 		}
-		tmpx += ray.xstep;
-		tmpy += ray.ystep;
+		ray->xnext += ray->xstep;
+		ray->ynext += ray->ystep;
+	}
+}
+
+void	vertic_intersect(t_global *all, t_rays *ray)
+{
+	ray->xnext = floor((all->player->pos_tilex / all->player->tile_width)) * all->player->tile_width;
+	if (ray->right == true)
+		ray->xnext += all->player->tile_width;
+	ray->ynext = all->player->pos_tiley - (tan(ray->rad) * (all->player->pos_tilex - ray->xnext));
+	ray->xstep = all->player->tile_width;
+	if (ray->right == false)
+		ray->xstep *= -1;
+	ray->ystep = all->player->tile_width * tan(ray->rad);
+	if ((ray->up == true && ray->ystep > 0) || (ray->up == false && ray->ystep < 0))
+		ray->ystep *= -1;
+	if (ray->right == true)
+		ray->xnext++;
+	else
+		ray->xnext--;
+	while (ray->xnext >= 0 && ray->xnext <= WIN_WIDTH && ray->ynext >= 0 && ray->ynext <= WIN_HEIGHT)
+	{
+		if (iswall(all, ray->xnext, ray->ynext) == 1)
+		{
+			ray->distance_vertic = ((ray->xnext - all->player->pos_tilex) / cos(ray->rad));
+			// render_rays(all, *ray, all->player->pos_tilex, all->player->pos_tiley);
+			// printf("vertic == %f\n", ray->distance_vertic);
+			break ;
+		}
+		ray->xnext += ray->xstep;
+		ray->ynext += ray->ystep;
 	}
 }
 
 void	cast_render(t_global *all, t_rays ray)
 {
-	horiz_intersect(all, ray);
+	horiz_intersect(all, &ray);
+	vertic_intersect(all, &ray);
+	printf("\n\n\n\n");
+	printf("angle == %f\n", ray.rad);
+	printf("vertic == %f\nhorz == %f\n", ray.distance_vertic, ray.distance_horiz);
+	if (ray.distance_horiz < ray.distance_vertic)
+	{
+		printf("horz wins angle == %f\n", ray.rad);
+		ray.dist_const = ray.distance_horiz;
+	}
+	if (ray.distance_horiz >= ray.distance_vertic)
+	{
+		printf("vertic wins\n");
+		ray.dist_const = ray.distance_vertic;
+	}
+	ray.xnext = (cos(ray.rad) * ray.dist_const) + all->player->pos_tilex;
+	ray.ynext = (sin(ray.rad) * ray.dist_const) + all->player->pos_tiley;
+	printf("xnext == %f\nynext == %f\n", ray.xnext, ray.ynext);
+	printf("px == %f\npy == %f\n", all->player->pos_tilex, all->player->pos_tiley);
+	render_rays(all, ray, all->player->pos_tilex, all->player->pos_tiley);
 }
 
 void	fill_ray(t_rays *ray, double deg)
 {
 	ray->rad = deg;
 	ray->up = deg > M_PI && deg < (2 * M_PI);
-	ray->right = (deg > 0 && deg < (M_PI * 0.5)) || (deg > (1.5 * M_PI) && deg < (2 * M_PI));
-	// printf("true == 1 && false == 0\nup == %d ... right == %d\n", ray->up, ray->right);
+	ray->right = (deg >= 0 && deg < (M_PI * 0.5)) || (deg > (1.5 * M_PI) && deg <= (2 * M_PI));
 }
 
 void	render_player(t_global *all, int i, int j, int color)
@@ -206,7 +243,7 @@ void	render_player(t_global *all, int i, int j, int color)
 	p->pos_tiley = p->y + (j * p->tile_height);
 	pixel_put(all->mlx, p->pos_tilex, p->pos_tiley, color);
 	degree = (all->player->rotateangle - (FOV/ 2));
-	while (count < 1)
+	while (count < NUM_RAYS)
 	{
 		ft_normalize_angle(&degree);
 		fill_ray(&all->rays[count], degree);
