@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:18:31 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/11/04 17:52:26 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/11/05 16:00:18 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,13 @@
 # define CUB3D_H
 
 # define TILE_SIZE 10
-# define FOV (60 * (M_PI / 180))
+# define FOV_RAD (60 * (M_PI / 180))
+# define FOV 60
 # define WIN_HEIGHT 800
 # define WIN_WIDTH 1500
 # define MINI_HEIGHT 500
 # define MINI_WIDTH 500
-# define STRIP_WIDTH 1
+# define STRIP_WIDTH 10
 # define NUM_RAYS (WIN_WIDTH / STRIP_WIDTH)
 
 # include <stdio.h>
@@ -82,6 +83,10 @@ typedef struct s_rays
 	double	distance_vertic;
 	double	distance_horiz;
 	double	dist_const;
+	double	horzx;
+	double	horzy;
+	double	vertx;
+	double	verty;
 	double	xnext;
 	double	ynext;
 	double	xstep;
