@@ -6,75 +6,68 @@
 /*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 15:14:07 by med-doba          #+#    #+#             */
-/*   Updated: 2022/11/03 21:46:11 by med-doba         ###   ########.fr       */
+/*   Updated: 2022/11/05 21:52:47 by med-doba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/CUB3D.h"
-
-int	key_hook(int keycode, t_global *all)
-{
-	if (keycode == 53)
-	{
-		destroy_all(all);
-		exit(0);
-	}
-	else if (keycode == 13)
-		ft_up(all);
-	else if (keycode == 1)
-		ft_down(all);
-	else if (keycode == 0)
-		ft_left(all);
-	else if (keycode == 2)
-		ft_rigth(all);
-	return (0);
-}
-
-void	img_pix_put(t_global *all, int x, int y, int color)
-{
-	char	*pixel;
-	if (x < WIN_WIDTH && y < WIN_HEIGHT)
-	{
-		pixel = all->mini->addr + (y * all->mini->size_line + x * (all->mini->bpp / 8));
-		*(int *)pixel = color;
-	}
-}
 
 void	ft_block(t_global *all, int color, int j, int i)
 {
 	int	x;
 	int y;
 
-	x = (i * 32);
-	while ((x < (i * 32 + 32)))
+	y = (i * 30 + 170);
+	while ((y < (i * 30 + 30 + 170)))
 	{
-		y = (j * 32);
-		while (y < (j * 32 + 32))
+		x = (j * 30+ 170);
+		while (x < (j * 30 + 30 + 170))
 		{
-			img_pix_put(all, y, x, color);
-			y++;
+			if (sqrt((170 - y) * (170 - y) + (170 - x) * (170 - x)) <= 150)
+				img_pix_put(all, x, y, color);
+			x++;
 		}
-		x++;
+		y++;
 	}
 }
 
-void ft_PutCircle(t_global *all, int x, int y, int r)
+void	ft_block_1(t_global *all, int color, int j, int i)
 {
-	static const double PI = 3.1415926535;
-	double i, angle, x1, y1;
+	int	x;
+	int y;
 
-	for(i = 0; i < 360; i += 0.1)
+	y = (i * 30);
+	while ((y < (i * 30 + 30)))
 	{
-		angle = i;
-		x1 = r * cos(angle * PI / 180);
-		y1 = r * sin(angle * PI / 180);
-		if (i < 5)
-			printf("f >> x = %f | y = %f\n", x1, y1);
-		img_pix_put(all, x + x1, y + y1, 65280);
+		x = (j * 30);
+		while (x < (j * 30 + 30))
+				img_pix_put(all, x++, y, color);
+		y++;
 	}
 }
 
-void	render_background(t_global *all)
+void	ft_player_pix(t_global *all, int color, int j, int i)
+{
+	int	x;
+	int	y;
+	i= 0;
+	j =0;
+
+	y = ((int) all->pos_y * 30 + i);
+	while ((y < ((int) all->pos_y * 30 + 3 +i)))
+	{
+		x = ((int) all->pos_x * 30 +j);
+		while (x < ((int)all->pos_x * 30 + 3 + j))
+		{
+
+				img_pix_put(all, x++, y, color);
+				puts("zz");
+		}
+		y++;
+	}
+}
+
+void	ft_render_(t_global *all, char c)
 {
 	int	i;
 	int	j;
@@ -87,35 +80,77 @@ void	render_background(t_global *all)
 		while (all->map->map[i][++j])
 		{
 			if (all->map->map[i][j] == '1')
-				ft_block(all, 16711680, j, i);
+				ft_block_1(all, 16711680, j, i);
 			else if (all->map->map[i][j] == '0')
-				ft_block(all, 255, j, i);
-			else if(all->map->map[i][j] == 'N')
-				ft_block(all, 16776960, j, i);
+				ft_block_1(all, 255, j, i);
+			else if (ft_derection(all->map->map[i][j]))
+			{
+				ft_block_1(all, 255, j, i);
+				ft_render_move(all, c);
+			}
 		}
 	}
-	ft_PutCircle(all, 170, 170, 150);
+}
+void	initialite_mini(t_global *all)
+{
+	all->mini->rotateangle = M_PI / 2;
+	all->mini->rotatespeed = 2 * ( M_PI / 180);
+	all->mini->movespeed = 1.0;
+	all->mini->walkdirection = 0;
+	all->mini->turndirection = 0;
+	all->mini->radius = 3;
+	all->mini->x = 0;
+	all->mini->y = 0;
 }
 
-void	ft_replace(t_global *all)
+void	ft_render_move(t_global *all, char c)
 {
-	all->mini = malloc(sizeof(t_mini));
-	if (!all->mini)
-		return;
+	// double	movesteps_x;
+	// double	movesteps_y;
+
+	// mlx_clear_window(all->mlx->mlx_ptr, all->mlx->mlx_win);
+	// all->mini->rotateangle += all->mini->turndirection * all->mini->rotatespeed;
+	// if (c == 'x')
+	// {
+	// 	movesteps_x = all->mini->walkdirection * all->mini->movespeed;
+	// 	all->pos_x += movesteps_x;
+	// }
+	// if (c == 'y')
+	// {
+	// 	movesteps_y = all->mini->turndirection * all->mini->movespeed;
+	// 	all->pos_y += movesteps_y;
+	// }
+	c = 0;
+	ft_PutCircle(all, all->pos_x, all->pos_y, all->mini->radius);
+}
+
+void	ft_replace(t_global *all, char c)
+{
 	all->mini->img = mlx_new_image(all->mlx->mlx_ptr, WIN_WIDTH, WIN_HEIGHT);
 	all->mini->addr = mlx_get_data_addr(all->mini->img, &all->mini->bpp, &all->mini->size_line, &all->mini->endian);
-	render_background(all);
+	ft_render_(all, c);
+	// ft_render_move(all);
+	// ft_render_mini_map(all);
 	mlx_put_image_to_window(all->mlx->mlx_ptr,all->mlx->mlx_win, all->mini->img, 0, 0);
 }
 
 void	ft_mlx(t_global *all)
 {
+
 	all->mlx = malloc(sizeof(t_mlx));
 	if (!all->mlx)
 		return ;
+	all->mini = malloc(sizeof(t_mini));
+	if (!all->mini)
+		return;
+	initialite_mini(all);
 	all->mlx->mlx_ptr = mlx_init();
 	all->mlx->mlx_win = mlx_new_window(all->mlx->mlx_ptr, WIN_WIDTH ,WIN_HEIGHT, "cub3D");
-	ft_replace(all);
-	mlx_key_hook(all->mlx->mlx_win, key_hook, all);
+	ft_find_position(all, &all->pos_x, &all->pos_y);
+	all->pos_x *= 30;
+	all->pos_y *= 30;
+	printf("x = %d >>> y = %d\n", all->pos_x, all->pos_y);
+	ft_replace(all, 0);
+	mlx_hook(all->mlx->mlx_win, 02, 1L<<0, key_hook, all);
 	mlx_loop(all->mlx->mlx_ptr);
 }

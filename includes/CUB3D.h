@@ -6,7 +6,7 @@
 /*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:18:31 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/11/02 11:56:30 by med-doba         ###   ########.fr       */
+/*   Updated: 2022/11/05 21:35:52 by med-doba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,14 @@ typedef struct s_player
 typedef struct s_mini{
 	// void	*mlx_ptr;
 	// void	*mlx_win;
+	double	rotateangle;
+	double	rotatespeed;
+	double	movespeed;
+	int		walkdirection;
+	int		turndirection;
+	int		radius;
+	double	x;
+	double	y;
 	void	*img;
 	char	*addr;
 	int		size_line;
@@ -91,6 +99,8 @@ typedef struct s_global
 	t_mlx		*mlx;
 	t_mini		*mini;
 	t_player	*player;
+	int	pos_x;
+	int	pos_y;
 }	t_global;
 
 char		*ft_strjoin_free(char *s1,	char *s2);
@@ -112,10 +122,25 @@ int			horizantal_wall(t_map *map);
 int			check_contents(t_map *map);
 int			check_extension(char *str, char *extension);
 //start
+void	ft_render_move(t_global *all, char c);
+void	ft_replace(t_global *all, char c);
+void	ft_render_(t_global *all, char c);
+// void	ft_render_(t_global *all);
+// void	ft_render_move(t_global *all);
+void	ft_player_pix(t_global *all, int color, int j, int i);
+int		ft_find_position(t_global *all,int *x,int *y);
+void	ft_PutCircle(t_global *all, int x, int y, int r);
+void	ft_block(t_global *all, int color, int j, int i);
+void	ft_backround(t_global *all, int color);
+// int		ft_find_position(t_global *all, double *x, double *y);
+int		key_hook(int keycode, t_global *all);
+void	ft_render_mini_map(t_global *all);
+void	img_pix_put(t_global *all, int x, int y, int color);
+int		ft_derection(char c);
 void	ft_mlx(t_global *all);
 void	ft_down(t_global * all);
 void	ft_rigth(t_global * all);
-void	ft_replace(t_global * all);
+// void	ft_replace(t_global * all);
 // void	ft_show(t_global * all, int i, int j, char *path);
 void	ft_show(t_global *all, int color, int *j, int *i);
 void	ft_move_up(t_global * all, int i, int j);

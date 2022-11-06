@@ -11,7 +11,7 @@ CFILES = main.c\
 		fill_map.c\
 		wall_parser.c\
 		destroy_global.c\
-		beta.c moves.c\
+		beta.c moves.c beta_utils_00.c beta_utils_01.c\
 
 OFILES = $(addprefix $(OBJ_DIR)/,$(CFILES:.c=.o))
 
