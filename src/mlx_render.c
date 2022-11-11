@@ -16,11 +16,12 @@ void	init_player(t_player *player)
 {
 	player->x = 0;
 	player->y = 0;
-	player->vel = 10;
+	player->vel = 1;
 	player->rld = 0;
+	player->rla = 0;
 	player->udd = 0;
 	player->rotateangle = M_PI / 2 ;
-	player->rotatespeed = 10 * (M_PI / 180);
+	player->rotatespeed = 1 * (M_PI / 180);
 }
 
 int	set_mlx(t_global *all)
@@ -49,7 +50,7 @@ void	pixel_put(t_mlx *mlx, int x, int y, int color)
 {
 	if ((x >= 0 && x < WIN_WIDTH) && (y >= 0 && y < WIN_HEIGHT))
 	{
-		*((int *)&mlx->get_addr[(y * mlx->size_line) + (x * mlx->bits_per_pixel / 8)]) = color;
+		*((int *)&mlx->get_addr[(y * mlx->sl) + (x * mlx->bpp / 8)]) = color;
 	}
 }
 
@@ -229,11 +230,6 @@ void	cast_render(t_global *all, t_rays *ray)
 		ray->ynext = ray->verty;
 		ray->dist_const = ray->distance_vertic;
 	}
-	// ray.xnext = (cos(ray.rad) * ray.dist_const) + all->player->pos_tilex;
-	// ray.ynext = (sin(ray.rad) * ray.dist_const) + all->player->pos_tiley;
-	// printf("lastx == %f\nlasty == %f\n", ray.xnext, ray.ynext);
-	// printf("\n\n\n\n");
-	// render_rays(all, ray, all->player->pos_tilex, all->player->pos_tiley);
 }
 
 void	fill_ray(t_rays *ray, double deg)
@@ -258,7 +254,7 @@ void	render_wall(t_global *all, int i, double wallheight)
 		y = tmpy;
 		while (y < tmpy + wallheight)
 		{
-			pixel_put(all->mlx, x, y, 16711680);
+			pixel_put(all->mlx, x, y, 16777215);
 			y++;
 		}
 		x++;
@@ -281,21 +277,19 @@ void	render3Dwalls(t_global *all)
 	}
 }
 
-void	render_player(t_global *all, int i, int j, int color)
+void	render_player(t_global *all, int i, int j)
 {
 	double		degree;
 	int			count;
 	t_player	*p;
 	double		inc_deg;
 
-	(void)color;
 	count = 0;
 	p = all->player;
 	p->tile_height = WIN_HEIGHT / all->map->height;
 	p->tile_width = WIN_WIDTH / all->map->width;
 	p->pos_tilex = p->x + (i * p->tile_width);
 	p->pos_tiley = p->y + (j * p->tile_height);
-	// pixel_put(all->mlx, p->pos_tilex, p->pos_tiley, color);
 	degree = (all->player->rotateangle - (FOV_RAD / 2));
 	inc_deg = ((double)FOV / (double)NUM_RAYS);
 	while (count < NUM_RAYS)
@@ -325,193 +319,94 @@ int	iswall(t_global *all, double x, double y)
 		return (1);
 	gridx = floor((x / all->player->tile_width));
 	gridy = floor((y / all->player->tile_height));
-	if (all->map->map[gridy] != NULL && all->map->map[gridy][gridx] == '1')
+	if (gridy <= all->map->height && all->map->map[gridy] != NULL && all->map->map[gridy][gridx] == '1')
 		return (1);
 	return (0);
 }
 
-void	move_forward(t_global *all)
-{
-	t_player	*p;
-	t_mlx		*mlx_cpy;
-	double		x;
-	double		y;
-
-	mlx_cpy = all->mlx;
-	p = all->player;
-	p->udd = 1;
-	x = p->pos_tilex;
-	y = p->pos_tiley;
-	y += ((double)(p->vel * p->udd) * sin(p->rotateangle));
-	x += ((double)(p->vel * p->udd) * cos(p->rotateangle));
-	if (iswall(all, x, y) == 0)
-	{
-		p->y = y - (p->pos_tiley - p->y);
-		p->x = x - (p->pos_tilex - p->x);
-	}
-	mlx_destroy_image(mlx_cpy->mlx_ptr, mlx_cpy->image);
-	mlx_clear_window(mlx_cpy->mlx_ptr, mlx_cpy->mlx_win);
-	render_minimap(all);
-}
-
-void	move_backwards(t_global *all)
-{
-	t_player	*p;
-	t_mlx		*mlx_cpy;
-	double		x;
-	double		y;
-
-	mlx_cpy = all->mlx;
-	p = all->player;
-	p->udd = -1;
-	x = p->pos_tilex;
-	y = p->pos_tiley;
-	y += ((double)(p->vel * p->udd) * sin(all->player->rotateangle));
-	x += ((double)(p->vel * p->udd) * cos(all->player->rotateangle));
-	if (iswall(all, x, y) == 0)
-	{
-		p->y = y - (p->pos_tiley - p->y);
-		p->x = x - (p->pos_tilex - p->x);
-	}
-	mlx_destroy_image(mlx_cpy->mlx_ptr, mlx_cpy->image);
-	mlx_clear_window(mlx_cpy->mlx_ptr, mlx_cpy->mlx_win);
-	render_minimap(all);
-}
-
-void	move_left(t_global *all)
-{
-	t_player	*p;
-	t_mlx		*mlx_cpy;
-	double		x;
-	double		y;
-
-	mlx_cpy = all->mlx;
-	p = all->player;
-	p->udd = 1;
-	x = p->pos_tilex;
-	y = p->pos_tiley;
-	x += sin(p->rotateangle) * (double)(p->udd * p->vel);
-	y -= cos(p->rotateangle) * (double)(p->udd * p->vel);
-	if (iswall(all, x, y) == 0)
-	{
-		p->y = y - (p->pos_tiley - p->y);
-		p->x = x - (p->pos_tilex - p->x);
-	}
-	mlx_destroy_image(mlx_cpy->mlx_ptr, mlx_cpy->image);
-	mlx_clear_window(mlx_cpy->mlx_ptr, mlx_cpy->mlx_win);
-	render_minimap(all);
-}
-
-void	move_right(t_global *all)
-{
-	t_player	*p;
-	t_mlx		*mlx_cpy;
-	double		x;
-	double		y;
-
-	mlx_cpy = all->mlx;
-	p = all->player;
-	p->udd = -1;
-	x = p->pos_tilex;
-	y = p->pos_tiley;
-	x += sin(p->rotateangle) * (double)(p->udd * p->vel);
-	y -= cos(p->rotateangle) * (double)(p->udd * p->vel);
-	if (iswall(all, x, y) == 0)
-	{
-		p->y = y - (p->pos_tiley - p->y);
-		p->x = x - (p->pos_tilex - p->x);
-	}
-	mlx_destroy_image(mlx_cpy->mlx_ptr, mlx_cpy->image);
-	mlx_clear_window(mlx_cpy->mlx_ptr, mlx_cpy->mlx_win);
-	render_minimap(all);
-}
-
-
-void	rotate_left(t_global *all)
-{
-	t_player	*p;
-	t_mlx		*mlx_cpy;
-	double		tmp_rotate;
-
-	mlx_cpy = all->mlx;
-	p = all->player;
-	p->rld = -1;
-	tmp_rotate = p->rotateangle + (p->rotatespeed * p->rld);
-	ft_normalize_angle(&tmp_rotate);
-	p->rotateangle = tmp_rotate;
-	mlx_destroy_image(mlx_cpy->mlx_ptr, mlx_cpy->image);
-	mlx_clear_window(mlx_cpy->mlx_ptr, mlx_cpy->mlx_win);
-	render_minimap(all);
-}
-
-void	rotate_right(t_global *all)
-{
-	t_player	*p;
-	t_mlx		*mlx_cpy;
-	double		tmp_rotate;
-
-	mlx_cpy = all->mlx;
-	p = all->player;
-	p->rld = 1;
-	tmp_rotate = p->rotateangle + (p->rotatespeed * p->rld);
-	ft_normalize_angle(&tmp_rotate);
-	p->rotateangle = tmp_rotate;
-	mlx_destroy_image(mlx_cpy->mlx_ptr, mlx_cpy->image);
-	mlx_clear_window(mlx_cpy->mlx_ptr, mlx_cpy->mlx_win);
-	render_minimap(all);
-}
-
-
-int	ft_keystroke_ubuntu(int keycode, t_global *all)
-{
-	if (keycode == 65307)
-		ft_close(all);
-	if (keycode == 119)
-		move_forward(all);
-	if (keycode == 115)
-		move_backwards(all);
-	if (keycode == 65361)
-		rotate_left(all);
-	if (keycode == 65363)
-		rotate_right(all);
-	if (keycode == 97)
-		move_left(all);
-	if (keycode == 100)
-		move_right(all);
-	return (0);
-}
-
-int	ft_keystroke(int keycode, t_global *all)
+int	keypress(int keycode, t_global *all)
 {
 	if (keycode == 53)
 		ft_close(all);
 	if (keycode == 13)
-		move_forward(all);
+		all->player->udd = 1;
 	if (keycode == 1)
-		move_backwards(all);
+		all->player->udd = -1;
 	if (keycode == 123)
-		rotate_left(all);
+		all->player->rla = -1;
 	if (keycode == 124)
-		rotate_right(all);
+		all->player->rla = 1;
 	if (keycode == 0)
-		move_left(all);
+		all->player->rld = 1;
 	if (keycode == 2)
-		move_right(all);
+		all->player->rld = -1;
 	return (0);
 }
 
-int	render_minimap(t_global *all)
+int	keyrelease(int keycode, t_global *all)
 {
-	t_map	*map;
-	t_mlx	*mlx_cpy;
+	if (keycode == 13)
+		all->player->udd = 0;
+	if (keycode == 1)
+		all->player->udd = 0;
+	if (keycode == 123)
+		all->player->rla = 0;
+	if (keycode == 124)
+		all->player->rla = 0;
+	if (keycode == 0)
+		all->player->rld = 0;
+	if (keycode == 2)
+		all->player->rld = 0;
+	return (0);
+}
+
+int	move_player(t_global *all)
+{
+	t_player	*p;
+	t_mlx		*mlx_cpy;
+	double		x;
+	double		y;
+	double		tmp_rotate;
 
 	mlx_cpy = all->mlx;
-	all->player->rld = 0;
-	all->player->udd = 0;
-	mlx_cpy->image = mlx_new_image(all->mlx->mlx_ptr, WIN_WIDTH, WIN_HEIGHT);
-	mlx_cpy->get_addr = mlx_get_data_addr(mlx_cpy->image, &(mlx_cpy->bits_per_pixel), &(mlx_cpy->size_line), &(mlx_cpy->endian));
-	if (mlx_cpy->get_addr == NULL)
-		return (destroy_all(all), -1);
+	p = all->player;
+	x = p->pos_tilex;
+	y = p->pos_tiley;
+	if (p->udd == 0 && p->rld == 0 && p->rla == 0)
+		return (0);
+	if (p->udd != 0)
+	{
+		y += ((double)(p->vel * p->udd) * sin(p->rotateangle));
+		x += ((double)(p->vel * p->udd) * cos(p->rotateangle));
+		if (iswall(all, x, y) == 0)
+		{
+			p->y = y - (p->pos_tiley - p->y);
+			p->x = x - (p->pos_tilex - p->x);
+		}
+	}
+	if (p->rld != 0)
+	{
+		x += sin(p->rotateangle) * (double)(p->rld * p->vel);
+		y -= cos(p->rotateangle) * (double)(p->rld * p->vel);
+		if (iswall(all, x, y) == 0)
+		{
+			p->y = y - (p->pos_tiley - p->y);
+			p->x = x - (p->pos_tilex - p->x);
+		}
+	}
+	tmp_rotate = p->rotateangle + (p->rotatespeed * p->rla);
+	ft_normalize_angle(&tmp_rotate);
+	p->rotateangle = tmp_rotate;
+	mlx_destroy_image(mlx_cpy->mlx_ptr, mlx_cpy->image);
+	mlx_clear_window(mlx_cpy->mlx_ptr, mlx_cpy->mlx_win);
+	raycaster(all);
+	return (0);
+}
+
+int	find_pos_p(t_global *all)
+{
+	t_map	*map;
+
 	map = all->map;
 	all->a = 0;
 	while (all->a < map->height)
@@ -521,39 +416,28 @@ int	render_minimap(t_global *all)
 		{
 			if (map->map[all->a][all->l] != ' ')
 			{
-				if (map->map[all->a][all->l] == '1')
-					render_block(all, all->l, all->a, 8421504);
-				if (map->map[all->a][all->l] == '0')
-					render_block(all, all->l, all->a, 65280);
 				if (map->map[all->a][all->l] == 'N' || map->map[all->a][all->l] == 'E' || map->map[all->a][all->l] == 'W'
 						|| map->map[all->a][all->l] == 'S')
-						render_block(all, all->l, all->a, 65280);
+					return (0);
 			}
 			all->l++;
 		}
 		all->a++;
 	}
-	all->a = 0;
-	while (all->a < map->height)
-	{
-		all->l = 0;
-		while (all->l < map->width)
-		{
-			if (map->map[all->a][all->l] != ' ')
-			{
-				if (map->map[all->a][all->l] == 'N' || map->map[all->a][all->l] == 'E' || map->map[all->a][all->l] == 'W'
-						|| map->map[all->a][all->l] == 'S')
-					render_player(all, all->l, all->a, 16711680);
-			}
-			all->l++;
-		}
-		all->a++;
-	}
-	mlx_put_image_to_window(all->mlx->mlx_ptr, all->mlx->mlx_win, all->mlx->image, 0, 0);
-	mlx_hook(all->mlx->mlx_win, 17, 0, ft_close, all);
-	mlx_hook(all->mlx->mlx_win, 2, 0, ft_keystroke, all);
-	// mlx_key_hook(all->mlx->mlx_win, ft_keystroke_ubuntu, all);
-	mlx_loop(all->mlx->mlx_ptr);
+	return (-1);
+}
+
+int	raycaster(t_global *all)
+{
+	t_mlx	*mlx_cpy;
+
+	mlx_cpy = all->mlx;
+	mlx_cpy->image = mlx_new_image(mlx_cpy->mlx_ptr, WIN_WIDTH, WIN_HEIGHT);
+	mlx_cpy->get_addr = mlx_get_data_addr(mlx_cpy->image, &(mlx_cpy->bpp), &(mlx_cpy->sl), &(mlx_cpy->ed));
+	if (mlx_cpy->get_addr == NULL)
+		return (destroy_all(all), -1);
+	render_player(all, all->l, all->a);
+	mlx_put_image_to_window(mlx_cpy->mlx_ptr, mlx_cpy->mlx_win, mlx_cpy->image, 0, 0);
 	return (0);
 }
 
@@ -561,6 +445,8 @@ void	mlx_render(t_global *all)
 {
 	if (set_mlx(all) == -1)
 		exit(1);
-	if (render_minimap(all) == -1)
+	if (find_pos_p(all) == -1)
+		exit(1);
+	if (raycaster(all) == -1)
 		exit(1);
 }

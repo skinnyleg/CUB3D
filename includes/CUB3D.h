@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:18:31 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/11/05 16:00:18 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/11/11 23:35:54 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # define WIN_WIDTH 1500
 # define MINI_HEIGHT 500
 # define MINI_WIDTH 500
-# define STRIP_WIDTH 10
+# define STRIP_WIDTH 1
 # define NUM_RAYS (WIN_WIDTH / STRIP_WIDTH)
 
 # include <stdio.h>
@@ -41,9 +41,9 @@ typedef struct s_mlx
 	void	*mlx_win;
 	void	*image;
 	char	*get_addr;
-	int		size_line;
-	int		bits_per_pixel;
-	int		endian;
+	int		sl;
+	int		bpp;
+	int		ed;
 }	t_mlx;
 
 typedef struct s_paraup
@@ -69,6 +69,7 @@ typedef struct s_player
 	double	pos_tiley;
 	int		vel;
 	int		rld;
+	int		rla;
 	int		udd;
 	double	rotateangle;
 	double	rotatespeed;
@@ -128,6 +129,11 @@ void		mlx_render(t_global *all);
 int			render_minimap(t_global *all);
 void		destroy_rays(t_global *all);
 int			iswall(t_global *all, double x, double y);
+int			keypress(int keycode, t_global *all);
+int			keyrelease(int keycode, t_global *all);
+int			ft_close(t_global *all);
+int			move_player(t_global *all);
+int			raycaster(t_global *all);
 
 //created by med-doba
 void		ft_free_lst_paraup(t_paraup **head);
