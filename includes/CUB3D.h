@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:18:31 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/11/11 23:35:54 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/11/12 18:46:35 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,12 @@
 # define CUB3D_H
 
 # define TILE_SIZE 10
-# define FOV_RAD (60 * (M_PI / 180))
 # define FOV 60
 # define WIN_HEIGHT 800
 # define WIN_WIDTH 1500
 # define MINI_HEIGHT 500
 # define MINI_WIDTH 500
 # define STRIP_WIDTH 1
-# define NUM_RAYS (WIN_WIDTH / STRIP_WIDTH)
 
 # include <stdio.h>
 # include <stdlib.h>
@@ -100,6 +98,9 @@ typedef struct s_global
 	int			fd;
 	int			a;
 	int			l;
+	int			num_rays;
+	int			color_ceiling;
+	int			color_floor;
 	t_paraup	*up;
 	t_map		*map;
 	t_mlx		*mlx;
@@ -134,6 +135,11 @@ int			keyrelease(int keycode, t_global *all);
 int			ft_close(t_global *all);
 int			move_player(t_global *all);
 int			raycaster(t_global *all);
+void		ft_normalize_angle(double *angle);
+void		cast_render(t_global *all, t_rays *ray);
+void		render3dwalls(t_global *all);
+void		pixel_put(t_mlx *mlx, int x, int y, int color);
+void		background_render(t_global *all);
 
 //created by med-doba
 void		ft_free_lst_paraup(t_paraup **head);

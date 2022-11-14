@@ -13,6 +13,12 @@ CFILES = main.c\
 		destroy_global.c\
 		mlx_render.c\
 		destroy_global2.c\
+		keys.c\
+		ray_calculate.c\
+		raycaster.c\
+		wall3D.c\
+		utils.c\
+		draw_background.c\
 
 OFILES = $(addprefix $(OBJ_DIR)/,$(CFILES:.c=.o))
 

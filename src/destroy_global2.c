@@ -6,11 +6,11 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 22:38:49 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/11/02 22:40:17 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/11/12 15:33:08 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../includes/CUB3D.h"
+#include "../includes/CUB3D.h"
 
 void	destroy_rays(t_global *all)
 {

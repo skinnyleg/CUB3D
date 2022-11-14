@@ -6,11 +6,18 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:17:40 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/11/10 17:38:43 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/11/12 15:56:46 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/CUB3D.h"
+
+int	ft_close(t_global *all)
+{
+	destroy_all(all);
+	exit(0);
+	return (0);
+}
 
 int	check_extension(char *str, char *extension)
 {
@@ -59,8 +66,8 @@ int	main(int ac, char **av)
 	parse_map(av, &all);
 	mlx_render(&all);
 	mlx_hook(all.mlx->mlx_win, 17, 0, ft_close, &all);
-	mlx_hook(all.mlx->mlx_win, 2, (1L<<0), keypress, &all);
-	mlx_hook(all.mlx->mlx_win, 3, (1L<<1), keyrelease, &all);
+	mlx_hook(all.mlx->mlx_win, 2, (1L << 0), keypress, &all);
+	mlx_hook(all.mlx->mlx_win, 3, (1L << 1), keyrelease, &all);
 	mlx_loop_hook(all.mlx->mlx_ptr, move_player, &all);
 	mlx_loop(all.mlx->mlx_ptr);
 	destroy_all(&all);
