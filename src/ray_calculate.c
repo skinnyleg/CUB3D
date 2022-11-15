@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 16:27:08 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/11/12 16:27:56 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/11/15 17:12:24 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ double	looptilhit(t_rays *ray, t_global *all)
 	{
 		if (iswall(all, ray->xnext, ray->ynext) == 1)
 		{
-			if (ray->up == false)
+			if (ray->up == true)
 				ray->ynext++;
 			ray->horzx = ray->xnext;
 			ray->horzy = ray->ynext;
@@ -98,4 +98,5 @@ void	cast_render(t_global *all, t_rays *ray)
 		ray->ynext = ray->verty;
 		ray->dist_const = ray->distance_vertic;
 	}
+	render_rays(all, *ray, all->player->pos_tilex, all->player->pos_tiley);
 }

@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:18:31 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/11/12 18:46:35 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/11/15 17:11:24 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ int			horizantal_wall(t_map *map);
 int			check_contents(t_map *map);
 int			check_extension(char *str, char *extension);
 void		mlx_render(t_global *all);
-int			render_minimap(t_global *all);
+void		render_minimap(t_global *all);
 void		destroy_rays(t_global *all);
 int			iswall(t_global *all, double x, double y);
 int			keypress(int keycode, t_global *all);
@@ -140,6 +140,8 @@ void		cast_render(t_global *all, t_rays *ray);
 void		render3dwalls(t_global *all);
 void		pixel_put(t_mlx *mlx, int x, int y, int color);
 void		background_render(t_global *all);
+void		render_block(t_global *all, int i, int j, int color);
+void		render_rays(t_global *all, t_rays ray, double x, double y);
 
 //created by med-doba
 void		ft_free_lst_paraup(t_paraup **head);

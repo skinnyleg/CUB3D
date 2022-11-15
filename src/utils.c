@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 16:03:14 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/11/12 16:28:23 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/11/15 17:13:59 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,28 +61,31 @@ void	render_block(t_global *all, int i, int j, int color)
 
 void	render_rays(t_global *all, t_rays ray, double x, double y)
 {
-	double	dx;
-	double	dy;
+	int	dx;
+	int	dy;
+	double	ddx;
+	double	ddy;
 	double	x_inc;
 	double	y_inc;
 	int		step;
 
-	(void)all;
 	dx = (ray.xnext - x);
 	dy = (ray.ynext - y);
-	if (fabs(dx) > fabs(dy))
-		step = fabs(dx);
+	if (abs(dx) > abs(dy))
+		step = abs(dx);
 	else
-		step = fabs(dy);
+		step = abs(dy);
 	x_inc = ((double)dx / (double)step);
 	y_inc = ((double)dy / (double)step);
-	dx = x;
-	dy = y;
+	ddx = x;
+	ddy = y;
 	while (step != 0)
 	{
-		pixel_put(all->mlx, round(dx), round(dy), 16711680);
-		dx += x_inc;
-		dy += y_inc;
+		pixel_put(all->mlx, dx, dy, 16711680);
+		ddx += x_inc;
+		ddy += y_inc;
+		dx = round(ddx);
+		dy = round(ddy);
 		step--;
 	}
 }

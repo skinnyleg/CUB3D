@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 15:52:33 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/11/12 17:55:54 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/11/15 17:10:45 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,11 @@ void	render_player(t_global *all, int i, int j)
 	p = all->player;
 	p->tile_height = WIN_HEIGHT / all->map->height;
 	p->tile_width = WIN_WIDTH / all->map->width;
+	// p->tile_height = 32;
+	// p->tile_width = 32;
 	p->pos_tilex = p->x + (i * p->tile_width);
 	p->pos_tiley = p->y + (j * p->tile_height);
+	pixel_put(all->mlx, p->pos_tilex, p->pos_tiley, 16711680);
 	degree = (all->player->rotateangle - (FOV * (M_PI / 180) / 2));
 	inc_deg = ((double)FOV / (double)all->num_rays);
 	while (count < all->num_rays)
@@ -62,7 +65,35 @@ void	render_player(t_global *all, int i, int j)
 		degree += (inc_deg * (M_PI / 180));
 		count++;
 	}
-	render3dwalls(all);
+	// render3dwalls(all);
+}
+
+void	render_minimap(t_global *all)
+{
+	int		i;
+	int		j;
+	t_map	*map;
+
+	i = 0;
+	map = all->map;
+	while (map->map[i] != NULL)
+	{
+		j = 0;
+		while (map->map[i][j] != '\0')
+		{
+			if (map->map[i][j] != ' ')
+			{
+				if (map->map[i][j] == '1')
+					render_block(all, j, i, 8421504);
+				else
+					render_block(all, j, i, 65280);
+				if (map->map[i][j] == '0')
+					render_block(all, j, i, 65280);
+			}
+			j++;
+		}
+		i++;
+	}
 }
 
 int	raycaster(t_global *all)
@@ -75,7 +106,8 @@ int	raycaster(t_global *all)
 		&(mlx_cpy->bpp), &(mlx_cpy->sl), &(mlx_cpy->ed));
 	if (mlx_cpy->get_addr == NULL)
 		return (destroy_all(all), -1);
-	background_render(all);
+	render_minimap(all);
+	// background_render(all);
 	render_player(all, all->l, all->a);
 	mlx_put_image_to_window(mlx_cpy->mlx_ptr, \
 		mlx_cpy->mlx_win, mlx_cpy->image, 0, 0);

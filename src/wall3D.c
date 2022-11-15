@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 16:00:46 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/11/12 17:00:25 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/11/15 16:30:31 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,17 @@ void	render3dwalls(t_global *all)
 {
 	double	dist_proj;
 	double	wall_height;
+	double	correctwall;
 	int		i;
 
 	i = 0;
 	dist_proj = (WIN_WIDTH / 2) / (tan(FOV * (M_PI / 180) / 2));
 	while (i < all->num_rays)
 	{
+		correctwall = all->rays[i].dist_const \
+			* cos(all->rays[i].rad - all->player->rotateangle);
 		wall_height = dist_proj \
-			* ((double)all->player->tile_height / all->rays[i].dist_const);
+			* ((double)all->player->tile_height / correctwall);
 		render_wall(all, i, wall_height);
 		i++;
 	}

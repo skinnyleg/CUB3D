@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 15:42:30 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/11/12 16:19:45 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/11/15 15:55:01 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	init_player(t_player *player)
 	player->rla = 0;
 	player->udd = 0;
 	player->rotateangle = M_PI / 2 ;
-	player->rotatespeed = 1 * (M_PI / 180);
+	player->rotatespeed = 2 * (M_PI / 180);
 }
 
 int	set_mlx(t_global *all)
