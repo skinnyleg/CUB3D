@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 16:03:14 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/11/16 18:34:19 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/11/16 18:54:48 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,17 +71,16 @@ void	render_rays(t_global *all, t_rays ray, double x, double y)
 
 	dx = (ray.xnext - x);
 	dy = (ray.ynext - y);
-	printf("dx == %d\ndy == %d\n", dx, dy);
 	if (abs(dx) > abs(dy))
 		step = abs(dx);
 	else
 		step = abs(dy);
 	x_inc = ((double)dx / (double)step);
 	y_inc = ((double)dy / (double)step);
+	dx = round(x);
+	dy = round(y);
 	ddx = x;
 	ddy = y;
-	dx = round(ddx);
-	dy = round(ddy);
 	while (step != 0)
 	{
 		pixel_put(all->mlx, dx, dy, 16711680);
