@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 15:52:33 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/11/15 17:10:45 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/11/16 18:28:40 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,10 @@ void	render_player(t_global *all, int i, int j)
 	p->pos_tilex = p->x + (i * p->tile_width);
 	p->pos_tiley = p->y + (j * p->tile_height);
 	pixel_put(all->mlx, p->pos_tilex, p->pos_tiley, 16711680);
-	degree = (all->player->rotateangle - (FOV * (M_PI / 180) / 2));
+	degree = (all->player->rotateangle - ((double)FOV * (M_PI / 180) / 2));
+	degree = (all->player->rotateangle);
 	inc_deg = ((double)FOV / (double)all->num_rays);
-	while (count < all->num_rays)
+	while (count < 1)
 	{
 		ft_normalize_angle(&degree);
 		fill_ray(&all->rays[count], degree);

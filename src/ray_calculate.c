@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 16:27:08 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/11/15 17:12:24 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/11/16 18:34:27 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ double	distance_calcul(t_global *all, t_rays ray)
 	return (ret);
 }
 
-double	looptilhit(t_rays *ray, t_global *all)
+double	looptilhit_horz(t_rays *ray, t_global *all)
 {
 	while (ray->xnext >= 0 && ray->xnext <= WIN_WIDTH \
 		&& ray->ynext >= 0 && ray->ynext <= WIN_HEIGHT)
@@ -32,6 +32,25 @@ double	looptilhit(t_rays *ray, t_global *all)
 		{
 			if (ray->up == true)
 				ray->ynext++;
+			ray->horzx = ray->xnext;
+			ray->horzy = ray->ynext;
+			return (distance_calcul(all, *ray));
+		}
+		ray->xnext += ray->xstep;
+		ray->ynext += ray->ystep;
+	}
+	return (INT_MAX);
+}
+
+double	looptilhit_vert(t_rays *ray, t_global *all)
+{
+	while (ray->xnext >= 0 && ray->xnext <= WIN_WIDTH \
+		&& ray->ynext >= 0 && ray->ynext <= WIN_HEIGHT)
+	{
+		if (iswall(all, ray->xnext, ray->ynext) == 1)
+		{
+			if (ray->right == false)
+				ray->xnext++;
 			ray->horzx = ray->xnext;
 			ray->horzy = ray->ynext;
 			return (distance_calcul(all, *ray));
@@ -59,7 +78,7 @@ void	horiz_intersect(t_global *all, t_rays *ray)
 		ray->xstep *= -1;
 	if (ray->up == true)
 		ray->ynext--;
-	ray->distance_horiz = looptilhit(ray, all);
+	ray->distance_horiz = looptilhit_horz(ray, all);
 }
 
 void	vertic_intersect(t_global *all, t_rays *ray)
@@ -79,7 +98,7 @@ void	vertic_intersect(t_global *all, t_rays *ray)
 		ray->ystep *= -1;
 	if (ray->right == false)
 		ray->xnext--;
-	ray->distance_vertic = looptilhit(ray, all);
+	ray->distance_vertic = looptilhit_vert(ray, all);
 }
 
 void	cast_render(t_global *all, t_rays *ray)
@@ -88,15 +107,24 @@ void	cast_render(t_global *all, t_rays *ray)
 	vertic_intersect(all, ray);
 	if (ray->distance_horiz < ray->distance_vertic)
 	{
+		// printf("horz wins\n");
+		// printf("x.horz == %f\ny.horz == %f\n", ray->horzx, ray->horzy);
+		// printf("distance == %f\n", ray->distance_horiz);
 		ray->ynext = ray->horzy;
 		ray->xnext = ray->horzx;
 		ray->dist_const = ray->distance_horiz;
 	}
-	if (ray->distance_horiz >= ray->distance_vertic)
+	else if (ray->distance_horiz >= ray->distance_vertic)
 	{
+		// printf("vetic wins\n");
+		// printf("x.verti == %f\ny.vertic == %f\n", ray->vertx, ray->verty);
+		// printf("distance == %f\n", ray->distance_vertic);
 		ray->xnext = ray->vertx;
 		ray->ynext = ray->verty;
 		ray->dist_const = ray->distance_vertic;
 	}
+	printf("ray result\n");
+	printf("xray == %f\nyray == %f\n", ray->xnext, ray->ynext);
+	printf("distance == %f\n", ray->dist_const);
 	render_rays(all, *ray, all->player->pos_tilex, all->player->pos_tiley);
 }
