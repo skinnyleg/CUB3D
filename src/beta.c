@@ -6,7 +6,7 @@
 /*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 15:14:07 by med-doba          #+#    #+#             */
-/*   Updated: 2022/11/05 21:52:47 by med-doba         ###   ########.fr       */
+/*   Updated: 2022/11/12 22:13:58 by med-doba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,28 +46,32 @@ void	ft_block_1(t_global *all, int color, int j, int i)
 	}
 }
 
-void	ft_player_pix(t_global *all, int color, int j, int i)
+void	ft_draw_line(t_global *all, double x1, double y1, double x2, double y2)
 {
-	int	x;
-	int	y;
-	i= 0;
-	j =0;
+	double	delat_y;
+	double	delat_x;
+	double	x_inc;
+	double	y_inc;
+	double	steps;
 
-	y = ((int) all->pos_y * 30 + i);
-	while ((y < ((int) all->pos_y * 30 + 3 +i)))
+	delat_y = y2 - y1;
+	delat_x = x2 - x1;
+	if (abs((int)delat_y) > abs((int)delat_x))
+		steps = abs((int)delat_y);
+	else
+		steps = abs((int)delat_x);
+	x_inc = delat_x / steps;
+	y_inc = delat_y / steps;
+	while(0 < steps)
 	{
-		x = ((int) all->pos_x * 30 +j);
-		while (x < ((int)all->pos_x * 30 + 3 + j))
-		{
-
-				img_pix_put(all, x++, y, color);
-				puts("zz");
-		}
-		y++;
+		img_pix_put(all, x1, y1, 16776960);
+		x1 += x_inc;
+		y1 += y_inc;
+		steps--;
 	}
 }
 
-void	ft_render_(t_global *all, char c)
+void	ft_render_(t_global *all)
 {
 	int	i;
 	int	j;
@@ -86,50 +90,38 @@ void	ft_render_(t_global *all, char c)
 			else if (ft_derection(all->map->map[i][j]))
 			{
 				ft_block_1(all, 255, j, i);
-				ft_render_move(all, c);
 			}
 		}
 	}
+	ft_render_move(all);
+	double tmpx = all->pos_x + cos(all->mini->rotateangle) * 32;
+	double tmpy = all->pos_y + sin(all->mini->rotateangle) * 32;
+	ft_draw_line(all, all->pos_x, all->pos_y, tmpx, tmpy);
 }
+
 void	initialite_mini(t_global *all)
 {
-	all->mini->rotateangle = M_PI / 2;
-	all->mini->rotatespeed = 2 * ( M_PI / 180);
-	all->mini->movespeed = 1.0;
+	all->mini->rotateangle = (3 * M_PI) / 2;
+	all->mini->rotatespeed = 5 * ( M_PI / 180);
+	all->mini->movespeed = 2.0;
 	all->mini->walkdirection = 0;
 	all->mini->turndirection = 0;
 	all->mini->radius = 3;
 	all->mini->x = 0;
 	all->mini->y = 0;
+	all->mini->movesteps = 0;
 }
 
-void	ft_render_move(t_global *all, char c)
+void	ft_render_move(t_global *all)
 {
-	// double	movesteps_x;
-	// double	movesteps_y;
-
-	// mlx_clear_window(all->mlx->mlx_ptr, all->mlx->mlx_win);
-	// all->mini->rotateangle += all->mini->turndirection * all->mini->rotatespeed;
-	// if (c == 'x')
-	// {
-	// 	movesteps_x = all->mini->walkdirection * all->mini->movespeed;
-	// 	all->pos_x += movesteps_x;
-	// }
-	// if (c == 'y')
-	// {
-	// 	movesteps_y = all->mini->turndirection * all->mini->movespeed;
-	// 	all->pos_y += movesteps_y;
-	// }
-	c = 0;
 	ft_PutCircle(all, all->pos_x, all->pos_y, all->mini->radius);
 }
 
-void	ft_replace(t_global *all, char c)
+void	ft_replace(t_global *all)
 {
 	all->mini->img = mlx_new_image(all->mlx->mlx_ptr, WIN_WIDTH, WIN_HEIGHT);
 	all->mini->addr = mlx_get_data_addr(all->mini->img, &all->mini->bpp, &all->mini->size_line, &all->mini->endian);
-	ft_render_(all, c);
-	// ft_render_move(all);
+	ft_render_(all);
 	// ft_render_mini_map(all);
 	mlx_put_image_to_window(all->mlx->mlx_ptr,all->mlx->mlx_win, all->mini->img, 0, 0);
 }
@@ -149,8 +141,8 @@ void	ft_mlx(t_global *all)
 	ft_find_position(all, &all->pos_x, &all->pos_y);
 	all->pos_x *= 30;
 	all->pos_y *= 30;
-	printf("x = %d >>> y = %d\n", all->pos_x, all->pos_y);
-	ft_replace(all, 0);
+	printf("x = %f >>> y = %f\n", all->pos_x, all->pos_y);
+	ft_replace(all);
 	mlx_hook(all->mlx->mlx_win, 02, 1L<<0, key_hook, all);
 	mlx_loop(all->mlx->mlx_ptr);
 }

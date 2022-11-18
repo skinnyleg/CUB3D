@@ -6,7 +6,7 @@
 /*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:18:31 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/11/05 21:35:52 by med-doba         ###   ########.fr       */
+/*   Updated: 2022/11/12 22:13:30 by med-doba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@
 # include <unistd.h>
 # include <math.h>
 # include <fcntl.h>
-# include <mlx.h>
-// # include "/usr/X11/include/mlx.h"
+// # include <mlx.h>
+# include "/usr/X11/include/mlx.h"
 # include "../libft/includes/libft.h"
 # define BUFFER_SIZE 1
 
@@ -75,6 +75,7 @@ typedef struct s_mini{
 	// void	*mlx_ptr;
 	// void	*mlx_win;
 	double	rotateangle;
+	double	movesteps;
 	double	rotatespeed;
 	double	movespeed;
 	int		walkdirection;
@@ -99,8 +100,8 @@ typedef struct s_global
 	t_mlx		*mlx;
 	t_mini		*mini;
 	t_player	*player;
-	int	pos_x;
-	int	pos_y;
+	double	pos_x;
+	double	pos_y;
 }	t_global;
 
 char		*ft_strjoin_free(char *s1,	char *s2);
@@ -122,14 +123,17 @@ int			horizantal_wall(t_map *map);
 int			check_contents(t_map *map);
 int			check_extension(char *str, char *extension);
 //start
-void	ft_render_move(t_global *all, char c);
-void	ft_replace(t_global *all, char c);
-void	ft_render_(t_global *all, char c);
+int		ft_find_position(t_global *all,double *x,double *y);
+void	ft_draw_line(t_global *all, double x1, double y1, double x2, double y2);
+void	ft_PutCircle(t_global *all, int x, int y, int r);
+void	ft_render_move(t_global *all);
+void	ft_replace(t_global *all);
+void	ft_render_(t_global *all);
 // void	ft_render_(t_global *all);
 // void	ft_render_move(t_global *all);
 void	ft_player_pix(t_global *all, int color, int j, int i);
-int		ft_find_position(t_global *all,int *x,int *y);
-void	ft_PutCircle(t_global *all, int x, int y, int r);
+// int		ft_find_position(t_global *all,int *x,int *y);
+// void	ft_PutCircle(t_global *all, int x, int y, int r);
 void	ft_block(t_global *all, int color, int j, int i);
 void	ft_backround(t_global *all, int color);
 // int		ft_find_position(t_global *all, double *x, double *y);
@@ -143,11 +147,11 @@ void	ft_rigth(t_global * all);
 // void	ft_replace(t_global * all);
 // void	ft_show(t_global * all, int i, int j, char *path);
 void	ft_show(t_global *all, int color, int *j, int *i);
-void	ft_move_up(t_global * all, int i, int j);
+void	ft_move_up(t_global * all);
 void	ft_up(t_global * all);
-void	ft_move_down(t_global * all, int i, int j);
-void	ft_move_rigth(t_global * all, int i, int j);
-void	ft_move_left(t_global * all, int i, int j);
+void	ft_move_down(t_global * all);
+void	ft_move_rigth(t_global * all);
+void	ft_move_left(t_global * all);
 void	ft_left(t_global * all);
 //created by med-doba
 void		ft_free_lst_paraup(t_paraup **head);

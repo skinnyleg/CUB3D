@@ -6,7 +6,7 @@
 /*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 11:24:49 by med-doba          #+#    #+#             */
-/*   Updated: 2022/11/05 21:36:57 by med-doba         ###   ########.fr       */
+/*   Updated: 2022/11/13 19:55:08 by med-doba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,14 @@ int	ft_derection(char c)
 	return (0);
 }
 
-int	ft_find_position(t_global *all,int *x,int *y)
+int	ft_find_position(t_global *all,double *x,double *y)
 {
 	*y = -1;
-	while (all->map->map[++(*y)])
+	while (all->map->map[(int)++(*y)])
 	{
 		*x = -1;
-		while (all->map->map[*y][++(*x)])
-			if(ft_derection(all->map->map[*y][*x]))
+		while (all->map->map[(int)*y][(int)++(*x)])
+			if(ft_derection(all->map->map[(int)*y][(int)*x]))
 				return (0);
 	}
 	return (1);
@@ -34,18 +34,18 @@ int	ft_find_position(t_global *all,int *x,int *y)
 
 void ft_PutCircle(t_global *all, int x, int y, int r)
 {
-	// static const double PI = 3.1415926535;
+	static const double PI = 3.1415926535;
 	double i, angle, x1, y1;
 
 	i = 0;
 	while(i < 360)
 	{
 		angle = i;
-		// x1 = r * cos(angle * PI / 180);
-		// y1 = r * sin(angle * PI / 180);
-		x1 = 0;
-		y1 = 0;
-		r = 0;
+		x1 = r * cos(angle * PI / 180);
+		y1 = r * sin(angle * PI / 180);
+		// x1 = 0;
+		// y1 = 0;
+		// r = 0;
 		img_pix_put(all, x + x1, y + y1, 16777215);
 		i += 0.1;
 	}

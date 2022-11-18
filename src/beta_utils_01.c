@@ -6,7 +6,7 @@
 /*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 11:27:39 by med-doba          #+#    #+#             */
-/*   Updated: 2022/11/05 21:54:45 by med-doba         ###   ########.fr       */
+/*   Updated: 2022/11/12 22:16:22 by med-doba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,37 +38,53 @@ int	key_hook(int keycode, t_global *all)
 		ft_left(all);
 	else if (keycode == 2)
 		ft_rigth(all);
+	if (keycode == 124)
+	{
+		all->mini->turndirection = 1;
+		all->mini->rotateangle += all->mini->turndirection * all->mini->rotatespeed;
+		ft_replace(all);
+		// all->pos_x +=  cos(all->mini->rotateangle) * all->mini->movesteps;
+		// all->pos_y +=  sin(all->mini->rotateangle) * all->mini->movesteps;
+	}
+	else if (keycode == 123)
+	{
+		all->mini->turndirection = -1;
+		all->mini->rotateangle += all->mini->turndirection * all->mini->rotatespeed;
+		ft_replace(all);
+		// all->pos_x +=  cos(all->mini->rotateangle) * all->mini->movesteps;
+		// all->pos_y +=  sin(all->mini->rotateangle) * all->mini->movesteps;
+	}
 	return (0);
 }
 
-void	ft_render_mini_map(t_global *all)
-{
-	int	i;
-	int	j;
-	int x,y;
+// void	ft_render_mini_map(t_global *all)
+// {
+// 	int	i;
+// 	int	j;
+// 	int x,y;
 
-	mlx_clear_window(all->mlx->mlx_ptr, all->mlx->mlx_win);
-	ft_find_position(all, &j, &i);
-	ft_backround(all, 16777215);
-	y = i;
-	x = j;
-	i -= 10;
-	while (i < 0)
-		i++;
-	while (all->map->map[i])
-	{
-		j = 0;
-		while (all->map->map[i][j])
-		{
-			if (all->map->map[i][j] == '1')
-				ft_block(all, 16711680, j-x, i-y);
-			else if (all->map->map[i][j] == '0')
-				ft_block(all, 255, j-x, i-y);
-			else if(ft_derection(all->map->map[i][j]))
-				ft_block(all, 16776960, j-x, i-y);
-			j++;
-		}
-		i++;
-	}
-	ft_PutCircle(all, 170, 170, 150);
-}
+// 	mlx_clear_window(all->mlx->mlx_ptr, all->mlx->mlx_win);
+// 	// ft_find_position(all, &j, &i);
+// 	ft_backround(all, 16777215);
+// 	y = i;
+// 	x = j;
+// 	i -= 10;
+// 	while (i < 0)
+// 		i++;
+// 	while (all->map->map[i])
+// 	{
+// 		j = 0;
+// 		while (all->map->map[i][j])
+// 		{
+// 			if (all->map->map[i][j] == '1')
+// 				ft_block(all, 16711680, j-x, i-y);
+// 			else if (all->map->map[i][j] == '0')
+// 				ft_block(all, 255, j-x, i-y);
+// 			else if(ft_derection(all->map->map[i][j]))
+// 				ft_block(all, 16776960, j-x, i-y);
+// 			j++;
+// 		}
+// 		i++;
+// 	}
+// 	ft_PutCircle(all, 170, 170, 150);
+// }

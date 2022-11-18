@@ -6,33 +6,23 @@
 /*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 15:52:57 by med-doba          #+#    #+#             */
-/*   Updated: 2022/11/06 11:19:34 by med-doba         ###   ########.fr       */
+/*   Updated: 2022/11/13 20:03:26 by med-doba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/CUB3D.h"
 
-
-
-void	ft_move_left(t_global *all, int i, int j)
+void	ft_move_left(t_global *all)
 {
-	i = 0;
-	j = 0;
-	// if (all->map->map[i][j - 1] == '0')
-	// {
-	// 	// all->map->map[i][j] = '0';
-	// 	// all->map->map[i][j - 1] = 'N';
-	// }
-	// ft_render_(all);
-	int tmp = all->pos_x;
-	double	movesteps_x;
-	all->mini->turndirection -= 1;
-	movesteps_x = all->mini->walkdirection * all->mini->movespeed;
-	all->pos_x -= movesteps_x;
-	// ft_render_(all);
-	// ft_render_move(all);
-	ft_replace(all, 'x');
-	all->pos_x = tmp;
+	all->mini->turndirection = 1;
+	all->mini->movesteps = all->mini->turndirection * all->mini->movespeed;
+	// printf("left angle  x = %f\n", all->mini->rotateangle);
+	all->pos_x -=  cos(all->mini->rotateangle) * all->mini->movesteps;
+	// printf("left x = %f\n", all->pos_x);
+	all->pos_y +=  sin(all->mini->rotateangle) * all->mini->movesteps;
+	// printf("left y = %f\n", all->pos_y);
+	// all->pos_x += all->mini->movesteps_x;
+	ft_replace(all);
 	return ;
 }
 
@@ -49,7 +39,7 @@ void	ft_left(t_global *all)
 		{
 			if (ft_derection(all->map->map[i][j]))
 			{
-				ft_move_left(all, i, j);
+				ft_move_left(all);
 				return ;
 			}
 			j++;
@@ -58,26 +48,17 @@ void	ft_left(t_global *all)
 	}
 }
 
-void	ft_move_rigth(t_global *all, int i, int j)
+void	ft_move_rigth(t_global *all)
 {
-	// if (all->map->map[i][j + 1] == '0')
-	// {
-	// 	// all->map->map[i][j] = '0';
-	// 	// all->map->map[i][j + 1] = 'N';
-	// }
-	// ft_render_(all);
-	i = 0;
-	j = 0;
-	all->mini->turndirection += 1;
-	int tmp = all->pos_x;
-	double	movesteps_x;
-	movesteps_x = all->mini->walkdirection * all->mini->movespeed;
-	all->pos_x += movesteps_x;
-	printf("r = %d\n", all->mini->turndirection);
-	// ft_render_(all);
-	// ft_render_move(all);
-	ft_replace(all, 'x');
-	all->pos_x = tmp;
+	all->mini->turndirection = 1;
+	all->mini->movesteps = all->mini->turndirection * all->mini->movespeed;
+	// printf("rigth angle  x = %f\n", all->mini->rotateangle);
+	all->pos_x +=  cos(all->mini->rotateangle) * all->mini->movesteps;
+	// printf("rigth x = %f\n", all->pos_x);
+	all->pos_y -=  sin(all->mini->rotateangle) * all->mini->movesteps;
+	// printf("rigth y = %f\n", all->pos_y);
+	// all->pos_x += all->mini->movesteps_x;
+	ft_replace(all);
 	return ;
 }
 
@@ -94,7 +75,7 @@ void	ft_rigth(t_global *all)
 		{
 			if (ft_derection(all->map->map[i][j]))
 			{
-				ft_move_rigth(all, i, j);
+				ft_move_rigth(all);
 				return ;
 			}
 			j++;
@@ -102,27 +83,16 @@ void	ft_rigth(t_global *all)
 		i++;
 	}
 }
-void	ft_move_up(t_global *all, int i, int j)
+void	ft_move_up(t_global *all)
 {
-	// if (all->map->map[i - 1][j] == '0')
-	// {
-	// 	// all->map->map[i][j] = '0';
-	// 	// all->map->map[i - 1][j] = 'N';
-	// }
-	// ft_render_(all);
-	i = 0;
-	j = 0;
-	int tmp = all->pos_y;
-	double movesteps_y;
-	all->mini->walkdirection += 1;
-	movesteps_y = all->mini->walkdirection * all->mini->movespeed;
-	all->pos_y += movesteps_y;
-	printf("up = %d\n", all->pos_y);
-	// ft_render_move(all);
-	// ft_render_(all);
-	ft_replace(all, 'y');
-	all->pos_y = tmp;
-	return ;
+	all->mini->walkdirection = 1;
+	all->mini->movesteps = all->mini->walkdirection * all->mini->movespeed;
+	all->pos_y +=  sin(all->mini->rotateangle) * all->mini->movesteps;
+	// printf("sin = %f\n", sin(all->mini->rotateangle) * all->mini->movesteps);
+	all->pos_x +=  cos(all->mini->rotateangle) * all->mini->movesteps;
+	// printf("cos = %f\n", cos(all->mini->rotateangle) * all->mini->movesteps);
+	// all->pos_y += all->mini->movesteps_y;
+	ft_replace(all);
 }
 
 void	ft_up(t_global *all)
@@ -138,7 +108,7 @@ void	ft_up(t_global *all)
 		{
 			if (ft_derection(all->map->map[i][j]))
 			{
-				ft_move_up(all, i, j);
+				ft_move_up(all);
 				return ;
 			}
 			j++;
@@ -147,26 +117,16 @@ void	ft_up(t_global *all)
 	}
 }
 
-void	ft_move_down(t_global *all, int i, int j)
+void	ft_move_down(t_global *all)
 {
-	// if (all->map->map[i + 1][j] == '0')
-	// {
-	// 	// all->map->map[i][j] = '0';
-	// 	// all->map->map[i + 1][j] = 'N';
-	// }
-	// ft_render_(all);
-	i = 0;
-	j = 0;
-	int tmp = all->pos_y;
-	double movesteps_y;
-	all->mini->walkdirection -= 1;
-	movesteps_y = all->mini->walkdirection * all->mini->movespeed;
-	all->pos_y -= movesteps_y;
-	printf("down = %d\n", all->pos_y);
-	// ft_render_(all);
-	// ft_render_move(all);
-	ft_replace(all, 'y');
-	all->pos_y = tmp;
+	all->mini->walkdirection = -1;
+	all->mini->movesteps = all->mini->walkdirection * all->mini->movespeed;
+	all->pos_y +=  sin(all->mini->rotateangle) * all->mini->movesteps;
+	// printf("y-> = %f\n", all->pos_y);
+	all->pos_x +=  cos(all->mini->rotateangle) * all->mini->movesteps;
+	// printf("x-> = %f\n", all->pos_x);
+	// all->pos_y += all->mini->movesteps_y;
+	ft_replace(all);
 	return ;
 }
 
@@ -183,7 +143,7 @@ void	ft_down(t_global *all)
 		{
 			if (ft_derection(all->map->map[i][j]))
 			{
-				ft_move_down(all, i, j);
+				ft_move_down(all);
 				return ;
 			}
 			j++;
@@ -191,3 +151,4 @@ void	ft_down(t_global *all)
 		i++;
 	}
 }
+
