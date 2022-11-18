@@ -6,7 +6,7 @@
 /*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 15:14:07 by med-doba          #+#    #+#             */
-/*   Updated: 2022/11/12 22:13:58 by med-doba         ###   ########.fr       */
+/*   Updated: 2022/11/18 20:37:46 by med-doba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,18 +131,23 @@ void	ft_mlx(t_global *all)
 
 	all->mlx = malloc(sizeof(t_mlx));
 	if (!all->mlx)
-		return ;
+		return (exit(1));
 	all->mini = malloc(sizeof(t_mini));
 	if (!all->mini)
-		return;
-	initialite_mini(all);
+		return (exit(1));
 	all->mlx->mlx_ptr = mlx_init();
+	initialite_mini(all);
 	all->mlx->mlx_win = mlx_new_window(all->mlx->mlx_ptr, WIN_WIDTH ,WIN_HEIGHT, "cub3D");
 	ft_find_position(all, &all->pos_x, &all->pos_y);
 	all->pos_x *= 30;
 	all->pos_y *= 30;
 	printf("x = %f >>> y = %f\n", all->pos_x, all->pos_y);
 	ft_replace(all);
-	mlx_hook(all->mlx->mlx_win, 02, 1L<<0, key_hook, all);
-	mlx_loop(all->mlx->mlx_ptr);
+	// mlx_hook(all->mlx->mlx_win, 2, (1L << 0), key_hook, all);
+	// mlx_hook(all->mlx->mlx_win, 2, (1L << 0), ft_KeyPress, all);
+	// mlx_hook(all->mlx->mlx_win, 3, (1L << 1), ft_KeyRelease, all);
+	// mlx_loop_hook(all->mlx->mlx_ptr, key_hook, all);
+	// mlx_loop(all->mlx->mlx_ptr);
+	// puts("okzzz");
+	return ;
 }

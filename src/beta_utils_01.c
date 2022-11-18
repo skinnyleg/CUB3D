@@ -6,7 +6,7 @@
 /*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 11:27:39 by med-doba          #+#    #+#             */
-/*   Updated: 2022/11/12 22:16:22 by med-doba         ###   ########.fr       */
+/*   Updated: 2022/11/18 20:32:40 by med-doba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,35 +25,72 @@ void	img_pix_put(t_global *all, int x, int y, int color)
 
 int	key_hook(int keycode, t_global *all)
 {
-	if (keycode == 53)
-	{
-		destroy_all(all);
-		exit(0);
-	}
-	else if (keycode == 13)
-		ft_up(all);
-	else if (keycode == 1)
-		ft_down(all);
-	else if (keycode == 0)
-		ft_left(all);
-	else if (keycode == 2)
-		ft_rigth(all);
-	if (keycode == 124)
-	{
+	(void)keycode;
+	mlx_destroy_image(all->mlx->mlx_ptr, all->mlx->image);
+	mlx_clear_window(all->mlx->mlx_ptr, all->mlx->mlx_win);
+	// printf("keycode = %d\n", keycode);
+	// if (keycode == 53)
+	// {
+	// 	destroy_all(all);
+	// 	exit(0);
+	// }
+	// if (keycode == 13){
+	// puts("hnaaa");
+		// ft_up(all);
+	// }
+	// if (keycode == 1)
+		// ft_down(all);
+	// if (keycode == 0)
+		// ft_left(all);
+	// if (keycode == 2)
+		// ft_rigth(all);
+	// if (keycode == 124)
+	// {
+		// all->mini->directionangle = 1;
+		// all->mini->rotateangle += all->mini->directionangle * all->mini->rotatespeed;
+		// ft_replace(all);
+		puts("lol");
+	// }
+	// if (keycode == 123)
+	// {
+		// all->mini->directionangle = -1;
+		// all->mini->rotateangle += all->mini->directionangle * all->mini->rotatespeed;
+		// ft_replace(all);
+	// }
+	return (0);
+}
+
+int	ft_KeyPress(int keycode, t_global *all)
+{
+	if (keycode == 13)
+		all->mini->walkdirection = 1;
+	if (keycode == 1)
+		all->mini->walkdirection = -1;
+	if (keycode == 0)
 		all->mini->turndirection = 1;
-		all->mini->rotateangle += all->mini->turndirection * all->mini->rotatespeed;
-		ft_replace(all);
-		// all->pos_x +=  cos(all->mini->rotateangle) * all->mini->movesteps;
-		// all->pos_y +=  sin(all->mini->rotateangle) * all->mini->movesteps;
-	}
-	else if (keycode == 123)
-	{
-		all->mini->turndirection = -1;
-		all->mini->rotateangle += all->mini->turndirection * all->mini->rotatespeed;
-		ft_replace(all);
-		// all->pos_x +=  cos(all->mini->rotateangle) * all->mini->movesteps;
-		// all->pos_y +=  sin(all->mini->rotateangle) * all->mini->movesteps;
-	}
+	if (keycode == 2)
+		all->mini->turndirection = 1;
+	if (keycode == 124)
+		all->mini->directionangle = 1;
+	if (keycode == 123)
+		all->mini->directionangle = -1;
+	return (0);
+}
+
+int	ft_KeyRelease(int keycode, t_global *all)
+{
+	if (keycode == 13)
+		all->mini->walkdirection = 0;
+	if (keycode == 1)
+		all->mini->walkdirection = 0;
+	if (keycode == 0)
+		all->mini->turndirection = 0;
+	if (keycode == 2)
+		all->mini->turndirection = 0;
+	if (keycode == 124)
+		all->mini->directionangle = 0;
+	if (keycode == 123)
+		all->mini->directionangle = 0;
 	return (0);
 }
 

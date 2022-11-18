@@ -6,7 +6,7 @@
 /*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:18:31 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/11/12 22:13:30 by med-doba         ###   ########.fr       */
+/*   Updated: 2022/11/18 17:21:02 by med-doba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@
 # include <unistd.h>
 # include <math.h>
 # include <fcntl.h>
-// # include <mlx.h>
-# include "/usr/X11/include/mlx.h"
+# include <mlx.h>
+// # include "/usr/X11/include/mlx.h"
 # include "../libft/includes/libft.h"
 # define BUFFER_SIZE 1
 
@@ -80,6 +80,7 @@ typedef struct s_mini{
 	double	movespeed;
 	int		walkdirection;
 	int		turndirection;
+	int		directionangle;
 	int		radius;
 	double	x;
 	double	y;
@@ -123,6 +124,8 @@ int			horizantal_wall(t_map *map);
 int			check_contents(t_map *map);
 int			check_extension(char *str, char *extension);
 //start
+int	ft_KeyPress(int keycode, t_global *all);
+int	ft_KeyRelease(int keycode, t_global *all);
 int		ft_find_position(t_global *all,double *x,double *y);
 void	ft_draw_line(t_global *all, double x1, double y1, double x2, double y2);
 void	ft_PutCircle(t_global *all, int x, int y, int r);
