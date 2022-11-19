@@ -38,7 +38,7 @@ LFLAGS = -L /usr/X11/lib -lX11 -lmlx -lXext
 all : $(NAME)
 
 $(NAME) : $(OBJ_DIR) $(LIBFT) $(OFILES)
-	@$(CC) $(INCMLX) -g $(LBXFLAGS) $(LFLAGS) $(OFILES) $(LIBFT)  -o $(NAME)
+	@$(CC) $(INCMLX) -g $(LBXFLAGS) $(LFLAGS) $(OFILES) $(LIBFT) -fsanitize=address  -o $(NAME)
 	@echo "done for cub3D"
 
 $(OBJ_DIR) :

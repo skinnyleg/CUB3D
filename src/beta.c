@@ -6,7 +6,7 @@
 /*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 15:14:07 by med-doba          #+#    #+#             */
-/*   Updated: 2022/11/18 20:37:46 by med-doba         ###   ########.fr       */
+/*   Updated: 2022/11/18 22:44:51 by med-doba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ void	initialite_mini(t_global *all)
 	all->mini->movespeed = 2.0;
 	all->mini->walkdirection = 0;
 	all->mini->turndirection = 0;
+	all->mini->directionangle = 0;
 	all->mini->radius = 3;
 	all->mini->x = 0;
 	all->mini->y = 0;
@@ -141,13 +142,13 @@ void	ft_mlx(t_global *all)
 	ft_find_position(all, &all->pos_x, &all->pos_y);
 	all->pos_x *= 30;
 	all->pos_y *= 30;
-	printf("x = %f >>> y = %f\n", all->pos_x, all->pos_y);
+	// printf("x = %f >>> y = %f\n", all->pos_x, all->pos_y);
 	ft_replace(all);
-	// mlx_hook(all->mlx->mlx_win, 2, (1L << 0), key_hook, all);
-	// mlx_hook(all->mlx->mlx_win, 2, (1L << 0), ft_KeyPress, all);
-	// mlx_hook(all->mlx->mlx_win, 3, (1L << 1), ft_KeyRelease, all);
-	// mlx_loop_hook(all->mlx->mlx_ptr, key_hook, all);
-	// mlx_loop(all->mlx->mlx_ptr);
+	mlx_hook(all->mlx->mlx_win, 2, (1L << 0), key_hook, all);
+	mlx_hook(all->mlx->mlx_win, 2, (1L << 0), ft_KeyPress, all);
+	mlx_hook(all->mlx->mlx_win, 3, (1L << 1), ft_KeyRelease, all);
+	mlx_loop_hook(all->mlx->mlx_ptr, key_hook, all);
+	mlx_loop(all->mlx->mlx_ptr);
 	// puts("okzzz");
 	return ;
 }
