@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 16:27:08 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/11/21 22:08:54 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/11/22 21:50:23 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,12 @@ double	distance_calcul(t_global *all, t_rays ray)
 
 double	looptilhit_horz(t_rays *ray, t_global *all)
 {
-	while (ray->xnext >= 0 && ray->xnext <= WIN_WIDTH \
-		&& ray->ynext >= 0 && ray->ynext <= WIN_HEIGHT)
+	while (ray->xnext >= 0 \
+		&& ray->xnext <= all->map->width * all->player->tile_width \
+		&& ray->ynext >= 0 \
+		&& ray->ynext <= all->map->height * all->player->tile_height)
 	{
-		if (iswall(all, ray->xnext, ray->ynext) == 1)
+		if (iswall_ray(all, ray->xnext, ray->ynext) == 1)
 		{
 			if (ray->up == true)
 				ray->ynext++;
@@ -44,10 +46,12 @@ double	looptilhit_horz(t_rays *ray, t_global *all)
 
 double	looptilhit_vert(t_rays *ray, t_global *all)
 {
-	while (ray->xnext >= 0 && ray->xnext <= WIN_WIDTH \
-		&& ray->ynext >= 0 && ray->ynext <= WIN_HEIGHT)
+	while (ray->xnext >= 0 \
+			&& ray->xnext <= all->map->width * all->player->tile_width \
+			&& ray->ynext >= 0 \
+			&& ray->ynext <= all->map->height * all->player->tile_height)
 	{
-		if (iswall(all, ray->xnext, ray->ynext) == 1)
+		if (iswall_ray(all, ray->xnext, ray->ynext) == 1)
 		{
 			if (ray->right == false)
 				ray->xnext++;

@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 15:42:30 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/11/15 15:55:01 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/11/22 21:51:22 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,16 @@ int	iswall(t_global *all, double x, double y)
 	int	gridx;
 	int	gridy;
 
-	if (x < 0 || x > WIN_WIDTH || y < 0 || y > WIN_HEIGHT)
+	if (x < 0 || x > all->map->width * all->player->tile_width \
+		|| y < 0 || y > all->map->height * all->player->tile_height)
+		return (1);
+	gridx = floor((all->player->pos_tilex / all->player->tile_width));
+	gridy = floor((y / all->player->tile_height));
+	if (gridy <= all->map->height && all->map->map[gridy] != NULL \
+		&& all->map->map[gridy][gridx] == '1')
 		return (1);
 	gridx = floor((x / all->player->tile_width));
-	gridy = floor((y / all->player->tile_height));
+	gridy = floor((all->player->pos_tiley / all->player->tile_height));
 	if (gridy <= all->map->height && all->map->map[gridy] != NULL \
 		&& all->map->map[gridy][gridx] == '1')
 		return (1);
@@ -42,7 +48,7 @@ int	find_pos_p(t_global *all)
 					|| map->map[all->a][all->l] == 'E'\
 					|| map->map[all->a][all->l] == 'W'\
 					|| map->map[all->a][all->l] == 'S')
-				return (0);
+				return (ft_direction_player(all, map->map[all->a][all->l]), 0);
 			all->l++;
 		}
 		all->a++;

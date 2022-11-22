@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 15:52:33 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/11/21 22:06:42 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/11/22 21:50:44 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,8 @@ void	render_player(t_global *all, int i, int j)
 
 	count = 0;
 	p = all->player;
-	p->tile_height = WIN_HEIGHT / all->map->height;
-	p->tile_width = WIN_WIDTH / all->map->width;
-	// p->tile_height = 32;
-	// p->tile_width = 32;
+	p->tile_height = 32;
+	p->tile_width = 32;
 	p->pos_tilex = p->x + (i * p->tile_width);
 	p->pos_tiley = p->y + (j * p->tile_height);
 	// pixel_put(all->mlx, p->pos_tilex, p->pos_tiley, 16711680);

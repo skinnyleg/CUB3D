@@ -6,11 +6,39 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 16:03:14 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/11/21 22:01:24 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/11/22 21:42:43 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/CUB3D.h"
+
+int	iswall_ray(t_global *all, double x, double y)
+{
+	int	gridx;
+	int	gridy;
+
+	if (x < 0 || x > all->map->width * all->player->tile_width \
+		|| y < 0 || y > all->map->height * all->player->tile_height)
+		return (1);
+	gridx = floor((x / all->player->tile_width));
+	gridy = floor((y / all->player->tile_height));
+	if (gridy <= all->map->height && all->map->map[gridy] != NULL \
+		&& all->map->map[gridy][gridx] == '1')
+		return (1);
+	return (0);
+}
+
+void	ft_direction_player(t_global *all, char p)
+{
+	if (p == 'N')
+		all->player->rotateangle = (M_PI) / 2;
+	else if (p == 'S')
+		all->player->rotateangle = (3 * M_PI) / 2;
+	else if (p == 'E')
+		all->player->rotateangle = (M_PI);
+	else if (p == 'W')
+		all->player->rotateangle = 0;
+}
 
 void	aspect_ratio(t_global *all)
 {
