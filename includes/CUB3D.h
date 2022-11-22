@@ -6,7 +6,7 @@
 /*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:18:31 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/11/21 16:36:45 by med-doba         ###   ########.fr       */
+/*   Updated: 2022/11/22 21:22:40 by med-doba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ int			horizantal_wall(t_map *map);
 int			check_contents(t_map *map);
 int			check_extension(char *str, char *extension);
 //start
+void	ft_direction_player(t_global *all, int i, int j);
 int		key_hook(t_global *all);
 int		ft_KeyPress(int keycode, t_global *all);
 int		ft_KeyRelease(int keycode, t_global *all);
