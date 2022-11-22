@@ -6,7 +6,7 @@
 /*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 15:14:07 by med-doba          #+#    #+#             */
-/*   Updated: 2022/11/18 22:44:51 by med-doba         ###   ########.fr       */
+/*   Updated: 2022/11/21 21:02:18 by med-doba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,12 +88,15 @@ void	ft_render_(t_global *all)
 			else if (all->map->map[i][j] == '0')
 				ft_block_1(all, 255, j, i);
 			else if (ft_derection(all->map->map[i][j]))
-			{
 				ft_block_1(all, 255, j, i);
-			}
 		}
 	}
 	ft_render_move(all);
+}
+
+void	ft_render_move(t_global *all)
+{
+	// ft_PutCircle(all, all->pos_x, all->pos_y, all->mini->radius);
 	double tmpx = all->pos_x + cos(all->mini->rotateangle) * 32;
 	double tmpy = all->pos_y + sin(all->mini->rotateangle) * 32;
 	ft_draw_line(all, all->pos_x, all->pos_y, tmpx, tmpy);
@@ -102,7 +105,7 @@ void	ft_render_(t_global *all)
 void	initialite_mini(t_global *all)
 {
 	all->mini->rotateangle = (3 * M_PI) / 2;
-	all->mini->rotatespeed = 5 * ( M_PI / 180);
+	all->mini->rotatespeed = 1.5 * ( M_PI / 180);
 	all->mini->movespeed = 2.0;
 	all->mini->walkdirection = 0;
 	all->mini->turndirection = 0;
@@ -111,11 +114,6 @@ void	initialite_mini(t_global *all)
 	all->mini->x = 0;
 	all->mini->y = 0;
 	all->mini->movesteps = 0;
-}
-
-void	ft_render_move(t_global *all)
-{
-	ft_PutCircle(all, all->pos_x, all->pos_y, all->mini->radius);
 }
 
 void	ft_replace(t_global *all)
@@ -136,19 +134,11 @@ void	ft_mlx(t_global *all)
 	all->mini = malloc(sizeof(t_mini));
 	if (!all->mini)
 		return (exit(1));
-	all->mlx->mlx_ptr = mlx_init();
 	initialite_mini(all);
+	all->mlx->mlx_ptr = mlx_init();
 	all->mlx->mlx_win = mlx_new_window(all->mlx->mlx_ptr, WIN_WIDTH ,WIN_HEIGHT, "cub3D");
 	ft_find_position(all, &all->pos_x, &all->pos_y);
 	all->pos_x *= 30;
 	all->pos_y *= 30;
-	// printf("x = %f >>> y = %f\n", all->pos_x, all->pos_y);
 	ft_replace(all);
-	mlx_hook(all->mlx->mlx_win, 2, (1L << 0), key_hook, all);
-	mlx_hook(all->mlx->mlx_win, 2, (1L << 0), ft_KeyPress, all);
-	mlx_hook(all->mlx->mlx_win, 3, (1L << 1), ft_KeyRelease, all);
-	mlx_loop_hook(all->mlx->mlx_ptr, key_hook, all);
-	mlx_loop(all->mlx->mlx_ptr);
-	// puts("okzzz");
-	return ;
 }

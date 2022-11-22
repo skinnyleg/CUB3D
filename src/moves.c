@@ -6,98 +6,52 @@
 /*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 15:52:57 by med-doba          #+#    #+#             */
-/*   Updated: 2022/11/18 21:50:32 by med-doba         ###   ########.fr       */
+/*   Updated: 2022/11/22 16:05:32 by med-doba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/CUB3D.h"
 
+int	ft_checkwall(t_global *all, double x, double y)
+{
+	int	tmp_x = floor(x / 30);
+	int	tmp_y = floor(y / 30);
+	printf("char == %c\n", all->map->map[tmp_y][tmp_x]);
+	if (all->map->map[tmp_y][tmp_x] == '1')
+		return (0);
+	// if (all->map->map[(int)tmp_y][(int)tmp_x] == '0')
+	// 	return (1);
+	return (1;
+}
+
 void	ft_move_left(t_global *all)
 {
-	// all->mini->turndirection = 1;
+	double	tmp_x;
+	double	tmp_y;
+
 	all->mini->movesteps = all->mini->turndirection * all->mini->movespeed;
-	all->pos_x -=  cos(all->mini->rotateangle) * all->mini->movesteps;
-	all->pos_y +=  sin(all->mini->rotateangle) * all->mini->movesteps;
-	// ft_replace(all);
-}
-
-void	ft_left(t_global *all)
-{
-	all->mini->movesteps = all->mini->turndirection * all->mini->movespeed;
-	all->pos_x -=  cos(all->mini->rotateangle) * all->mini->movesteps;
-	all->pos_y +=  sin(all->mini->rotateangle) * all->mini->movesteps;
-}
-
-void	ft_move_rigth(t_global *all)
-{
-	// all->mini->turndirection = 1;
-	all->mini->movesteps = all->mini->turndirection * all->mini->movespeed;
-	all->pos_x +=  cos(all->mini->rotateangle) * all->mini->movesteps;
-	all->pos_y -=  sin(all->mini->rotateangle) * all->mini->movesteps;
-	// ft_replace(all);
-}
-
-void	ft_rigth(t_global *all)
-{
-	int	i;
-	int	j;
-
-	i = -1;
-	while (all->map->map[++i] != NULL)
+	tmp_x = all->pos_x - sin(all->mini->rotateangle) * all->mini->movesteps;
+	tmp_y = all->pos_y + cos(all->mini->rotateangle) * all->mini->movesteps;
+	if (ft_checkwall(all, tmp_x, tmp_y))
 	{
-		j = -1;
-		while (all->map->map[i][++j] != '\0')
-			if (ft_derection(all->map->map[i][j]))
-				return (ft_move_rigth(all));
+		all->pos_x = tmp_x;
+		all->pos_y = tmp_y;
 	}
 }
+
 
 void	ft_move_up(t_global *all)
 {
-	// all->mini->walkdirection = 1;
+	double	tmp_x;
+	double	tmp_y;
+
 	all->mini->movesteps = all->mini->walkdirection * all->mini->movespeed;
-	all->pos_y +=  sin(all->mini->rotateangle) * all->mini->movesteps;
-	all->pos_x +=  cos(all->mini->rotateangle) * all->mini->movesteps;
-	// ft_replace(all);
-}
-
-void	ft_up(t_global *all)
-{
-	puts("ddd");
-	int	i;
-	int	j;
-
-	i = -1;
-	while (all->map->map[++i] != NULL)
+	tmp_x = all->pos_x + cos(all->mini->rotateangle) * all->mini->movesteps;
+	tmp_y = all->pos_y + sin(all->mini->rotateangle) * all->mini->movesteps;
+	if (ft_checkwall(all, tmp_x, tmp_y))
 	{
-		j = -1;
-		while (all->map->map[i][++j] != '\0')
-			if (ft_derection(all->map->map[i][j]))
-				return (ft_move_up(all));
-	}
-}
-
-void	ft_move_down(t_global *all)
-{
-	// all->mini->walkdirection = -1;
-	all->mini->movesteps = all->mini->walkdirection * all->mini->movespeed;
-	all->pos_y +=  sin(all->mini->rotateangle) * all->mini->movesteps;
-	all->pos_x +=  cos(all->mini->rotateangle) * all->mini->movesteps;
-	// ft_replace(all);
-}
-
-void	ft_down(t_global *all)
-{
-	int	i;
-	int	j;
-
-	i = -1;
-	while (all->map->map[++i] != NULL)
-	{
-		j = -1;
-		while (all->map->map[i][++j] != '\0')
-			if (ft_derection(all->map->map[i][j]))
-				return (ft_move_down(all));
+		all->pos_x = tmp_x;
+		all->pos_y = tmp_y;
 	}
 }
 

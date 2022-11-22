@@ -6,7 +6,7 @@
 /*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:17:40 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/11/18 22:45:07 by med-doba         ###   ########.fr       */
+/*   Updated: 2022/11/21 20:11:41 by med-doba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,11 @@ int	main(int ac, char **av)
 		return (printf("Not Enough Arguments\n"), 0);
 	parse_map(av, &all);
 	ft_mlx(&all);
-	// mlx_hook(all.mlx->mlx_win, 17, 0, ft_close, &all);
-	// mlx_hook(all.mlx->mlx_win, 2, (1L << 0), ft_KeyPress, &all);
-	// mlx_hook(all.mlx->mlx_win, 3, (1L << 1), ft_KeyRelease, &all);
-	printf("befor =%d\n", all.mini->turndirection);
-	// mlx_loop_hook(all.mlx->mlx_ptr, key_hook, &all);
-	// mlx_loop(all.mlx->mlx_ptr);
-	puts("kaa");
+	mlx_hook(all.mlx->mlx_win, 17, 0, ft_close, &all);
+	mlx_hook(all.mlx->mlx_win, 2, (1L << 0), ft_KeyPress, &all);
+	mlx_hook(all.mlx->mlx_win, 3, (1L << 1), ft_KeyRelease, &all);
+	mlx_loop_hook(all.mlx->mlx_ptr, key_hook, &all);
+	mlx_loop(all.mlx->mlx_ptr);
 	destroy_all(&all);
 	return (0);
 }
