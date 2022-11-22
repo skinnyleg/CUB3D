@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 16:27:08 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/11/16 20:23:08 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/11/21 22:08:54 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,6 @@ double	looptilhit_horz(t_rays *ray, t_global *all)
 		{
 			if (ray->up == true)
 				ray->ynext++;
-			// else
-				// ray->ynext++;
 			ray->horzx = ray->xnext;
 			ray->horzy = ray->ynext;
 			return (distance_calcul(all, *ray));
@@ -53,8 +51,6 @@ double	looptilhit_vert(t_rays *ray, t_global *all)
 		{
 			if (ray->right == false)
 				ray->xnext++;
-			// else
-				// ray->xnext--;
 			ray->vertx = ray->xnext;
 			ray->verty = ray->ynext;
 			return (distance_calcul(all, *ray));
@@ -67,7 +63,8 @@ double	looptilhit_vert(t_rays *ray, t_global *all)
 
 void	horiz_intersect(t_global *all, t_rays *ray)
 {
-	ray->ynext = floor((all->player->pos_tiley / (double)all->player->tile_height)) \
+	ray->ynext = floor((all->player->pos_tiley \
+		/ (double)all->player->tile_height)) \
 		* (double)all->player->tile_height;
 	if (!ray->up)
 		ray->ynext += (double)all->player->tile_height;
@@ -87,7 +84,8 @@ void	horiz_intersect(t_global *all, t_rays *ray)
 
 void	vertic_intersect(t_global *all, t_rays *ray)
 {
-	ray->xnext = floor((all->player->pos_tilex / (double)all->player->tile_width)) \
+	ray->xnext = floor((all->player->pos_tilex \
+		/ (double)all->player->tile_width)) \
 		* (double)all->player->tile_width;
 	if (ray->right == true)
 		ray->xnext += (double)all->player->tile_width;

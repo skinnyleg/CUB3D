@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 16:03:14 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/11/16 18:54:48 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/11/21 22:01:24 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ void	render_block(t_global *all, int i, int j, int color)
 	p = all->player;
 	p->tile_height = WIN_HEIGHT / all->map->height;
 	p->tile_width = WIN_WIDTH / all->map->width;
+	p->tile_height = 32;
+	p->tile_width = 32;
 	x = i * p->tile_width;
 	while (x < ((i * p->tile_width) + p->tile_width))
 	{
@@ -61,8 +63,8 @@ void	render_block(t_global *all, int i, int j, int color)
 
 void	render_rays(t_global *all, t_rays ray, double x, double y)
 {
-	int	dx;
-	int	dy;
+	int		dx;
+	int		dy;
 	double	ddx;
 	double	ddy;
 	double	x_inc;
