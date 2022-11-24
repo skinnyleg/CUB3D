@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 13:28:11 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/11/02 22:37:39 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/11/23 18:07:21 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ void	destroy_all(t_global *all)
 {
 	if (all->mlx != NULL)
 		destroy_mlx(all);
+	if (all->textures != NULL)
+		destroy_textures(all);
 	if (all->player != NULL)
 		destroy_player(all);
 	if (all->map != NULL)

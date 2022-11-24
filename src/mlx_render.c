@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 15:42:30 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/11/22 21:51:22 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/11/24 22:13:50 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@ int	iswall(t_global *all, double x, double y)
 	if (x < 0 || x > all->map->width * all->player->tile_width \
 		|| y < 0 || y > all->map->height * all->player->tile_height)
 		return (1);
-	gridx = floor((all->player->pos_tilex / all->player->tile_width));
-	gridy = floor((y / all->player->tile_height));
+	gridx = floor((all->player->pos_tilex / (double)all->player->tile_width));
+	gridy = floor((y / (double)all->player->tile_height));
 	if (gridy <= all->map->height && all->map->map[gridy] != NULL \
 		&& all->map->map[gridy][gridx] == '1')
 		return (1);
-	gridx = floor((x / all->player->tile_width));
-	gridy = floor((all->player->pos_tiley / all->player->tile_height));
+	gridx = floor((x / (double)all->player->tile_width));
+	gridy = floor((all->player->pos_tiley / (double)all->player->tile_height));
 	if (gridy <= all->map->height && all->map->map[gridy] != NULL \
 		&& all->map->map[gridy][gridx] == '1')
 		return (1);
@@ -60,7 +60,7 @@ void	init_player(t_player *player)
 {
 	player->x = 0;
 	player->y = 0;
-	player->vel = 1;
+	player->vel = 5;
 	player->rld = 0;
 	player->rla = 0;
 	player->udd = 0;
@@ -97,6 +97,8 @@ void	mlx_render(t_global *all)
 	if (set_mlx(all) == -1)
 		exit(1);
 	if (find_pos_p(all) == -1)
+		exit(1);
+	if (set_textures(all) == -1)
 		exit(1);
 	if (raycaster(all) == -1)
 		exit(1);

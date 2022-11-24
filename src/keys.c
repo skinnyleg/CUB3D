@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 15:55:11 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/11/12 16:53:03 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/11/24 22:05:34 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,6 @@ int	move_player(t_global *all)
 	ft_normalize_angle(&tmp_rotate);
 	p->rotateangle = tmp_rotate;
 	mlx_destroy_image(mlx_cpy->mlx_ptr, mlx_cpy->image);
-	mlx_clear_window(mlx_cpy->mlx_ptr, mlx_cpy->mlx_win);
 	raycaster(all);
 	return (0);
 }

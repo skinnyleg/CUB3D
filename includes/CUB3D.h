@@ -6,20 +6,20 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:18:31 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/11/22 21:35:42 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/11/24 20:49:49 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# define TILE_SIZE 10
 # define FOV 60
 # define WIN_HEIGHT 800
 # define WIN_WIDTH 1500
 # define MINI_HEIGHT 500
 # define MINI_WIDTH 500
 # define STRIP_WIDTH 1
+# define TILE_SIZE 64
 
 # include <stdio.h>
 # include <stdlib.h>
@@ -79,6 +79,7 @@ typedef struct s_rays
 {
 	bool	up;
 	bool	right;
+	bool	verthit;
 	double	distance_vertic;
 	double	distance_horiz;
 	double	dist_const;
@@ -93,6 +94,15 @@ typedef struct s_rays
 	double	rad;
 }	t_rays;
 
+typedef struct s_textures
+{
+	int		*texture;
+	void	*teximg;
+	int		texelcolor;
+	int		offsetx;
+	int		offsety;
+}	t_textures;
+
 typedef struct s_global
 {
 	int			fd;
@@ -101,6 +111,8 @@ typedef struct s_global
 	int			num_rays;
 	int			color_ceiling;
 	int			color_floor;
+	double		scale;
+	t_textures	*textures;
 	t_paraup	*up;
 	t_map		*map;
 	t_mlx		*mlx;
@@ -144,6 +156,8 @@ void		background_render(t_global *all);
 void		render_block(t_global *all, int i, int j, int color);
 void		render_rays(t_global *all, t_rays ray, double x, double y);
 void		ft_direction_player(t_global *all, char p);
+void		destroy_textures(t_global *all);
+int			set_textures(t_global *all);
 
 //created by med-doba
 void		ft_free_lst_paraup(t_paraup **head);

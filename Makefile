@@ -19,6 +19,7 @@ CFILES = main.c\
 		wall3D.c\
 		utils.c\
 		draw_background.c\
+		textures.c\
 
 OFILES = $(addprefix $(OBJ_DIR)/,$(CFILES:.c=.o))
 

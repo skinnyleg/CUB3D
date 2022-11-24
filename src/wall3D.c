@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 16:00:46 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/11/21 21:55:52 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/11/24 22:19:26 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,35 @@
 
 void	render_wall(t_global *all, int i, double wallheight)
 {
-	double	x;
-	double	y;
-	double	tmpx;
-	double	tmpy;
+	double		x;
+	double		y;
+	double		tmpx;
+	double		tmpy;
+	double		end;
+	t_textures	*tex;
 
+	tex = all->textures;
 	x = i * STRIP_WIDTH;
 	tmpx = i * STRIP_WIDTH;
 	tmpy = ((double)WIN_HEIGHT / 2) - (wallheight / 2);
+	end = tmpy + wallheight;
+	if (tmpy < 0)
+		y = 0;
+	else
+		y = tmpy;
+	if (end > WIN_HEIGHT)
+		end = WIN_HEIGHT;
+	if (all->rays[i].verthit == true)
+		tex->offsetx = (int)all->rays[i].ynext % all->player->tile_height;
+	else
+		tex->offsetx = (int)all->rays[i].xnext % all->player->tile_height;
 	while (x < tmpx + STRIP_WIDTH)
 	{
-		y = tmpy;
-		while (y < tmpy + wallheight)
+		while (y < end)
 		{
-			pixel_put(all->mlx, x, y, 16777215);
+			tex->offsety = (y - tmpy) * (all->player->tile_height / wallheight);
+			tex->texelcolor = tex->texture[(all->player->tile_width * tex->offsety) + tex->offsetx];
+			pixel_put(all->mlx, x, y, tex->texelcolor);
 			y++;
 		}
 		x++;

@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 15:52:33 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/11/22 21:50:44 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/11/24 22:10:57 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,9 @@ void	render_player(t_global *all, int i, int j)
 
 	count = 0;
 	p = all->player;
-	p->tile_height = 32;
-	p->tile_width = 32;
 	p->pos_tilex = p->x + (i * p->tile_width);
 	p->pos_tiley = p->y + (j * p->tile_height);
-	// pixel_put(all->mlx, p->pos_tilex, p->pos_tiley, 16711680);
+	// pixel_put(all->mlx, p->pos_tilex * all->scale, p->pos_tiley * all->scale, 10494192);
 	degree = (all->player->rotateangle - ((double)FOV * (M_PI / 180) / 2));
 	inc_deg = ((double)FOV / (double)all->num_rays);
 	while (count < all->num_rays)
@@ -63,6 +61,7 @@ void	render_player(t_global *all, int i, int j)
 		count++;
 	}
 	render3dwalls(all);
+	// render_minimap(all);
 }
 
 void	render_minimap(t_global *all)
@@ -84,8 +83,6 @@ void	render_minimap(t_global *all)
 					render_block(all, j, i, 8421504);
 				else
 					render_block(all, j, i, 65280);
-				if (map->map[i][j] == '0')
-					render_block(all, j, i, 65280);
 			}
 			j++;
 		}
@@ -103,8 +100,8 @@ int	raycaster(t_global *all)
 		&(mlx_cpy->bpp), &(mlx_cpy->sl), &(mlx_cpy->ed));
 	if (mlx_cpy->get_addr == NULL)
 		return (destroy_all(all), -1);
-	// render_minimap(all);
 	background_render(all);
+	// render_minimap(all);
 	render_player(all, all->l, all->a);
 	mlx_put_image_to_window(mlx_cpy->mlx_ptr, \
 		mlx_cpy->mlx_win, mlx_cpy->image, 0, 0);
