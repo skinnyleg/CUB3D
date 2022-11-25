@@ -6,7 +6,7 @@
 /*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 15:52:57 by med-doba          #+#    #+#             */
-/*   Updated: 2022/11/25 15:25:25 by med-doba         ###   ########.fr       */
+/*   Updated: 2022/11/25 16:17:11 by med-doba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ int	ft_checkwall(t_global *all, double x, double y)
 	printf("char == %c\n", all->map->map[tmp_y][tmp_x]);
 	if (all->map->map[tmp_y][tmp_x] == '1')
 		return (0);
-	// else if (all->map->map[tmp_y][tmp_x] == '0')
-	// 	return (1);
 	return (1);
 }
 

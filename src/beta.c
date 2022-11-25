@@ -6,7 +6,7 @@
 /*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 15:14:07 by med-doba          #+#    #+#             */
-/*   Updated: 2022/11/25 15:24:59 by med-doba         ###   ########.fr       */
+/*   Updated: 2022/11/21 21:02:18 by med-doba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,46 +94,17 @@ void	ft_render_(t_global *all)
 	ft_render_move(all);
 }
 
-void	ft_rays_casting(t_global *all)
-{
-	// int		colums = 0;
-	double	rayangle = all->mini->rotateangle - (FOV / 2);
-	int		i = 0;
-	while(i < WIN_WIDTH)
-	{
-		double tmpx = all->pos_x + cos(rayangle) * 45;
-		double tmpy = all->pos_y + sin(rayangle) * 45;
-		// if (ft_checkwall(all, tmpx, tmpy) == 1)
-			ft_draw_line(all, all->pos_x, all->pos_y, tmpx, tmpy);
-		rayangle += (FOV / NUM_RAYS);
-		i++;
-	}
-}
-
 void	ft_render_move(t_global *all)
 {
-	ft_PutCircle(all, all->pos_x, all->pos_y, all->mini->radius);
+	// ft_PutCircle(all, all->pos_x, all->pos_y, all->mini->radius);
 	double tmpx = all->pos_x + cos(all->mini->rotateangle) * 32;
 	double tmpy = all->pos_y + sin(all->mini->rotateangle) * 32;
 	ft_draw_line(all, all->pos_x, all->pos_y, tmpx, tmpy);
-	ft_rays_casting(all);
-}
-
-void	ft_direction_player(t_global *all, int i, int j)
-{
-	if (all->map->map[i][j] == 'N')
-		all->mini->rotateangle = (M_PI) / 2;
-	else if (all->map->map[i][j] == 'S')
-		all->mini->rotateangle = (3 * M_PI) / 2;
-	else if (all->map->map[i][j] == 'E')
-		all->mini->rotateangle = (M_PI);
-	else if (all->map->map[i][j] == 'W')
-		all->mini->rotateangle = 0;
 }
 
 void	initialite_mini(t_global *all)
 {
-	// all->mini->rotateangle = (3 * M_PI) / 2;
+	all->mini->rotateangle = (3 * M_PI) / 2;
 	all->mini->rotatespeed = 1.5 * ( M_PI / 180);
 	all->mini->movespeed = 2.0;
 	all->mini->walkdirection = 0;
@@ -144,7 +115,6 @@ void	initialite_mini(t_global *all)
 	all->mini->y = 0;
 	all->mini->movesteps = 0;
 }
-
 
 void	ft_replace(t_global *all)
 {
@@ -168,7 +138,6 @@ void	ft_mlx(t_global *all)
 	all->mlx->mlx_ptr = mlx_init();
 	all->mlx->mlx_win = mlx_new_window(all->mlx->mlx_ptr, WIN_WIDTH ,WIN_HEIGHT, "cub3D");
 	ft_find_position(all, &all->pos_x, &all->pos_y);
-	ft_direction_player(all, all->pos_y, all->pos_x);
 	all->pos_x *= 30;
 	all->pos_y *= 30;
 	ft_replace(all);
