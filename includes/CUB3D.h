@@ -6,7 +6,7 @@
 /*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:18:31 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/11/26 10:48:44 by med-doba         ###   ########.fr       */
+/*   Updated: 2022/11/26 18:47:00 by med-doba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # define WIN_WIDTH 1500
 # define MINI_HEIGHT 500
 # define MINI_WIDTH 500
+# define NUM_RAYS 1500
 
 # include <stdio.h>
 # include <stdlib.h>
@@ -122,7 +123,7 @@ int			horizantal_wall(t_map *map);
 int			check_contents(t_map *map);
 int			check_extension(char *str, char *extension);
 //start
-int	ft_mouse_hook(int keycode, t_global *all);
+int	ft_mouse_hook(int x, int y, t_global *all);
 int		key_hook(t_global *all);
 int		ft_KeyPress(int keycode, t_global *all);
 int		ft_KeyRelease(int keycode, t_global *all);

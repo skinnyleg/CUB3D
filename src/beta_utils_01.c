@@ -6,7 +6,7 @@
 /*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 11:27:39 by med-doba          #+#    #+#             */
-/*   Updated: 2022/11/26 10:49:05 by med-doba         ###   ########.fr       */
+/*   Updated: 2022/11/26 17:52:33 by med-doba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,10 +75,17 @@ int	ft_KeyRelease(int keycode, t_global *all)
 	return (0);
 }
 
-int	ft_mouse_hook(int keycode, t_global *all)
+int	ft_mouse_hook(int x, int y, t_global *all)
 {
-	(void)all;
-	printf("mouse = %d\n", keycode);
+	(void)y;
+	if (x > WIN_WIDTH || x < 0)
+		return 0;
+	printf("ps x = %d\n", x);
+	mlx_clear_window(all->mlx->mlx_ptr, all->mlx->mlx_win);
+	mlx_destroy_image(all->mlx->mlx_ptr, all->mini->img);
+	// all->pos_x -= sin(all->mini->rotateangle) * all->mini->movesteps;
+	all->mini->rotateangle += all->mini->directionangle * all->mini->rotatespeed + sin(x);
+	ft_replace(all);
 	return 0;
 }
 

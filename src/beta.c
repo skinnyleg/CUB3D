@@ -6,7 +6,7 @@
 /*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 15:14:07 by med-doba          #+#    #+#             */
-/*   Updated: 2022/11/21 21:02:18 by med-doba         ###   ########.fr       */
+/*   Updated: 2022/11/26 18:45:06 by med-doba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,12 +94,29 @@ void	ft_render_(t_global *all)
 	ft_render_move(all);
 }
 
+void	ft_rays_casting(t_global *all)
+{
+	// int		colums = 0;
+	double	rayangle = all->mini->rotateangle - (FOV / 2);
+	int		i = 0;
+	while(i < WIN_WIDTH)
+	{
+		double tmpx = all->pos_x + cos(rayangle) * 100;
+		double tmpy = all->pos_y + sin(rayangle) * 100;
+		// if (ft_checkwall(all, tmpx, tmpy) == 1)
+			ft_draw_line(all, all->pos_x, all->pos_y, tmpx, tmpy);
+		rayangle += (FOV / NUM_RAYS);
+		i++;
+	}
+}
+
 void	ft_render_move(t_global *all)
 {
-	// ft_PutCircle(all, all->pos_x, all->pos_y, all->mini->radius);
+	ft_PutCircle(all, all->pos_x, all->pos_y, all->mini->radius);
 	double tmpx = all->pos_x + cos(all->mini->rotateangle) * 32;
 	double tmpy = all->pos_y + sin(all->mini->rotateangle) * 32;
 	ft_draw_line(all, all->pos_x, all->pos_y, tmpx, tmpy);
+	ft_rays_casting(all);
 }
 
 void	initialite_mini(t_global *all)
