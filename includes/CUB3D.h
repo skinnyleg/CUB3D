@@ -6,7 +6,7 @@
 /*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:18:31 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/11/25 16:16:56 by med-doba         ###   ########.fr       */
+/*   Updated: 2022/11/26 10:48:44 by med-doba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@
 # include <unistd.h>
 # include <math.h>
 # include <fcntl.h>
-// # include <mlx.h>
-# include "/usr/X11/include/mlx.h"
+# include <mlx.h>
+// # include "/usr/X11/include/mlx.h"
 # include "../libft/includes/libft.h"
 # define BUFFER_SIZE 1
 
@@ -122,6 +122,7 @@ int			horizantal_wall(t_map *map);
 int			check_contents(t_map *map);
 int			check_extension(char *str, char *extension);
 //start
+int	ft_mouse_hook(int keycode, t_global *all);
 int		key_hook(t_global *all);
 int		ft_KeyPress(int keycode, t_global *all);
 int		ft_KeyRelease(int keycode, t_global *all);

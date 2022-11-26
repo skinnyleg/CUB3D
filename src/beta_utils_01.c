@@ -6,7 +6,7 @@
 /*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 11:27:39 by med-doba          #+#    #+#             */
-/*   Updated: 2022/11/21 20:15:23 by med-doba         ###   ########.fr       */
+/*   Updated: 2022/11/26 10:49:05 by med-doba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,13 @@ int	ft_KeyRelease(int keycode, t_global *all)
 	if (keycode == 123)
 		all->mini->directionangle = 0;
 	return (0);
+}
+
+int	ft_mouse_hook(int keycode, t_global *all)
+{
+	(void)all;
+	printf("mouse = %d\n", keycode);
+	return 0;
 }
 
 // void	ft_render_mini_map(t_global *all)

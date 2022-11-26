@@ -6,7 +6,7 @@
 /*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 15:52:57 by med-doba          #+#    #+#             */
-/*   Updated: 2022/11/25 16:17:11 by med-doba         ###   ########.fr       */
+/*   Updated: 2022/11/26 10:43:49 by med-doba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ int	ft_checkwall(t_global *all, double x, double y)
 {
 	int	tmp_x = floor(x / 30);
 	int	tmp_y = floor(y / 30);
-	printf("char == %c\n", all->map->map[tmp_y][tmp_x]);
 	if (all->map->map[tmp_y][tmp_x] == '1')
 		return (0);
 	return (1);
