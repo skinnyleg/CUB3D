@@ -6,14 +6,14 @@
 /*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:18:31 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/11/26 18:47:00 by med-doba         ###   ########.fr       */
+/*   Updated: 2022/11/28 23:09:02 by med-doba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# define TILE_SIZE 10
+# define TILE_SIZE 32
 # define FOV (60 * (M_PI / 180))
 # define WIN_HEIGHT 800
 # define WIN_WIDTH 1500
@@ -26,6 +26,7 @@
 # include <unistd.h>
 # include <math.h>
 # include <fcntl.h>
+# include <limits.h>
 # include <mlx.h>
 // # include "/usr/X11/include/mlx.h"
 # include "../libft/includes/libft.h"
@@ -41,6 +42,18 @@ typedef struct s_mlx
 	int		bits_per_pixel;
 	int		endian;
 }	t_mlx;
+
+typedef struct s_raycast
+{
+	double	distanceofray;
+	double	y_hor_wall;
+	double	x_hor_wall;
+	double	y_ver_wall;
+	double	x_ver_wall;
+	double	hor_dis;
+	double	ver_dis;
+
+}	t_raycast;
 
 typedef struct s_paraup
 {
@@ -100,6 +113,7 @@ typedef struct s_global
 	t_mlx		*mlx;
 	t_mini		*mini;
 	t_player	*player;
+	t_raycast	*raycast;
 	double		pos_x;
 	double		pos_y;
 }	t_global;
@@ -123,6 +137,8 @@ int			horizantal_wall(t_map *map);
 int			check_contents(t_map *map);
 int			check_extension(char *str, char *extension);
 //start
+double	ft_normilaze(double angle);
+int	ft_checkwall(t_global *all, double x, double y);
 int	ft_mouse_hook(int x, int y, t_global *all);
 int		key_hook(t_global *all);
 int		ft_KeyPress(int keycode, t_global *all);

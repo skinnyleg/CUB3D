@@ -6,7 +6,7 @@
 /*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 11:27:39 by med-doba          #+#    #+#             */
-/*   Updated: 2022/11/26 17:52:33 by med-doba         ###   ########.fr       */
+/*   Updated: 2022/11/28 23:41:27 by med-doba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,10 @@ int	key_hook(t_global *all)
 	if (all->mini->turndirection != 0)
 		ft_move_left(all);
 	if (all->mini->directionangle != 0)
+	{
 		all->mini->rotateangle += all->mini->directionangle * all->mini->rotatespeed;
-	mlx_clear_window(all->mlx->mlx_ptr, all->mlx->mlx_win);
+		all->mini->rotateangle = ft_normilaze(all->mini->rotateangle);
+	}
 	mlx_destroy_image(all->mlx->mlx_ptr, all->mini->img);
 	ft_replace(all);
 	return (0);
@@ -75,19 +77,19 @@ int	ft_KeyRelease(int keycode, t_global *all)
 	return (0);
 }
 
-int	ft_mouse_hook(int x, int y, t_global *all)
-{
-	(void)y;
-	if (x > WIN_WIDTH || x < 0)
-		return 0;
-	printf("ps x = %d\n", x);
-	mlx_clear_window(all->mlx->mlx_ptr, all->mlx->mlx_win);
-	mlx_destroy_image(all->mlx->mlx_ptr, all->mini->img);
-	// all->pos_x -= sin(all->mini->rotateangle) * all->mini->movesteps;
-	all->mini->rotateangle += all->mini->directionangle * all->mini->rotatespeed + sin(x);
-	ft_replace(all);
-	return 0;
-}
+// int	ft_mouse_hook(int x, int y, t_global *all)
+// {
+// 	(void)y;
+// 	if (x > WIN_WIDTH || x < 0)
+// 		return 0;
+// 	printf("ps x = %d\n", x);
+// 	mlx_clear_window(all->mlx->mlx_ptr, all->mlx->mlx_win);
+// 	mlx_destroy_image(all->mlx->mlx_ptr, all->mini->img);
+// 	// all->pos_x -= sin(all->mini->rotateangle) * all->mini->movesteps;
+// 	all->mini->rotateangle += all->mini->directionangle * all->mini->rotatespeed + sin(x);
+// 	ft_replace(all);
+// 	return 0;
+// }
 
 // void	ft_render_mini_map(t_global *all)
 // {

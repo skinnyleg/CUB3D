@@ -6,7 +6,7 @@
 /*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 15:52:57 by med-doba          #+#    #+#             */
-/*   Updated: 2022/11/26 10:43:49 by med-doba         ###   ########.fr       */
+/*   Updated: 2022/11/28 15:10:39 by med-doba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 int	ft_checkwall(t_global *all, double x, double y)
 {
-	int	tmp_x = floor(x / 30);
-	int	tmp_y = floor(y / 30);
-	if (all->map->map[tmp_y][tmp_x] == '1')
+	int	tmp_x = floor(x / TILE_SIZE);
+	int	tmp_y = floor(y / TILE_SIZE);
+	if (tmp_y < all->map->height && all->map->map[tmp_y][tmp_x] == '1')
 		return (0);
 	return (1);
 }
@@ -51,4 +51,12 @@ void	ft_move_up(t_global *all)
 		all->pos_y = tmp_y;
 	}
 }
+
+// double	ft_normilaze(double angle)
+// {
+// 	angle = angle % (2 * M_PI);
+// 	if (angle < 0)
+// 		angle += (2 * M_PI);
+// 	return (angle);
+// }
 
