@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 16:03:14 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/11/25 01:44:58 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/11/28 18:41:08 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,13 @@ int	iswall_ray(t_global *all, double x, double y)
 void	ft_direction_player(t_global *all, char p)
 {
 	if (p == 'N')
-		all->player->rotateangle = (M_PI) / 2;
-	else if (p == 'S')
 		all->player->rotateangle = (3 * M_PI) / 2;
+	else if (p == 'S')
+		all->player->rotateangle = (M_PI) / 2;
 	else if (p == 'E')
-		all->player->rotateangle = (M_PI);
-	else if (p == 'W')
 		all->player->rotateangle = 0;
+	else if (p == 'W')
+		all->player->rotateangle = (M_PI);
 }
 
 void	aspect_ratio(t_global *all)

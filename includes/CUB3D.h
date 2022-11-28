@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:18:31 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/11/24 20:49:49 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/11/28 18:19:07 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ typedef struct s_rays
 
 typedef struct s_textures
 {
-	int		*texture;
+	int		**texture;
 	void	*teximg;
 	int		texelcolor;
 	int		offsetx;
@@ -158,6 +158,7 @@ void		render_rays(t_global *all, t_rays ray, double x, double y);
 void		ft_direction_player(t_global *all, char p);
 void		destroy_textures(t_global *all);
 int			set_textures(t_global *all);
+int			index_textures(t_global *all, int i);
 
 //created by med-doba
 void		ft_free_lst_paraup(t_paraup **head);

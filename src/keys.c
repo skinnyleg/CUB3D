@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 15:55:11 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/11/25 01:56:47 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/11/28 22:26:19 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,14 @@ void	forward_back_motion(t_global *all)
 	t_player	*p;
 
 	p = all->player;
+	p->pos_tilex = p->x + ((all->l * p->tile_width) + p->tile_width / 2);
+	p->pos_tiley = p->y + ((all->a * p->tile_height) + p->tile_height / 2);
 	x = p->pos_tilex;
 	y = p->pos_tiley;
-	y += ((double)(p->vel * p->udd)* sin(p->rotateangle));
+	y += ((double)(p->vel * p->udd) * sin(p->rotateangle));
 	x += ((double)(p->vel * p->udd) * cos(p->rotateangle));
-	if (iswall_ray(all, x, y) == 0)
+	if (iswall(all, x, y) == 0)
 	{
-		printf("not wall1\n");
 		p->y = y - (p->pos_tiley - p->y);
 		p->x = x - (p->pos_tilex - p->x);
 	}
@@ -74,13 +75,14 @@ void	left_right_motion(t_global *all)
 	t_player	*p;
 
 	p = all->player;
+	p->pos_tilex = p->x + ((all->l * p->tile_width) + p->tile_width / 2);
+	p->pos_tiley = p->y + ((all->a * p->tile_height) + p->tile_height / 2);
 	x = p->pos_tilex;
 	y = p->pos_tiley;
 	x += sin(p->rotateangle) * (double)(p->rld * p->vel);
 	y -= cos(p->rotateangle) * (double)(p->rld * p->vel);
-	if (iswall_ray(all, x, y) == 0)
+	if (iswall(all, x, y) == 0)
 	{
-		printf("not wall2\n");
 		p->y = y - (p->pos_tiley - p->y);
 		p->x = x - (p->pos_tilex - p->x);
 	}

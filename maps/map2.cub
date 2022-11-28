@@ -1,22 +1,22 @@
-                 NO         ./textures/test.xpm
+                 NO         ./textures/northwall.xpm
 
 
 
 
 
-            SO              ./textures/test.xpm
+            SO              ./textures/southwall.xpm
 
 
 
 
 
 
-              WE                 ./textures/test.xpm
+              WE                 ./textures/westwall.xpm
 
 
 
 
-                EA               ./textures/test.xpm
+                EA               ./textures/eastwall.xpm
 F 220,25,34
 
 C 225,220,01
@@ -31,7 +31,7 @@ C 225,220,01
 
 1111111111111111111111111
 1000000000110000000000001
-1011000001110000000100001
+1011000001110000000000001
 1001000000000000000E10001
 1111111111011000001110001
 100000000011000001110111111111111

@@ -31,7 +31,7 @@ CFLAGS = -Wall -Werror -Wextra
 
 INC = includes/CUB3D.h
 
-LFLAGS = -lmlx -framework OpenGL -framework AppKit
+LFLAGS = -lmlx -framework OpenGL  -Ofast  -framework AppKit
 
 INCMLX=/usr/include
 
