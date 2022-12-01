@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 18:47:58 by med-doba          #+#    #+#             */
-/*   Updated: 2022/10/31 16:29:01 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/12/01 21:41:16 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	parse_upper(char **av, t_global *all)
 
 	all->fd = open(av[1], O_RDONLY);
 	if (all->fd == -1)
-		return (perror("open"), 1);
+		return (perror("open"), destroy_all(all), 1);
 	rtn_gnl = get_next_line(all->fd);
 	while (rtn_gnl)
 	{
@@ -29,12 +29,12 @@ int	parse_upper(char **av, t_global *all)
 		if (rtn == 2)
 			break ;
 		if (rtn == 1)
-			return (1);
+			return (destroy_all(all), 1);
 		rtn_gnl = get_next_line(all->fd);
 	}
 	if (!all->up || ((ft_lstsize_paraup(all->up) < 5
 				|| ft_lstsize_paraup(all->up) > 5) || check_double(all->up)))
-		return (ft_putendl_fd("Error map last", 2), 1);
+		return (ft_putendl_fd("Error map last", 2), destroy_all(all), 1);
 	return (all->l = 1, 0);
 }
 

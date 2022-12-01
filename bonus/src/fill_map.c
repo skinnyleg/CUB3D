@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 12:23:19 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/10/11 12:38:33 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/12/01 21:45:43 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	skip_line(int fd)
 
 int	fill_map(t_global *all, char **av)
 {
-	all->fd = open(av[1], O_RDONLY);
+	all->fd = open(av[1], O_RDWR);
 	if (all->fd < 0)
 		return (printf("can't open file\n"), 1);
 	skip_line(all->fd);

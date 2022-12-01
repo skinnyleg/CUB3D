@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 16:03:14 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/11/28 18:41:08 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/12/01 21:25:56 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,33 +90,54 @@ void	render_block(t_global *all, int i, int j, int color)
 
 void	render_rays(t_global *all, t_rays ray, double x, double y)
 {
-	int		dx;
-	int		dy;
-	double	ddx;
-	double	ddy;
+	double	dx;
+	double	dy;
 	double	x_inc;
 	double	y_inc;
 	int		step;
 
-	dx = (ray.xnext - x) * all->scale;
-	dy = (ray.ynext - y) * all->scale;
-	if (abs(dx) > abs(dy))
-		step = abs(dx);
+	dx = (ray.xnext - x);
+	dy = (ray.ynext - y);
+	if (abs((int)dx) > abs((int)dy))
+		step = abs((int)dx);
 	else
-		step = abs(dy);
-	x_inc = ((double)dx / (double)step);
-	y_inc = ((double)dy / (double)step);
-	dx = round(x);
-	dy = round(y);
-	ddx = x;
-	ddy = y;
+		step = abs((int)dy);
+	x_inc = (dx / (double)step);
+	y_inc = (dy / (double)step);
+	dx = x;
+	dy = y;
 	while (step != 0)
 	{
-		pixel_put(all->mlx, dx, dy, 16711680);
-		ddx += x_inc;
-		ddy += y_inc;
-		dx = round(ddx);
-		dy = round(ddy);
+		pixel_put(all->mlx, round(dx * all->scale), round(dy * all->scale), 16711680);
+		dx += x_inc;
+		dy += y_inc;
+		step--;
+	}
+}
+
+void	render_direct(t_global *all, int size, double x, double y)
+{
+	double	dx;
+	double	dy;
+	double	x_inc;
+	double	y_inc;
+	int		step;
+
+	dx = cos(all->player->rotateangle) * size;
+	dy = sin(all->player->rotateangle) * size;
+	if (abs((int)dx) > abs((int)dy))
+		step = abs((int)dx);
+	else
+		step = abs((int)dy);
+	x_inc = (dx / (double)step);
+	y_inc = (dy / (double)step);
+	dx = x;
+	dy = y;
+	while (step != 0)
+	{
+		pixel_put(all->mlx, round(dx * all->scale), round(dy * all->scale), 16711680);
+		dx += x_inc;
+		dy += y_inc;
 		step--;
 	}
 }

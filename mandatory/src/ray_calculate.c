@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 16:27:08 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/11/28 20:42:55 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/12/01 21:23:05 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,5 +125,5 @@ void	cast_render(t_global *all, t_rays *ray)
 		ray->verthit = true;
 		ray->dist_const = ray->distance_vertic;
 	}
-	//render_rays(all, *ray, all->player->pos_tilex, all->player->pos_tiley);
+	// render_rays(all, *ray, all->player->pos_tilex, all->player->pos_tiley);
 }
