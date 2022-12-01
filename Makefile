@@ -23,31 +23,73 @@ CFILES = main.c\
 
 OFILES = $(addprefix $(OBJ_DIR)/,$(CFILES:.c=.o))
 
-OBJ_DIR = ./obj
+BOFILES = $(addprefix $(OBJ_DIRB)/,$(CFILES:.c=.o))
 
-SRC_DIR = ./src
+OBJ_DIR = ./mandatory/obj
+
+SRC_DIR = ./mandatory/src
+
+OBJ_DIRB = ./bonus/obj
+
+SRC_DIRB = ./bonus/src
 
 CFLAGS = -Wall -Werror -Wextra
 
-INC = includes/CUB3D.h
+INC = ./mandatory/includes/CUB3D.h
+
+INCB = ./bonus/includes/CUB3D.h
 
 LFLAGS = -lmlx -framework OpenGL  -Ofast  -framework AppKit
 
-INCMLX=/usr/include
-
-INCLIB=$(INCMLX)/../lib
-
-HFLAGS = -L.. -lmlx -L$(INCLIB) -lXext -lX11 -lm -lbsd
 
 LIBFT = libft/libft.a
 
 NAME = cub3D
+
+NAME_B = cub3D_bonus
 
 all : $(NAME)
 
 $(NAME) : $(OBJ_DIR) $(LIBFT) $(OFILES)
 	@$(CC) $(LFLAGS) $(OFILES) $(LIBFT) -o $(NAME)
 	@echo "done for cub3D"
+
+bonus : $(NAME_B)
+
+$(NAME_B) : $(OBJ_DIRB) $(LIBFT) $(BOFILES)
+	@$(CC) $(LFLAGS) $(BOFILES) $(LIBFT) -o $(NAME_B)
+	@echo "done for cub3D bonus"
+
+$(OBJ_DIR) :
+	@mkdir $(OBJ_DIR)
+
+$(OBJ_DIRB) :
+	@mkdir $(OBJ_DIRB)
+
+$(LIBFT) :
+	@make -C libft
+
+$(BOFILES) : $(OBJ_DIRB)/%.o : $(SRC_DIRB)/%.c $(INCB)
+	@$(CC) -c $(CFLAGS) $< -o $@
+
+$(OFILES) : $(OBJ_DIR)/%.o : $(SRC_DIR)/%.c $(INC)
+	@$(CC) -c $(CFLAGS) $< -o $@
+
+clean :
+	@rm -rf $(OBJ_DIR) $(OBJ_DIRB)
+	@make clean -C libft
+
+fclean : clean
+	@rm -rf $(NAME) $(NAME_B)
+	@make fclean -C libft
+
+re : fclean all
+
+INCMLX=/usr/include
+
+INCLIB=$(INCMLX)/../lib
+
+HFLAGS = -L.. -lmlx -L$(INCLIB) -lXext -lX11 -lm -lbsd
 
 debug : $(OBJ_DIR) $(LIBFT) $(OFILES)
 	@$(CC) -fsanitize=address $(LFLAGS) $(OFILES) $(LIBFT) -o $(NAME)
@@ -57,21 +99,6 @@ pc : $(OBJ_DIR) $(LIBFT) $(OFILES)
 	@$(CC) $(OFILES) $(HFLAGS) $(LIBFT) -o $(NAME)
 	@echo "done for cub3D"
 
-$(OBJ_DIR) :
-	@mkdir obj
-
-$(LIBFT) :
-	@make -C libft
-
-$(OFILES) : $(OBJ_DIR)/%.o : $(SRC_DIR)/%.c $(INC)
-	@$(CC) -c $(CFLAGS) $< -o $@
-
-clean :
-	@rm -rf $(OBJ_DIR)
-	@make clean -C libft
-
-fclean : clean
-	@rm -rf $(NAME)
-	@make fclean -C libft
-
-re : fclean all
+bonuspc : $(OBJ_DIRB) $(LIBFT) $(BOFILES)
+	@$(CC) $(BOFILES) $(HFLAGS) $(LIBFT) -o $(NAME_B)
+	@echo "done for cub3D BONUS"
