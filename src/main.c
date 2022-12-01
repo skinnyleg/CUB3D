@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:17:40 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/11/12 15:56:46 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/11/29 21:28:54 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void	ft_init(t_global	*all)
 	all->map = NULL;
 	all->mlx = NULL;
 	all->player = NULL;
+	all->textures = NULL;
 }
 
 void	parse_map(char	**av, t_global *all)

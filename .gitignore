@@ -1,6 +1,7 @@
 .vscode
 .DS_Store
 *.o
+.excalidraw
 cub3D
 *.a
 *.dSYM
