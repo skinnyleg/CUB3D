@@ -6,7 +6,7 @@
 /*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 15:14:07 by med-doba          #+#    #+#             */
-/*   Updated: 2022/11/29 00:57:32 by med-doba         ###   ########.fr       */
+/*   Updated: 2022/11/30 23:02:31 by med-doba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,17 @@ void	ft_block_1(t_global *all, int color, int j, int i)
 	int	x;
 	int y;
 
+	(void)all;
+	(void)color;
 	y = (i * TILE_SIZE);
 	while ((y < (i * TILE_SIZE + TILE_SIZE)))
 	{
 		x = (j * TILE_SIZE);
 		while (x < (j * TILE_SIZE + TILE_SIZE))
-				img_pix_put(all, x++, y, color);
+		{
+			x++;
+		}
+				// img_pix_put(all, x++, y, color);
 		y++;
 	}
 }
@@ -65,6 +70,31 @@ void	ft_draw_line(t_global *all, double x1, double y1, double x2, double y2)
 	while(0 < steps)
 	{
 		img_pix_put(all, x1, y1, 16776960);
+		x1 += x_inc;
+		y1 += y_inc;
+		steps--;
+	}
+}
+
+void	ft_draw_line_(t_global *all, double x1, double y1, double x2, double y2)
+{
+	double	delat_y;
+	double	delat_x;
+	double	x_inc;
+	double	y_inc;
+	double	steps;
+
+	delat_y = y2 - y1;
+	delat_x = x2 - x1;
+	if (abs((int)delat_y) > abs((int)delat_x))
+		steps = abs((int)delat_y);
+	else
+		steps = abs((int)delat_x);
+	x_inc = delat_x / steps;
+	y_inc = delat_y / steps;
+	while(0 < steps)
+	{
+		img_pix_put(all, x1, y1, 65280);
 		x1 += x_inc;
 		y1 += y_inc;
 		steps--;
@@ -141,23 +171,23 @@ double	ft_intersection_x(t_global *all, double rayangle)
 	{
 		if (!ft_checkwall(all, next_x, next_y))
 		{
-			if (rayangle > M_PI && rayangle < (2 * M_PI))
-				next_y++;
-			if (rayangle > M_PI && rayangle < (2 * M_PI))
-			{
-				all->raycast->y_hor_wall = next_y-1;
-				all->raycast->x_hor_wall = next_x;
-			}
-			else if (rayangle > 0 && rayangle < (M_PI))
-			{
-				all->raycast->y_hor_wall = next_y+0.5;
-				all->raycast->x_hor_wall = next_x;
-			}
-			else
-			{
+			// if (rayangle > M_PI && rayangle < (2 * M_PI))
+			// 	next_y++;
+			// if (rayangle > M_PI && rayangle < (2 * M_PI))
+			// {
+			// 	all->raycast->y_hor_wall = next_y-1;
+			// 	all->raycast->x_hor_wall = next_x;
+			// }
+			// else if (rayangle > 0 && rayangle < (M_PI))
+			// {
+			// 	all->raycast->y_hor_wall = next_y+0.5;
+			// 	all->raycast->x_hor_wall = next_x;
+			// }
+			// else
+			// {
 				all->raycast->y_hor_wall = next_y;
 				all->raycast->x_hor_wall = next_x;
-			}
+			// }
 			// all->raycast->y_hor_wall = next_y+1;
 			// all->raycast->x_hor_wall = next_x+1;
 			return (ft_distance(all, all->pos_x, all->pos_y, all->raycast->x_hor_wall, all->raycast->y_hor_wall));
@@ -208,22 +238,21 @@ double	ft_intersection_y(t_global *all, double rayangle)
 			//var true;
 			// if (rayangle > (0.5 * M_PI) && rayangle < (1.5 * M_PI))
 			// 	next_x++;
-			if (rayangle > (0.5 * M_PI) && rayangle < (1.5 * M_PI))
-			{
+			// if (rayangle > (0.5 * M_PI) && rayangle < (1.5 * M_PI))
+			// {
+			// 	all->raycast->y_ver_wall = next_y;
+			// 	all->raycast->x_ver_wall = next_x;
+			// }
+			// else if (rayangle < (0.5 * M_PI) || rayangle < (1.5 * M_PI))
+			// {
+			// 	all->raycast->y_ver_wall = next_y;
+			// 	all->raycast->x_ver_wall = next_x+1;
+			// }
+			// else
+			// {
 				all->raycast->y_ver_wall = next_y;
 				all->raycast->x_ver_wall = next_x;
-			}
-			else if (rayangle < (0.5 * M_PI) || rayangle < (1.5 * M_PI))
-			{
-				all->raycast->y_ver_wall = next_y;
-				all->raycast->x_ver_wall = next_x+1;
-			}
-			else
-			{
-				all->raycast->y_ver_wall = next_y;
-				all->raycast->x_ver_wall = next_x;
-			}
-
+			// }
 			return (ft_distance(all, all->pos_x, all->pos_y, all->raycast->x_ver_wall, all->raycast->y_ver_wall));
 			break ;
 		}
@@ -235,6 +264,54 @@ double	ft_intersection_y(t_global *all, double rayangle)
 	}
 	return (INT_MAX);
 }
+
+void	ft_rectangle(t_global *all, double x, double y, double width, double height)
+{
+	double	tmp1;
+	double	tmp2;
+
+	// height = 5;
+	if (height > WIN_HEIGHT)
+	{
+		y = 0;
+		height = WIN_HEIGHT;
+	}
+	while (height >= 0)
+	{
+		// printf("h == %f\n", height);
+		tmp1 = width;
+		tmp2 = x;
+		while (tmp1--)
+				img_pix_put(all, tmp2++, y, 65280);
+		height--;
+		y++;
+	}
+	// tmp1 = x;
+	// while (tmp1 < x + width)
+	// {
+	// 	tmp2 = y;
+	// 	while (tmp2 < y + height)
+	// 	{
+	// 		img_pix_put(all, tmp1, tmp2, 65280);
+	// 		tmp2++;
+	// 	}
+	// 	tmp1++;
+	// }
+}
+
+// void	ft_3d(t_global *all)
+// {
+// 	int	i = 0;
+
+// 	while (i < NUM_RAYS)
+// 	{
+// 		// double	raydistancce = all->raycast->distanceofray;
+// 		// double	disProjectionPlane = (WIN_WIDTH / 2) / tan(FOV / 2);
+// 		// double	wallStripeHeight = (TILE_SIZE / raydistancce) *	disProjectionPlane;
+// 		// ft_rectangle(all, i, (WIN_HEIGHT/2) - (wallStripeHeight/2), 5, wallStripeHeight);
+// 		i++;
+// 	}
+// }
 
 void	ft_rays_casting(t_global *all)
 {
@@ -249,35 +326,39 @@ void	ft_rays_casting(t_global *all)
 		rayangle = ft_normilaze(rayangle);
 		all->raycast->hor_dis = ft_intersection_x(all, rayangle);
 		all->raycast->ver_dis = ft_intersection_y(all, rayangle);
-		// printf("hordistance == %f _____ vertdistance == %f\n", all->raycast->hor_dis, all->raycast->ver_dis);
 		if (all->raycast->hor_dis < all->raycast->ver_dis)
 		{
-			// puts("hor");
 			wallinx = all->raycast->x_hor_wall;
 			walliny = all->raycast->y_hor_wall;
+			all->raycast->distanceofray = all->raycast->hor_dis;
 		}
 		else
 		{
-			// puts("ver");
 			wallinx = all->raycast->x_ver_wall;
 			walliny = all->raycast->y_ver_wall;
+			all->raycast->distanceofray = all->raycast->ver_dis;
 		}
-		ft_draw_line(all, all->pos_x, all->pos_y, wallinx, walliny);
-
+		double	raydistancce = all->raycast->distanceofray;
+		double	disProjectionPlane = ((double)WIN_WIDTH / 2) / tan((double)FOV / 2);
+		double	wallStripeHeight = ((double)TILE_SIZE / raydistancce) *	disProjectionPlane;
+		(void)wallStripeHeight;
+		ft_rectangle(all, i, (WIN_HEIGHT/2) - (wallStripeHeight/2), 1, wallStripeHeight);
+		// ft_draw_line(all, all->pos_x, all->pos_y, wallinx, walliny);
 		rayangle += ((double)FOV / (double)NUM_RAYS);
 		i++;
-		// break;
 	}
 
 }
 
 void	ft_render_move(t_global *all)
 {
-	ft_PutCircle(all, all->pos_x, all->pos_y, all->mini->radius);
-	double tmpx = all->pos_x + cos(all->mini->rotateangle) * 32;
-	double tmpy = all->pos_y + sin(all->mini->rotateangle) * 32;
-	ft_draw_line(all, all->pos_x, all->pos_y, tmpx, tmpy);
+	// ft_PutCircle(all, all->pos_x, all->pos_y, all->mini->radius);
+	// double tmpx = all->pos_x + cos(all->mini->rotateangle) * 32;
+	// double tmpy = all->pos_y + sin(all->mini->rotateangle) * 32;
 	ft_rays_casting(all);
+	// ft_draw_line_(all, all->pos_x, all->pos_y, tmpx, tmpy);
+	//render projection walls;
+	// ft_rectangle(all, WIN_WIDTH / 2, WIN_HEIGHT / 2, 5, 20);
 }
 
 void	initialite_mini(t_global *all)

@@ -6,7 +6,7 @@
 /*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 11:27:39 by med-doba          #+#    #+#             */
-/*   Updated: 2022/11/28 23:41:27 by med-doba         ###   ########.fr       */
+/*   Updated: 2022/11/30 23:11:41 by med-doba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,9 @@ void	img_pix_put(t_global *all, int x, int y, int color)
 {
 	char	*pixel;
 
-	if (x < WIN_WIDTH && y < WIN_HEIGHT)
+	if (x >= 0 && x < WIN_WIDTH && y >= 0 &&  y < WIN_HEIGHT)
 	{
+		// printf("x == %d and y == %d\n", x , y);
 		pixel = all->mini->addr + (y * all->mini->size_line + x * (all->mini->bpp / 8));
 		*(int *)pixel = color;
 	}
@@ -77,19 +78,24 @@ int	ft_KeyRelease(int keycode, t_global *all)
 	return (0);
 }
 
-// int	ft_mouse_hook(int x, int y, t_global *all)
-// {
-// 	(void)y;
-// 	if (x > WIN_WIDTH || x < 0)
-// 		return 0;
-// 	printf("ps x = %d\n", x);
-// 	mlx_clear_window(all->mlx->mlx_ptr, all->mlx->mlx_win);
-// 	mlx_destroy_image(all->mlx->mlx_ptr, all->mini->img);
-// 	// all->pos_x -= sin(all->mini->rotateangle) * all->mini->movesteps;
-// 	all->mini->rotateangle += all->mini->directionangle * all->mini->rotatespeed + sin(x);
-// 	ft_replace(all);
-// 	return 0;
-// }
+int	ft_mouse_hook(int x, int y, t_global *all)
+{
+	(void)y;
+	static int	axe_x;
+	if (x > WIN_WIDTH || x < 0)
+		return 0;
+	// printf("ps x = %d\n", x);
+	mlx_clear_window(all->mlx->mlx_ptr, all->mlx->mlx_win);
+	mlx_destroy_image(all->mlx->mlx_ptr, all->mini->img);
+	// all->pos_x -= sin(all->mini->rotateangle) * all->mini->movesteps;
+	if (x > axe_x)
+		all->mini->rotateangle += all->mini->directionangle * all->mini->rotatespeed + 0.025;
+	if (x < axe_x)
+		all->mini->rotateangle += all->mini->directionangle * all->mini->rotatespeed - 0.025;
+	ft_replace(all);
+	axe_x = x;
+	return 0;
+}
 
 // void	ft_render_mini_map(t_global *all)
 // {
