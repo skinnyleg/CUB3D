@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 12:23:47 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/10/17 13:42:16 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/12/03 22:47:05 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ int	change_line(t_global *all, char **line)
 		while (all->a != 0)
 		{
 			*line = ft_strjoin_free(*line, " ");
+			if (*line == NULL)
+				return (-1);
 			all->a--;
 		}
 	}

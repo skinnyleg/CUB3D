@@ -6,11 +6,22 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 15:42:30 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/12/01 17:21:28 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/12/03 20:35:33 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/CUB3D.h"
+
+double	distance_calcul(t_global *all, t_rays ray)
+{
+	double	ret;
+
+	ret = sqrt ((ray.xnext - all->player->pos_tilex) \
+		* (ray.xnext - all->player->pos_tilex) \
+		+ (ray.ynext - all->player->pos_tiley) \
+		* (ray.ynext - all->player->pos_tiley));
+	return (ret);
+}
 
 int	find_pos_p(t_global *all)
 {
@@ -53,21 +64,24 @@ int	set_mlx(t_global *all)
 
 	all->mlx = (t_mlx *)malloc(sizeof(t_mlx) * 1);
 	if (all->mlx == NULL)
-		return (destroy_all(all), -1);
+		return (ft_putendl_fd("Error", 2), destroy_all(all), -1);
+	all->mlx->mlx_ptr = NULL;
+	all->mlx->image = NULL;
+	all->mlx->mlx_win = NULL;
 	all->player = (t_player *)malloc(sizeof(t_player) * 1);
 	if (all->player == NULL)
-		return (destroy_all(all), -1);
+		return (ft_putendl_fd("Error", 2), destroy_all(all), -1);
 	init_player(all->player);
 	mlx_cpy = all->mlx;
 	mlx_cpy->mlx_ptr = mlx_init();
 	if (mlx_cpy->mlx_ptr == NULL)
-		return (destroy_all(all), -1);
+		return (ft_putendl_fd("Error", 2), destroy_all(all), -1);
 	mlx_cpy->mlx_win = mlx_new_window(mlx_cpy->mlx_ptr, \
 		WIN_WIDTH, WIN_HEIGHT, "CUB3D");
 	all->num_rays = (WIN_WIDTH / STRIP_WIDTH);
 	all->rays = (t_rays *)malloc(sizeof(t_rays) * all->num_rays);
 	if (all->rays == NULL)
-		return (destroy_all(all), -1);
+		return (ft_putendl_fd("Error", 2), destroy_all(all), -1);
 	return (0);
 }
 

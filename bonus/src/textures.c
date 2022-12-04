@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 14:39:16 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/11/28 18:43:56 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/12/02 22:07:40 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	set_textures(t_global *all)
 	t_player	*p;
 
 	p = all->player;
-	all->scale = 1;
+	all->scale = 0.2;
 	p->tile_height = TILE_SIZE;
 	p->tile_width = TILE_SIZE;
 	all->textures = (t_textures *)malloc(sizeof(t_textures) * 4);

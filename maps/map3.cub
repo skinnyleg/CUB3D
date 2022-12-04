@@ -1,12 +1,12 @@
 
 
-NO ./textures/test.xpm
+NO ./textures/northwall.xpm
 
-SO ./textures/test.xpm
+SO ./textures/northwall.xpm
 
-WE ./textures/test.xpm
+WE ./textures/northwall.xpm
 
-EA ./textures/test.xpm
+EA ./textures/northwall.xpm
 
 F 220,100,0
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_up_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/25 20:40:54 by med-doba          #+#    #+#             */
-/*   Updated: 2022/09/25 23:09:51 by med-doba         ###   ########.fr       */
+/*   Updated: 2022/12/03 22:37:06 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ char	*ft_strtrim_free(char const *s1, char const *set)
 		j--;
 	hub = malloc(sizeof(char) * (j - i + 1));
 	if (hub == NULL)
-		return (NULL);
+		return (free((void *)s1), NULL);
 	ft_memcpy (hub, s1 + i, j - i + 1);
 	hub[j - i] = '\0';
 	free((void *)s1);

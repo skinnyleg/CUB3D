@@ -57,7 +57,7 @@ $(NAME) : $(OBJ_DIR) $(LIBFT) $(OFILES)
 bonus : $(NAME_B)
 
 $(NAME_B) : $(OBJ_DIRB) $(LIBFT) $(BOFILES)
-	@$(CC) $(LFLAGS) $(BOFILES) $(LIBFT) -o $(NAME_B)
+	@$(CC) $(LFLAGS) $(BOFILES) $(LIBFT) -g -o $(NAME_B)
 	@echo "done for cub3D bonus"
 
 $(OBJ_DIR) :

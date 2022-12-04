@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:18:31 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/12/01 16:58:19 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/12/02 22:07:05 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,6 +159,7 @@ void		ft_direction_player(t_global *all, char p);
 void		destroy_textures(t_global *all);
 int			set_textures(t_global *all);
 int			index_textures(t_global *all, int i);
+void		render_direct(t_global *all, int size, double x, double y);
 
 //created by med-doba
 void		ft_free_lst_paraup(t_paraup **head);

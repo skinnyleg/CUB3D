@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 18:47:58 by med-doba          #+#    #+#             */
-/*   Updated: 2022/12/01 21:46:39 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/12/03 14:17:26 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	parse_upper(char **av, t_global *all)
 
 	all->fd = open(av[1], O_RDWR);
 	if (all->fd == -1)
-		return (perror("open"), destroy_all(all), 1);
+		return (ft_putendl_fd("Error", 2), destroy_all(all), 1);
 	rtn_gnl = get_next_line(all->fd);
 	while (rtn_gnl)
 	{
@@ -34,8 +34,8 @@ int	parse_upper(char **av, t_global *all)
 	}
 	if (!all->up || ((ft_lstsize_paraup(all->up) < 5
 				|| ft_lstsize_paraup(all->up) > 5) || check_double(all->up)))
-		return (ft_putendl_fd("Error map last", 2), destroy_all(all), 1);
-	return (all->l = 1, 0);
+		return (ft_putendl_fd("Error", 2), destroy_all(all), 1);
+	return (0);
 }
 
 int	ft_rtn_gnl(char *rtn_gnl, t_global *all)
@@ -52,7 +52,7 @@ int	ft_rtn_gnl(char *rtn_gnl, t_global *all)
 				return (ft_free_2d(ptr), free(rtn_gnl), 1);
 		}
 		else
-			return (ft_free_2d(ptr), free(rtn_gnl), 2);
+			return (all->l = 1, ft_free_2d(ptr), free(rtn_gnl), 2);
 		ft_free_2d(ptr);
 	}
 	return (free(rtn_gnl), 0);
@@ -67,23 +67,27 @@ int	ft_handle_line(char	**ptr, t_global *all)
 	while (ptr[i])
 		i++;
 	if (i > 2 || i == 1)
-		return (ft_putendl_fd("Error map_1", 2), -1);
+		return (ft_putendl_fd("Error", 2), -1);
 	if (ft_strcmp(ptr[0], "NO") == 0 || ft_strcmp(ptr[0], "SO") == 0
 		|| ft_strcmp(ptr[0], "WE") == 0 || ft_strcmp(ptr[0], "EA") == 0)
 	{
+		//check texture extension xpm
+		// close fd texture
+		//protect node allocation
+		// remove repate value in struct up
 		if (open(ptr[1], O_RDWR) == -1)
-			return (perror("path_to_texture"), -1);
+			return (ft_putendl_fd("Error", 2), -1);
 		node = ft_lstnew_paraup(ptr[0], ptr[1], 1);
 		return (ft_lstadd_back_paraup(&(all->up), node), 0);
 	}
 	else if (ft_strcmp(ptr[0], "F") == 0 || ft_strcmp(ptr[0], "C") == 0)
 	{
 		if (ft_handle_c_f(ptr[1]) == -1)
-			return (ft_putendl_fd("Error map_2", 2), -1);
+			return (ft_putendl_fd("Error", 2), -1);
 		node = ft_lstnew_paraup(ptr[0], ptr[1], 1);
 		return (ft_lstadd_back_paraup(&(all->up), node), 0);
 	}
-	return (ft_putendl_fd("Error map_3", 2), -1);
+	return (ft_putendl_fd("Error", 2), -1);
 }
 
 int	ft_handle_c_f(char *ptr)
@@ -94,6 +98,7 @@ int	ft_handle_c_f(char *ptr)
 	int		nbr;
 
 	i = 0;
+	// check multiple semicolon (,)
 	tab = ft_split(ptr, ',');
 	while (tab[i])
 		i++;

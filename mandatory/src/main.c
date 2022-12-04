@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:17:40 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/12/01 21:42:34 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/12/03 23:22:40 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	check_extension(char *str, char *extension)
 	if (ft_strlen(&str[i]) > length)
 		length = ft_strlen(&str[i]);
 	if (ft_strncmp(&str[i], extension, length) != 0)
-		return (printf("Wrong extension\n"), 1);
+		return (printf("Error\n"), 1);
 	return (0);
 }
 
@@ -63,7 +63,7 @@ int	main(int ac, char **av)
 	t_global	all;
 
 	if (ac != 2)
-		return (printf("Not Enough Arguments\n"), 0);
+		return (printf("Error\n"), 0);
 	parse_map(av, &all);
 	mlx_render(&all);
 	mlx_hook(all.mlx->mlx_win, 17, 0, ft_close, &all);

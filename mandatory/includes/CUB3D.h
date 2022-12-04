@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:18:31 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/12/01 21:27:24 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/12/03 23:09:12 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@
 # define FOV 60
 # define WIN_HEIGHT 800
 # define WIN_WIDTH 1500
-# define MINI_HEIGHT 500
-# define MINI_WIDTH 500
 # define STRIP_WIDTH 1
 # define TILE_SIZE 64
 
@@ -29,7 +27,6 @@
 # include <limits.h>
 # include <mlx.h>
 # include <stdbool.h>
-// # include "/usr/X11/include/mlx.h"
 # include "../../libft/includes/libft.h"
 # define BUFFER_SIZE 1
 
@@ -97,7 +94,7 @@ typedef struct s_rays
 typedef struct s_textures
 {
 	int		**texture;
-	void	*teximg;
+	void	*teximg[4];
 	int		texelcolor;
 	int		offsetx;
 	int		offsety;
@@ -112,6 +109,7 @@ typedef struct s_global
 	int			color_ceiling;
 	int			color_floor;
 	double		scale;
+	double		wallheight;
 	t_textures	*textures;
 	t_paraup	*up;
 	t_map		*map;
@@ -159,6 +157,9 @@ void		destroy_textures(t_global *all);
 int			set_textures(t_global *all);
 int			index_textures(t_global *all, int i);
 void		render_direct(t_global *all, int size, double x, double y);
+void		free_maparr(t_global *all);
+double		distance_calcul(t_global *all, t_rays ray);
+int			map_size(char **map);
 
 //created by med-doba
 void		ft_free_lst_paraup(t_paraup **head);

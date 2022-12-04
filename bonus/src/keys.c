@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 15:55:11 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/11/28 22:26:19 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/12/02 22:11:06 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ void	forward_back_motion(t_global *all)
 	t_player	*p;
 
 	p = all->player;
-	p->pos_tilex = p->x + ((all->l * p->tile_width) + p->tile_width / 2);
-	p->pos_tiley = p->y + ((all->a * p->tile_height) + p->tile_height / 2);
+	p->pos_tilex = p->x + ((all->l * p->tile_width));
+	p->pos_tiley = p->y + ((all->a * p->tile_height));
 	x = p->pos_tilex;
 	y = p->pos_tiley;
 	y += ((double)(p->vel * p->udd) * sin(p->rotateangle));
@@ -75,8 +75,8 @@ void	left_right_motion(t_global *all)
 	t_player	*p;
 
 	p = all->player;
-	p->pos_tilex = p->x + ((all->l * p->tile_width) + p->tile_width / 2);
-	p->pos_tiley = p->y + ((all->a * p->tile_height) + p->tile_height / 2);
+	p->pos_tilex = p->x + ((all->l * p->tile_width));
+	p->pos_tiley = p->y + ((all->a * p->tile_height));
 	x = p->pos_tilex;
 	y = p->pos_tiley;
 	x += sin(p->rotateangle) * (double)(p->rld * p->vel);
