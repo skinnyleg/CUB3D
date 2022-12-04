@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 16:03:14 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/12/03 23:40:45 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/12/04 20:07:47 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,25 @@ void	ft_direction_player(t_global *all, char p)
 		all->player->rotateangle = 0;
 	else if (p == 'W')
 		all->player->rotateangle = (M_PI);
+}
+
+int	iswall(t_global *all, double x, double y)
+{
+	int	gridx;
+	int	gridy;
+
+	if (x < 0 || x > all->map->width * all->player->tile_width \
+		|| y < 0 || y > all->map->height * all->player->tile_height)
+		return (1);
+	gridx = floor((all->player->pos_tilex / (double)all->player->tile_width));
+	gridy = floor((y / (double)all->player->tile_height));
+	if (gridy <= all->map->height && all->map->map[gridy] != NULL \
+		&& all->map->map[gridy][gridx] == '1')
+		return (1);
+	gridx = floor((x / (double)all->player->tile_width));
+	gridy = floor((all->player->pos_tiley / (double)all->player->tile_height));
+	if (gridy <= all->map->height && all->map->map[gridy] != NULL \
+		&& all->map->map[gridy][gridx] == '1')
+		return (1);
+	return (0);
 }

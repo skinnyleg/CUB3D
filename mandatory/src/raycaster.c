@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 15:52:33 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/12/03 17:59:11 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/12/04 20:07:04 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ void	render_player(t_global *all, int i, int j)
 
 	count = 0;
 	p = all->player;
-	p->pos_tilex = p->x + ((i * p->tile_width));
-	p->pos_tiley = p->y + ((j * p->tile_height));
+	p->pos_tilex = p->x + ((i * p->tile_width) + p->tile_width / 2);
+	p->pos_tiley = p->y + ((j * p->tile_height) + p->tile_height / 2);
 	degree = (all->player->rotateangle - (((double)FOV * (M_PI / 180)) / 2));
 	inc_deg = ((double)FOV / (double)all->num_rays);
 	while (count < all->num_rays)

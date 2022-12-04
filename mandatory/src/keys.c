@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 15:55:11 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/12/03 11:23:11 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/12/04 20:05:11 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,17 @@ void	forward_back_motion(t_global *all)
 	t_player	*p;
 
 	p = all->player;
-	p->pos_tilex = p->x + ((all->l * p->tile_width));
-	p->pos_tiley = p->y + ((all->a * p->tile_height));
+	p->pos_tilex = p->x + ((all->l * p->tile_width) + p->tile_width / 2);
+	p->pos_tiley = p->y + ((all->a * p->tile_height) + p->tile_height / 2);
 	x = p->pos_tilex;
 	y = p->pos_tiley;
 	y += ((double)(p->vel * p->udd) * sin(p->rotateangle));
 	x += ((double)(p->vel * p->udd) * cos(p->rotateangle));
-	p->y = y - (p->pos_tiley - p->y);
-	p->x = x - (p->pos_tilex - p->x);
+	if (iswall(all, x, y) == 0)
+	{
+		p->y = y - (p->pos_tiley - p->y);
+		p->x = x - (p->pos_tilex - p->x);
+	}
 }
 
 void	left_right_motion(t_global *all)
@@ -72,14 +75,17 @@ void	left_right_motion(t_global *all)
 	t_player	*p;
 
 	p = all->player;
-	p->pos_tilex = p->x + ((all->l * p->tile_width));
-	p->pos_tiley = p->y + ((all->a * p->tile_height));
+	p->pos_tilex = p->x + ((all->l * p->tile_width) + p->tile_width / 2);
+	p->pos_tiley = p->y + ((all->a * p->tile_height) + p->tile_height / 2);
 	x = p->pos_tilex;
 	y = p->pos_tiley;
 	x += sin(p->rotateangle) * (double)(p->rld * p->vel);
 	y -= cos(p->rotateangle) * (double)(p->rld * p->vel);
-	p->y = y - (p->pos_tiley - p->y);
-	p->x = x - (p->pos_tilex - p->x);
+	if (iswall(all, x, y) == 0)
+	{
+		p->y = y - (p->pos_tiley - p->y);
+		p->x = x - (p->pos_tilex - p->x);
+	}
 }
 
 int	move_player(t_global *all)

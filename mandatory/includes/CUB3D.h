@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:18:31 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/12/03 23:09:12 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/12/04 20:04:21 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,6 +160,7 @@ void		render_direct(t_global *all, int size, double x, double y);
 void		free_maparr(t_global *all);
 double		distance_calcul(t_global *all, t_rays ray);
 int			map_size(char **map);
+int			iswall(t_global *all, double x, double y);
 
 //created by med-doba
 void		ft_free_lst_paraup(t_paraup **head);
