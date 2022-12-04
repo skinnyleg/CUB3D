@@ -6,7 +6,7 @@
 /*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 11:27:39 by med-doba          #+#    #+#             */
-/*   Updated: 2022/11/30 23:11:41 by med-doba         ###   ########.fr       */
+/*   Updated: 2022/12/03 23:43:09 by med-doba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,16 +82,16 @@ int	ft_mouse_hook(int x, int y, t_global *all)
 {
 	(void)y;
 	static int	axe_x;
-	if (x > WIN_WIDTH || x < 0)
+	if (x > WIN_WIDTH || x < 0 || y < 0 || y > WIN_HEIGHT)
 		return 0;
 	// printf("ps x = %d\n", x);
 	mlx_clear_window(all->mlx->mlx_ptr, all->mlx->mlx_win);
 	mlx_destroy_image(all->mlx->mlx_ptr, all->mini->img);
 	// all->pos_x -= sin(all->mini->rotateangle) * all->mini->movesteps;
 	if (x > axe_x)
-		all->mini->rotateangle += all->mini->directionangle * all->mini->rotatespeed + 0.025;
+		all->mini->rotateangle += all->mini->directionangle * all->mini->rotatespeed + 0.023;
 	if (x < axe_x)
-		all->mini->rotateangle += all->mini->directionangle * all->mini->rotatespeed - 0.025;
+		all->mini->rotateangle += all->mini->directionangle * all->mini->rotatespeed - 0.023;
 	ft_replace(all);
 	axe_x = x;
 	return 0;

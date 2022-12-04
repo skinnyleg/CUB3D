@@ -6,7 +6,7 @@
 /*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 18:47:58 by med-doba          #+#    #+#             */
-/*   Updated: 2022/11/02 10:50:03 by med-doba         ###   ########.fr       */
+/*   Updated: 2022/12/04 18:03:38 by med-doba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,10 @@ int	ft_handle_line(char	**ptr, t_global *all)
 {
 	t_paraup	*node;
 	int			i;
+	int			fd;
 
 	i = 0;
+	fd = 0;
 	while (ptr[i])
 		i++;
 	if (i > 2 || i == 1)
@@ -83,29 +85,48 @@ int	ft_handle_line(char	**ptr, t_global *all)
 	{
 		if (check_extension_up(ptr[1], ".xpm") == 1)
 			return (-1);
-		if (open(ptr[1], O_RDONLY) == -1)
+		fd = open(ptr[1], O_RDONLY);
+		if (fd == -1)
 			return (perror("path_to_texture"), -1);
-		node = ft_lstnew_paraup(ptr[0], ptr[1], 1);
-		return (ft_lstadd_back_paraup(&(all->up), node), 0);
+		node = ft_lstnew_paraup(ptr[0], ptr[1]);
+		if (node != NULL)
+			return (ft_lstadd_back_paraup(&(all->up), node), close(fd), 0);
 	}
 	else if (ft_strcmp(ptr[0], "F") == 0 || ft_strcmp(ptr[0], "C") == 0)
 	{
-		if (ft_handle_c_f(ptr[1]) == -1)
+		if (ft_handle_c_f(ptr[1], 0) == -1)
 			return (ft_putendl_fd("Error: map_2", 2), -1);
-		node = ft_lstnew_paraup(ptr[0], ptr[1], 1);
-		return (ft_lstadd_back_paraup(&(all->up), node), 0);
+		node = ft_lstnew_paraup(ptr[0], ptr[1]);
+		if (node != NULL)
+			return (ft_lstadd_back_paraup(&(all->up), node), 0);
 	}
-	return (ft_putendl_fd("Error: map_3", 2), -1);
+	return (ft_putendl_fd("Error: map_3", 2), close(fd), -1);
 }
 
-int	ft_handle_c_f(char *ptr)
+int	ft_count_comma(char *ptr)
 {
-	int		i;
+	int	i;
+	int j;
+
+	i = 0;
+	j = 0;
+	while (ptr[i])
+	{
+		if (ptr[i] == ',')
+			j++;
+		i++;
+	}
+	return (j);
+}
+
+int	ft_handle_c_f(char *ptr, int i)
+{
 	int		j;
 	char	**tab;
 	int		nbr;
 
-	i = 0;
+	if (ft_count_comma(ptr) > 2)
+		return (-1);
 	tab = ft_split(ptr, ',');
 	while (tab[i])
 		i++;
