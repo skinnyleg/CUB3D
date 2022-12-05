@@ -3,14 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   parse_upper.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 18:47:58 by med-doba          #+#    #+#             */
-/*   Updated: 2022/12/03 14:17:26 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/12/04 22:40:03 by med-doba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/CUB3D.h"
+
+int	check_extension_up(char *str, char *extension)
+{
+	str++;
+	while (*str != '\0' && *str != '.')
+		str++;
+	if (ft_strcmp(str, extension) != 0)
+		return (printf("Error: Wrong extension\n"), 1);
+	return (0);
+}
 
 int	parse_upper(char **av, t_global *all)
 {
@@ -62,8 +72,10 @@ int	ft_handle_line(char	**ptr, t_global *all)
 {
 	t_paraup	*node;
 	int			i;
+	int			fd;
 
 	i = 0;
+	fd = 0;
 	while (ptr[i])
 		i++;
 	if (i > 2 || i == 1)
@@ -71,34 +83,50 @@ int	ft_handle_line(char	**ptr, t_global *all)
 	if (ft_strcmp(ptr[0], "NO") == 0 || ft_strcmp(ptr[0], "SO") == 0
 		|| ft_strcmp(ptr[0], "WE") == 0 || ft_strcmp(ptr[0], "EA") == 0)
 	{
-		//check texture extension xpm
-		// close fd texture
-		//protect node allocation
-		// remove repate value in struct up
-		if (open(ptr[1], O_RDWR) == -1)
+		if (check_extension_up(ptr[1], ".xpm") == 1)
+			return (-1);
+		fd = open(ptr[1], O_RDONLY);
+		if (fd == -1)
 			return (ft_putendl_fd("Error", 2), -1);
-		node = ft_lstnew_paraup(ptr[0], ptr[1], 1);
-		return (ft_lstadd_back_paraup(&(all->up), node), 0);
+		node = ft_lstnew_paraup(ptr[0], ptr[1]);
+		if (node != NULL)
+			return (ft_lstadd_back_paraup(&(all->up), node), close(fd), 0);
 	}
 	else if (ft_strcmp(ptr[0], "F") == 0 || ft_strcmp(ptr[0], "C") == 0)
 	{
-		if (ft_handle_c_f(ptr[1]) == -1)
+		if (ft_handle_c_f(ptr[1], 0) == -1)
 			return (ft_putendl_fd("Error", 2), -1);
-		node = ft_lstnew_paraup(ptr[0], ptr[1], 1);
-		return (ft_lstadd_back_paraup(&(all->up), node), 0);
+		node = ft_lstnew_paraup(ptr[0], ptr[1]);
+		if (node != NULL)
+			return (ft_lstadd_back_paraup(&(all->up), node), 0);
 	}
-	return (ft_putendl_fd("Error", 2), -1);
+	return (ft_putendl_fd("Error", 2), close(fd), -1);
 }
 
-int	ft_handle_c_f(char *ptr)
+int	ft_count_comma(char *ptr)
 {
-	int		i;
+	int	i;
+	int j;
+
+	i = 0;
+	j = 0;
+	while (ptr[i])
+	{
+		if (ptr[i] == ',')
+			j++;
+		i++;
+	}
+	return (j);
+}
+
+int	ft_handle_c_f(char *ptr, int i)
+{
 	int		j;
 	char	**tab;
 	int		nbr;
 
-	i = 0;
-	// check multiple semicolon (,)
+	if (ft_count_comma(ptr) > 2)
+		return (-1);
 	tab = ft_split(ptr, ',');
 	while (tab[i])
 		i++;

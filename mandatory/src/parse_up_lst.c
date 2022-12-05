@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_up_lst.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/25 20:40:26 by med-doba          #+#    #+#             */
-/*   Updated: 2022/10/17 15:06:15 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/12/04 22:36:14 by med-doba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	ft_lstadd_back_paraup(t_paraup **lst, t_paraup *new)
 	*lst = tmp;
 }
 
-t_paraup	*ft_lstnew_paraup(char *name, char *value, int repate)
+t_paraup	*ft_lstnew_paraup(char *name, char *value)
 {
 	t_paraup	*node;
 
@@ -63,7 +63,6 @@ t_paraup	*ft_lstnew_paraup(char *name, char *value, int repate)
 	node->dir = ft_strdup(name);
 	if (value)
 		node->value = ft_strdup(value);
-	node->repate = repate;
 	node->next = NULL;
 	return (node);
 }

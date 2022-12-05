@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   CUB3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:18:31 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/12/04 20:04:21 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/12/04 22:36:47 by med-doba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ typedef struct s_paraup
 {
 	char			*dir;
 	char			*value;
-	int				repate;
 	struct s_paraup	*next;
 }	t_paraup;
 
@@ -172,8 +171,8 @@ int			parse_upper(char	**av, t_global *all);
 int			ft_handle_line(char	**ptr, t_global *up);
 void		ft_lstadd_back_paraup(t_paraup **lst, t_paraup *new);
 int			ft_lstsize_paraup(t_paraup *lst);
-t_paraup	*ft_lstnew_paraup(char *name, char *value, int repate);
+t_paraup	*ft_lstnew_paraup(char *name, char *value);
 void		ft_free_2d(char **ptr);
-int			ft_handle_c_f(char *ptr);
+int			ft_handle_c_f(char *ptr, int i);
 void		destroy_all(t_global *all);
 #endif
