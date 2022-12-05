@@ -6,7 +6,7 @@
 /*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/25 20:40:26 by med-doba          #+#    #+#             */
-/*   Updated: 2022/12/04 22:36:14 by med-doba         ###   ########.fr       */
+/*   Updated: 2022/12/05 20:01:30 by med-doba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	ft_free_2d(char **ptr)
 	int	i;
 
 	i = 0;
+	if (ptr == NULL)
+		return ;
 	while (ptr[i])
 		free(ptr[i++]);
 	free(ptr);
@@ -61,8 +63,14 @@ t_paraup	*ft_lstnew_paraup(char *name, char *value)
 	if (node == NULL)
 		return (NULL);
 	node->dir = ft_strdup(name);
+	if (node->dir == NULL)
+		return (free(node), NULL);
 	if (value)
+	{
 		node->value = ft_strdup(value);
+		if (node->dir == NULL)
+			return (free(node->dir), free(node), NULL);
+	}
 	node->next = NULL;
 	return (node);
 }

@@ -6,7 +6,7 @@
 /*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:18:31 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/12/04 22:36:47 by med-doba         ###   ########.fr       */
+/*   Updated: 2022/12/05 19:18:13 by med-doba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,13 +162,14 @@ int			map_size(char **map);
 int			iswall(t_global *all, double x, double y);
 
 //created by med-doba
+int			check_extension_up(char *str, char *extension);
 void		ft_free_lst_paraup(t_paraup **head);
 int			ft_rtn_gnl(char *rtn_gnl, t_global *all);
 int			check_double(t_paraup *up);
 int			ft_check_ptr_0(char *ptr0);
 char		*ft_strtrim_free(char const *s1, char const *set);
 int			parse_upper(char	**av, t_global *all);
-int			ft_handle_line(char	**ptr, t_global *up);
+int			ft_handle_line(char	**ptr, t_global *up, int fd);
 void		ft_lstadd_back_paraup(t_paraup **lst, t_paraup *new);
 int			ft_lstsize_paraup(t_paraup *lst);
 t_paraup	*ft_lstnew_paraup(char *name, char *value);

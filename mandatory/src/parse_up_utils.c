@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_up_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/25 20:40:54 by med-doba          #+#    #+#             */
-/*   Updated: 2022/12/03 22:37:06 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/12/05 19:29:20 by med-doba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,16 @@ int	check_double(t_paraup *up)
 		tmp = up;
 		top = top->next;
 	}
+	return (0);
+}
+
+int	check_extension_up(char *str, char *extension)
+{
+	str++;
+	while (*str != '\0' && *str != '.')
+		str++;
+	if (ft_strcmp(str, extension) != 0)
+		return (1);
 	return (0);
 }
 
