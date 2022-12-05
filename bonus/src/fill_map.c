@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 12:23:19 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/12/01 21:45:43 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/12/03 23:30:57 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,29 +16,32 @@ int	array_fill(t_global *all)
 {
 	char	*line;
 	int		i;
+	int		ret;
 
 	i = 0;
 	line = get_next_line(all->fd);
 	while (line != NULL)
 	{
-		if (line_valid(line) == 0)
+		ret = line_valid(line);
+		if (ret == 0)
 		{
-			change_line(all, &line);
+			if (change_line(all, &line) == -1)
+				return (1);
 			all->map->map[i] = ft_strdup(line);
-			if (all->map->map[i] == NULL)
-				return (free(line), free_2d(all->map->map, i), 1);
-			i++;
+			if (all->map->map[i++] == NULL)
+				return (free(line), 1);
 		}
-		else if (i != 0 && i != all->map->height)
-			return (free(line), free_2d(all->map->map, i), 1);
+		else if ((i != 0 && i != all->map->height) || ret == -1)
+			return (free(line), 1);
 		free(line);
 		line = get_next_line(all->fd);
 	}
-	all->map->map[i] = NULL;
+	if (map_size(all->map->map) < all->map->height)
+		return (1);
 	return (0);
 }
 
-void	skip_line(int fd)
+int	skip_line(int fd)
 {
 	char	*line;
 	int		count;
@@ -48,6 +51,8 @@ void	skip_line(int fd)
 	while (line != NULL && count != 5)
 	{
 		line = ft_strtrim_free(line, " \t");
+		if (line == NULL)
+			return (-1);
 		if (*line != '\0')
 			count++;
 		free(line);
@@ -56,17 +61,19 @@ void	skip_line(int fd)
 	free(line);
 	line = get_next_line(fd);
 	free(line);
+	return (0);
 }
 
 int	fill_map(t_global *all, char **av)
 {
 	all->fd = open(av[1], O_RDWR);
 	if (all->fd < 0)
-		return (printf("can't open file\n"), 1);
-	skip_line(all->fd);
-	if (array_fill(all) == 1)
 		return (1);
-	return (0);
+	if (skip_line(all->fd) == -1)
+		return (close(all->fd), 1);
+	if (array_fill(all) == 1)
+		return (close(all->fd), 1);
+	return (close(all->fd), 0);
 }
 
 void	init_height(int fd, t_global *all)
@@ -96,7 +103,11 @@ int	line_valid(char *line)
 	char	*rep;
 
 	rep = ft_strdup(line);
+	if (rep == NULL)
+		return (-1);
 	buffer = ft_strtrim_free(rep, " \t");
+	if (buffer == NULL)
+		return (-1);
 	if (*buffer == '\0')
 		return (free(buffer), 1);
 	return (free(buffer), 0);

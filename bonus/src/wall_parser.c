@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 12:22:51 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/10/11 12:22:52 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/12/03 23:11:43 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ int	check_contents(t_map *map)
 
 	count = 0;
 	i = 0;
-	while (i < map->height)
+	while (map->map[i] != NULL && i < map->height)
 	{
 		j = 0;
 		while (j < map->width)

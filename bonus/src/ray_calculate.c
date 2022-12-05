@@ -6,22 +6,11 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 16:27:08 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/11/28 20:42:55 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/12/03 20:36:01 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/CUB3D.h"
-
-double	distance_calcul(t_global *all, t_rays ray)
-{
-	double	ret;
-
-	ret = sqrt ((ray.xnext - all->player->pos_tilex) \
-		* (ray.xnext - all->player->pos_tilex) \
-		+ (ray.ynext - all->player->pos_tiley) \
-		* (ray.ynext - all->player->pos_tiley));
-	return (ret);
-}
 
 double	looptilhit_horz(t_rays *ray, t_global *all)
 {
@@ -125,5 +114,4 @@ void	cast_render(t_global *all, t_rays *ray)
 		ray->verthit = true;
 		ray->dist_const = ray->distance_vertic;
 	}
-	//render_rays(all, *ray, all->player->pos_tilex, all->player->pos_tiley);
 }

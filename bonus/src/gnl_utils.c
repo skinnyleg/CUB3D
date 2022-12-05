@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 18:26:25 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/09/23 18:10:54 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/12/03 22:44:21 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*ft_strjoin_free(char *s1,	char *s2)
 	k = i + j;
 	tab = (char *)malloc(k + 1);
 	if (tab == NULL)
-		return (NULL);
+		return (free(s1), NULL);
 	i = 0;
 	j = 0;
 	while (s1[i] != '\0')

@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 14:39:16 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/12/02 22:07:40 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/12/03 20:47:21 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,12 @@ int	set_dir_text(t_global *all, char *path, int index)
 	t = all->textures;
 	if (index == -1)
 		return (2);
-	t->teximg = mlx_xpm_file_to_image(all->mlx->mlx_ptr, path, &sl, &bpp);
-	if (t->teximg == NULL)
+	t->teximg[index] = mlx_xpm_file_to_image(all->mlx->mlx_ptr, \
+		path, &sl, &bpp);
+	if (t->teximg[index] == NULL)
 		return (-1);
-	t->texture[index] = (int *)mlx_get_data_addr(t->teximg, &sl, &bpp, &end);
+	t->texture[index] = (int *)mlx_get_data_addr(t->teximg[index], \
+		&sl, &bpp, &end);
 	if (t->texture == NULL)
 		return (-1);
 	return (0);
@@ -82,7 +84,11 @@ int	set_textures(t_global *all)
 	all->textures = (t_textures *)malloc(sizeof(t_textures) * 4);
 	if (all->textures == NULL)
 		return (destroy_all(all), -1);
+	all->textures->teximg[0] = NULL;
+	all->textures->teximg[1] = NULL;
+	all->textures->teximg[2] = NULL;
+	all->textures->teximg[3] = NULL;
 	if (fill_textures(all) == -1)
-		return (destroy_all(all), -1);
+		return (ft_putendl_fd("Error", 2), destroy_all(all), -1);
 	return (0);
 }

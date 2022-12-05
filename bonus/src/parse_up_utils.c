@@ -6,7 +6,7 @@
 /*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/25 20:40:54 by med-doba          #+#    #+#             */
-/*   Updated: 2022/09/25 23:09:51 by med-doba         ###   ########.fr       */
+/*   Updated: 2022/12/05 19:29:20 by med-doba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,16 @@ int	check_double(t_paraup *up)
 	return (0);
 }
 
+int	check_extension_up(char *str, char *extension)
+{
+	str++;
+	while (*str != '\0' && *str != '.')
+		str++;
+	if (ft_strcmp(str, extension) != 0)
+		return (1);
+	return (0);
+}
+
 char	*ft_strtrim_free(char const *s1, char const *set)
 {
 	int		j;
@@ -70,7 +80,7 @@ char	*ft_strtrim_free(char const *s1, char const *set)
 		j--;
 	hub = malloc(sizeof(char) * (j - i + 1));
 	if (hub == NULL)
-		return (NULL);
+		return (free((void *)s1), NULL);
 	ft_memcpy (hub, s1 + i, j - i + 1);
 	hub[j - i] = '\0';
 	free((void *)s1);

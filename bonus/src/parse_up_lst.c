@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_up_lst.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/25 20:40:26 by med-doba          #+#    #+#             */
-/*   Updated: 2022/10/17 15:06:15 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/12/05 20:01:30 by med-doba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	ft_free_2d(char **ptr)
 	int	i;
 
 	i = 0;
+	if (ptr == NULL)
+		return ;
 	while (ptr[i])
 		free(ptr[i++]);
 	free(ptr);
@@ -53,7 +55,7 @@ void	ft_lstadd_back_paraup(t_paraup **lst, t_paraup *new)
 	*lst = tmp;
 }
 
-t_paraup	*ft_lstnew_paraup(char *name, char *value, int repate)
+t_paraup	*ft_lstnew_paraup(char *name, char *value)
 {
 	t_paraup	*node;
 
@@ -61,9 +63,14 @@ t_paraup	*ft_lstnew_paraup(char *name, char *value, int repate)
 	if (node == NULL)
 		return (NULL);
 	node->dir = ft_strdup(name);
+	if (node->dir == NULL)
+		return (free(node), NULL);
 	if (value)
+	{
 		node->value = ft_strdup(value);
-	node->repate = repate;
+		if (node->dir == NULL)
+			return (free(node->dir), free(node), NULL);
+	}
 	node->next = NULL;
 	return (node);
 }

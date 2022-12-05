@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   CUB3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:18:31 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/12/02 22:07:05 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/12/05 19:18:13 by med-doba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@
 # define FOV 60
 # define WIN_HEIGHT 800
 # define WIN_WIDTH 1500
-# define MINI_HEIGHT 500
-# define MINI_WIDTH 500
 # define STRIP_WIDTH 1
 # define TILE_SIZE 64
 
@@ -29,7 +27,6 @@
 # include <limits.h>
 # include <mlx.h>
 # include <stdbool.h>
-// # include "/usr/X11/include/mlx.h"
 # include "../../libft/includes/libft.h"
 # define BUFFER_SIZE 1
 
@@ -48,7 +45,6 @@ typedef struct s_paraup
 {
 	char			*dir;
 	char			*value;
-	int				repate;
 	struct s_paraup	*next;
 }	t_paraup;
 
@@ -97,7 +93,7 @@ typedef struct s_rays
 typedef struct s_textures
 {
 	int		**texture;
-	void	*teximg;
+	void	*teximg[4];
 	int		texelcolor;
 	int		offsetx;
 	int		offsety;
@@ -112,6 +108,7 @@ typedef struct s_global
 	int			color_ceiling;
 	int			color_floor;
 	double		scale;
+	double		wallheight;
 	t_textures	*textures;
 	t_paraup	*up;
 	t_map		*map;
@@ -141,7 +138,6 @@ int			check_extension(char *str, char *extension);
 void		mlx_render(t_global *all);
 void		render_minimap(t_global *all);
 void		destroy_rays(t_global *all);
-int			iswall(t_global *all, double x, double y);
 int			iswall_ray(t_global *all, double x, double y);
 int			keypress(int keycode, t_global *all);
 int			keyrelease(int keycode, t_global *all);
@@ -160,19 +156,24 @@ void		destroy_textures(t_global *all);
 int			set_textures(t_global *all);
 int			index_textures(t_global *all, int i);
 void		render_direct(t_global *all, int size, double x, double y);
+void		free_maparr(t_global *all);
+double		distance_calcul(t_global *all, t_rays ray);
+int			map_size(char **map);
+int			iswall(t_global *all, double x, double y);
 
 //created by med-doba
+int			check_extension_up(char *str, char *extension);
 void		ft_free_lst_paraup(t_paraup **head);
 int			ft_rtn_gnl(char *rtn_gnl, t_global *all);
 int			check_double(t_paraup *up);
 int			ft_check_ptr_0(char *ptr0);
 char		*ft_strtrim_free(char const *s1, char const *set);
 int			parse_upper(char	**av, t_global *all);
-int			ft_handle_line(char	**ptr, t_global *up);
+int			ft_handle_line(char	**ptr, t_global *up, int fd);
 void		ft_lstadd_back_paraup(t_paraup **lst, t_paraup *new);
 int			ft_lstsize_paraup(t_paraup *lst);
-t_paraup	*ft_lstnew_paraup(char *name, char *value, int repate);
+t_paraup	*ft_lstnew_paraup(char *name, char *value);
 void		ft_free_2d(char **ptr);
-int			ft_handle_c_f(char *ptr);
+int			ft_handle_c_f(char *ptr, int i);
 void		destroy_all(t_global *all);
 #endif

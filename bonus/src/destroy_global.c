@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 13:28:11 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/11/23 18:07:21 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/12/03 20:39:59 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 
 void	destroy_map(t_global *all)
 {
-	free_map(all->map);
+	if (all->map->map != NULL)
+		free_maparr(all);
+	free(all->map);
 	all->map = NULL;
 }
 
@@ -26,6 +28,10 @@ void	destroy_up(t_global *all)
 
 void	destroy_mlx(t_global *all)
 {
+	if (all->mlx->image != NULL)
+		mlx_destroy_image(all->mlx->mlx_ptr, all->mlx->image);
+	if (all->mlx->mlx_win != NULL)
+		mlx_clear_window(all->mlx->mlx_ptr, all->mlx->mlx_win);
 	free(all->mlx);
 	all->mlx = NULL;
 }
@@ -38,10 +44,10 @@ void	destroy_player(t_global *all)
 
 void	destroy_all(t_global *all)
 {
-	if (all->mlx != NULL)
-		destroy_mlx(all);
 	if (all->textures != NULL)
 		destroy_textures(all);
+	if (all->mlx != NULL)
+		destroy_mlx(all);
 	if (all->player != NULL)
 		destroy_player(all);
 	if (all->map != NULL)

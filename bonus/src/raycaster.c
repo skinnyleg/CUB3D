@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 15:52:33 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/12/03 12:49:47 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/12/04 20:07:04 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,9 @@ void	render_player(t_global *all, int i, int j)
 
 	count = 0;
 	p = all->player;
-	p->pos_tilex = p->x + ((i * p->tile_width));
-	p->pos_tiley = p->y + ((j * p->tile_height));
-	degree = (all->player->rotateangle - ((double)FOV * (M_PI / 180) / 2));
+	p->pos_tilex = p->x + ((i * p->tile_width) + p->tile_width / 2);
+	p->pos_tiley = p->y + ((j * p->tile_height) + p->tile_height / 2);
+	degree = (all->player->rotateangle - (((double)FOV * (M_PI / 180)) / 2));
 	inc_deg = ((double)FOV / (double)all->num_rays);
 	while (count < all->num_rays)
 	{
@@ -60,43 +60,6 @@ void	render_player(t_global *all, int i, int j)
 		count++;
 	}
 	render3dwalls(all);
-	render_minimap(all);
-}
-
-void	render_minimap(t_global *all)
-{
-	int			i;
-	int			j;
-	t_map		*map;
-	t_player	*p;
-
-	i = 0;
-	p = all->player;
-	map = all->map;
-	while (map->map[i] != NULL)
-	{
-		j = 0;
-		while (map->map[i][j] != '\0')
-		{
-			if (map->map[i][j] != ' ')
-			{
-				if (map->map[i][j] == '1')
-					render_block(all, j, i, 8421504);
-				else
-					render_block(all, j, i, 65280);
-			}
-			j++;
-		}
-		i++;
-	}
-	pixel_put(all->mlx, p->pos_tilex * all->scale, p->pos_tiley * all->scale, 65280);
-	render_direct(all, 60, p->pos_tilex, p->pos_tiley);
-	int count = 0;
-	while (count < all->num_rays)
-	{
-		render_rays(all, all->rays[count], all->player->pos_tilex, all->player->pos_tiley);
-		count++;
-	}
 }
 
 int	raycaster(t_global *all)
@@ -105,6 +68,8 @@ int	raycaster(t_global *all)
 
 	mlx_cpy = all->mlx;
 	mlx_cpy->image = mlx_new_image(mlx_cpy->mlx_ptr, WIN_WIDTH, WIN_HEIGHT);
+	if (mlx_cpy->image == NULL)
+		return (destroy_all(all), -1);
 	mlx_cpy->get_addr = mlx_get_data_addr(mlx_cpy->image, \
 		&(mlx_cpy->bpp), &(mlx_cpy->sl), &(mlx_cpy->ed));
 	if (mlx_cpy->get_addr == NULL)

@@ -6,11 +6,34 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 16:03:14 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/12/03 12:47:45 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/12/04 20:07:47 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/CUB3D.h"
+
+int	map_size(char **map)
+{
+	int	i;
+
+	i = 0;
+	while (map[i] != NULL)
+		i++;
+	return (i);
+}
+
+void	free_maparr(t_global *all)
+{
+	int	i;
+
+	i = 0;
+	while (all->map->map[i] != NULL)
+	{
+		free(all->map->map[i]);
+		i++;
+	}
+	free(all->map->map);
+}
 
 int	iswall_ray(t_global *all, double x, double y)
 {
@@ -40,104 +63,23 @@ void	ft_direction_player(t_global *all, char p)
 		all->player->rotateangle = (M_PI);
 }
 
-void	aspect_ratio(t_global *all)
+int	iswall(t_global *all, double x, double y)
 {
-	double	resizewidth;
-	double	resizeheight;
-	double	aspect;
+	int	gridx;
+	int	gridy;
 
-	resizewidth = all->map->width;
-	resizeheight = all->map->height;
-	aspect = resizewidth / resizeheight;
-	if (resizewidth > MINI_WIDTH)
-	{
-		resizewidth = MINI_WIDTH;
-		resizeheight = resizewidth / aspect;
-	}
-	if (resizeheight > MINI_HEIGHT)
-	{
-		aspect = resizewidth / resizeheight;
-		resizeheight = MINI_HEIGHT;
-		resizewidth = resizeheight * aspect;
-	}
-	all->player->tile_width = (resizewidth / all->player->x) + 4;
-	all->player->tile_height = (resizeheight / all->player->y) + 4;
-}
-
-void	render_block(t_global *all, int i, int j, int color)
-{
-	int			x;
-	int			y;
-	int			height;
-	int			width;
-	t_player	*p;
-
-	p = all->player;
-	height = p->tile_height;
-	width = p->tile_width;
-	x = i * width;
-	while (x < ((i * width) + width))
-	{
-		y = j * height;
-		while (y < ((j * height) + height))
-		{
-			pixel_put(all->mlx, x * all->scale, y * all->scale, color);
-			y++;
-		}
-		x++;
-	}
-}
-
-void	render_rays(t_global *all, t_rays ray, double x, double y)
-{
-	double	dx;
-	double	dy;
-	double	x_inc;
-	double	y_inc;
-	int		step;
-
-	dx = (ray.xnext - x);
-	dy = (ray.ynext - y);
-	if (abs((int)dx) > abs((int)dy))
-		step = abs((int)dx);
-	else
-		step = abs((int)dy);
-	x_inc = (dx / (double)step);
-	y_inc = (dy / (double)step);
-	dx = x;
-	dy = y;
-	while (step != 0)
-	{
-		pixel_put(all->mlx, round(dx * all->scale), round(dy * all->scale), 16711680);
-		dx += x_inc;
-		dy += y_inc;
-		step--;
-	}
-}
-
-void	render_direct(t_global *all, int size, double x, double y)
-{
-	double	dx;
-	double	dy;
-	double	x_inc;
-	double	y_inc;
-	int		step;
-
-	dx = cos(all->player->rotateangle) * size;
-	dy = sin(all->player->rotateangle) * size;
-	if (abs((int)dx) > abs((int)dy))
-		step = abs((int)dx);
-	else
-		step = abs((int)dy);
-	x_inc = (dx / (double)step);
-	y_inc = (dy / (double)step);
-	dx = x;
-	dy = y;
-	while (step != 0)
-	{
-		pixel_put(all->mlx, round(dx * all->scale), round(dy * all->scale), 16711680);
-		dx += x_inc;
-		dy += y_inc;
-		step--;
-	}
+	if (x < 0 || x > all->map->width * all->player->tile_width \
+		|| y < 0 || y > all->map->height * all->player->tile_height)
+		return (1);
+	gridx = floor((all->player->pos_tilex / (double)all->player->tile_width));
+	gridy = floor((y / (double)all->player->tile_height));
+	if (gridy <= all->map->height && all->map->map[gridy] != NULL \
+		&& all->map->map[gridy][gridx] == '1')
+		return (1);
+	gridx = floor((x / (double)all->player->tile_width));
+	gridy = floor((all->player->pos_tiley / (double)all->player->tile_height));
+	if (gridy <= all->map->height && all->map->map[gridy] != NULL \
+		&& all->map->map[gridy][gridx] == '1')
+		return (1);
+	return (0);
 }
