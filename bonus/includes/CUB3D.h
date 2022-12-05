@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   CUB3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:18:31 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/12/05 19:18:13 by med-doba         ###   ########.fr       */
+/*   Updated: 2022/12/06 00:01:04 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,6 +160,9 @@ void		free_maparr(t_global *all);
 double		distance_calcul(t_global *all, t_rays ray);
 int			map_size(char **map);
 int			iswall(t_global *all, double x, double y);
+int			ft_mouse_hook(int x, int y, t_global *all);
+int			find_pos_p(t_global *all);
+void		render_minimap(t_global *all);
 
 //created by med-doba
 int			check_extension_up(char *str, char *extension);

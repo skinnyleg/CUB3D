@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 15:52:33 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/12/04 20:07:04 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/12/05 23:33:15 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ void	render_player(t_global *all, int i, int j)
 		count++;
 	}
 	render3dwalls(all);
+	// render_minimap(all);
 }
 
 int	raycaster(t_global *all)

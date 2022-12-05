@@ -21,9 +21,33 @@ CFILES = main.c\
 		draw_background.c\
 		textures.c\
 
+BCFILES = main.c\
+		gnl.c\
+		gnl_utils.c\
+		parse_upper.c\
+		parse_up_lst.c\
+		parse_up_utils.c \
+		parse_lower.c\
+		parse_lower_utils.c\
+		fill_map.c\
+		wall_parser.c\
+		destroy_global.c\
+		mlx_render.c\
+		destroy_global2.c\
+		keys.c\
+		ray_calculate.c\
+		raycaster.c\
+		wall3D.c\
+		utils.c\
+		utils2.c\
+		draw_background.c\
+		textures.c\
+		mouse.c\
+		minimap.c\
+
 OFILES = $(addprefix $(OBJ_DIR)/,$(CFILES:.c=.o))
 
-BOFILES = $(addprefix $(OBJ_DIRB)/,$(CFILES:.c=.o))
+BOFILES = $(addprefix $(OBJ_DIRB)/,$(BCFILES:.c=.o))
 
 OBJ_DIR = ./mandatory/obj
 
@@ -39,7 +63,7 @@ INC = ./mandatory/includes/CUB3D.h
 
 INCB = ./bonus/includes/CUB3D.h
 
-LFLAGS = -lmlx -framework OpenGL  -Ofast  -framework AppKit
+LFLAGS = -lmlx -framework OpenGL -framework AppKit
 
 
 LIBFT = libft/libft.a
