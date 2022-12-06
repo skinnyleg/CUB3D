@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   CUB3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:18:31 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/12/06 00:01:04 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/12/06 01:42:12 by med-doba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,4 +179,8 @@ t_paraup	*ft_lstnew_paraup(char *name, char *value);
 void		ft_free_2d(char **ptr);
 int			ft_handle_c_f(char *ptr, int i);
 void		destroy_all(t_global *all);
+void		ft_background(t_global *all, int color);
+void		ft_block(t_mlx *mlx, int color, int j, int i);
+int			ft_direction(char c);
+void		ft_putcircle(t_global *all, int x, int y, int r);
 #endif
