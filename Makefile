@@ -115,8 +115,8 @@ INCLIB=$(INCMLX)/../lib
 
 HFLAGS = -L.. -lmlx -L$(INCLIB) -lXext -lX11 -lm -lbsd
 
-debug : $(OBJ_DIR) $(LIBFT) $(OFILES)
-	@$(CC) -fsanitize=address $(LFLAGS) $(OFILES) $(LIBFT) -o $(NAME)
+debug : $(OBJ_DIRB) $(LIBFT) $(BOFILES)
+	@$(CC) -fsanitize=address $(LFLAGS) $(BOFILES) $(LIBFT) -o $(NAME_B)
 	@echo "done for cub3D (debug mode)"
 
 pc : $(OBJ_DIR) $(LIBFT) $(OFILES)

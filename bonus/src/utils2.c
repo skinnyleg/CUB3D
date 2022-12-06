@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 23:10:51 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/12/06 00:00:20 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/12/06 01:17:27 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ void	render_direct(t_global *all, int size, double x, double y)
 	dy = y;
 	while (step != 0)
 	{
-		// pixel_put(all->mlx, round(dx * all->scale), round(dy * all->scale), 16711680);
 		pixel_put(all->mlx, round(dx), round(dy), 16711680);
 		dx += x_inc;
 		dy += y_inc;

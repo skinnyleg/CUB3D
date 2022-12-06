@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 22:32:11 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/12/06 00:03:47 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/12/06 01:17:33 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,11 @@ void	ft_block(t_global *all, int color, int j, int i)
 	int	x;
 	int	y;
 
-	y = (i * 30 + 170);
-	while ((y < (i * 30 + 30 + 170)))
+	y = (i * TILE_SIZE + 170);
+	while ((y < (i * TILE_SIZE + TILE_SIZE + 170)))
 	{
-		x = (j * 30 + 170);
-		while (x < (j * 30 + 30 + 170))
+		x = (j * TILE_SIZE + 170);
+		while (x < (j * TILE_SIZE + TILE_SIZE + 170))
 		{
 			if (sqrt((170 - y) * (170 - y) + (170 - x) * (170 - x)) <= 150)
 				pixel_put(all->mlx, x, y, color);
@@ -82,13 +82,12 @@ void	render_minimap(t_global *all)
 	int	x;
 	int	y;
 
-	// find_pos_p(all);
 	ft_backround(all, 16777215);
-	y = all->a;
-	x = all->l;
-	i = all->a;
-	j = all->l;
-	i -= 10;
+	i = floor(all->player->pos_tiley / all->player->tile_height);
+	j = floor(all->player->pos_tilex / all->player->tile_width);
+	y = i;
+	x = j;
+	i -= 5;
 	while (i < 0)
 		i++;
 	while (all->map->map[i])
@@ -100,15 +99,14 @@ void	render_minimap(t_global *all)
 				ft_block(all, 16711680, j - x, i - y);
 			else if (all->map->map[i][j] == '0')
 				ft_block(all, 255, j - x, i - y);
-			else if (ft_direction(all->map->map[i][j]))
-			{
-				pixel_put(all->mlx, all->player->pos_tilex, all->player->pos_tiley, 16776960);
-				render_direct(all, 60, all->player->pos_tilex, all->player->pos_tiley);
-				// ft_block(all, 16776960, j-x, i-y);
-			}
+			else if (all->map->map[i][j] != ' ')
+				ft_block(all, 255, j - x, i - y);
 			j++;
 		}
 		i++;
 	}
+	// ft_block(all, 65280, 0, 0);
+	pixel_put(all->mlx, 170 + (TILE_SIZE / 2), 170 + (TILE_SIZE / 2), 0);
+	render_direct(all, 60, 170 + (TILE_SIZE / 2), 170 + (TILE_SIZE / 2));
 	ft_putcircle(all, 170, 170, 150);
 }
