@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   textures.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 14:39:16 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/12/03 20:47:21 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/12/07 18:37:38 by med-doba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,10 +78,9 @@ int	set_textures(t_global *all)
 	t_player	*p;
 
 	p = all->player;
-	all->scale = 0.2;
 	p->tile_height = TILE_SIZE;
 	p->tile_width = TILE_SIZE;
-	all->textures = (t_textures *)malloc(sizeof(t_textures) * 4);
+	all->textures = (t_textures *)malloc(sizeof(t_textures) * 1);
 	if (all->textures == NULL)
 		return (destroy_all(all), -1);
 	all->textures->teximg[0] = NULL;

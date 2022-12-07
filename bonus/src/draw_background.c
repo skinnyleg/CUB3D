@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_background.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 16:53:46 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/11/15 15:56:41 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/12/07 18:31:16 by med-doba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	get_int(char *content)
 	i = 0;
 	color = 0;
 	ptr = ft_split(content, ',');
-	while (ptr[i] != NULL)
+	while (ptr != NULL && ptr[i] != NULL)
 	{
 		color += ft_atoi(ptr[i]) << shift;
 		shift = shift - 8;

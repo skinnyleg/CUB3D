@@ -6,7 +6,7 @@
 /*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:18:31 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/12/06 01:42:12 by med-doba         ###   ########.fr       */
+/*   Updated: 2022/12/07 18:36:44 by med-doba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,6 @@ typedef struct s_global
 	int			num_rays;
 	int			color_ceiling;
 	int			color_floor;
-	double		scale;
 	double		wallheight;
 	t_textures	*textures;
 	t_paraup	*up;

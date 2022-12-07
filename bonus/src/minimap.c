@@ -6,7 +6,7 @@
 /*   By: med-doba <med-doba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 22:32:11 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/12/06 01:45:57 by med-doba         ###   ########.fr       */
+/*   Updated: 2022/12/07 18:25:53 by med-doba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,22 +19,23 @@ void	render_loop(t_global *all)
 	int	x;
 	int	y;
 
-	i = floor(all->player->pos_tiley / all->player->tile_height);
-	j = floor(all->player->pos_tilex / all->player->tile_width);
-	y = i;
-	x = j;
-	i -= 5;
+	y = floor(all->player->pos_tiley / all->player->tile_height);
+	x = floor(all->player->pos_tilex / all->player->tile_width);
+	i = y - 5;
 	if (i < 0)
 		i = 0;
-	while (all->map->map[i])
+	while (all->map->map[i] && i < y + 5)
 	{
-		j = -1;
-		while (all->map->map[i][++j])
+		j = x - 5;
+		if (j < 0)
+			j = 0;
+		while (all->map->map[i][j] && j < x + 10)
 		{
 			if (all->map->map[i][j] == '1')
 				ft_block(all->mlx, 16711680, j - x, i - y);
 			else if (all->map->map[i][j] == '0' || all->map->map[i][j] != ' ')
 				ft_block(all->mlx, 255, j - x, i - y);
+			j++;
 		}
 		i++;
 	}
